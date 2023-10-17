@@ -11,6 +11,9 @@
     "lint-css": "stylelint src/**/*.scss",
     "prepare": "cd .. && husky install youtube-client-app/.husky"
   },
+  "lint-staged": {
+    "/*.{ts,scss}": "prettier --write --ignore-unknown"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
@@ -34,6 +37,8 @@
     "@angular-eslint/template-parser": "16.2.0",
     "@angular/cli": "^16.2.4",
     "@angular/compiler-cli": "^16.2.0",
+    "@commitlint/cli": "^17.8.0",
+    "@commitlint/config-conventional": "^17.8.0",
     "@types/jasmine": "~4.3.0",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",

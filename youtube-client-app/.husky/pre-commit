@@ -6,7 +6,7 @@ exec >/dev/console 2>&1
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
-protected_branch_regex="^(develop|main|release)\/.*$"
+protected_branch_regex="^(develop|main)\/.*$"
 
 message="You can't commit directly to this branch. Please switch to another branch."
 
