@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+cd youtube-client-app
+
+exec >/dev/console 2>&1
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+protected_branch_regex="^(develop|main|release)\/.*$"
+
+message="You can't commit directly to this branch. Please switch to another branch."
+
+if [[ $branch =~ $protected_branch_regex ]]
+then
+    echo "$message"
+    exit 1
+fi
+
+npx lint-staged
