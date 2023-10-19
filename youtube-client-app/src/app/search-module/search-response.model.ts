@@ -1,6 +1,6 @@
 import { SearchItem } from './search-item.model';
 
-export interface SearchResponce {
+export interface SearchResponse {
   toDo: string;
   kind: string;
   etag: string;
