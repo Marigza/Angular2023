@@ -1,7 +1,7 @@
 import { SearchItem } from './search-item.model';
 
 export interface SearchResponce {
-  TODO: string;
+  toDo: string;
   kind: string;
   etag: string;
   pageInfo: {
