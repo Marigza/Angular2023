@@ -100,7 +100,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "yta",
+            "prefix": "yta|app",
             "style": "kebab-case"
           }
         ],
