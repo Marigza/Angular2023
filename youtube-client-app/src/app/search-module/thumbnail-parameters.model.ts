@@ -1,4 +1,4 @@
-export interface ThumbnailsParameters {
+export interface ThumbnailParameters {
   url: string;
   width: number;
   height: number;
