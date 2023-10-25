@@ -11,6 +11,7 @@ export interface Snippet {
   tags: string[];
   categoryId: string;
   liveBroadcastContent: string;
+  defaultLanguage?: string;
   localized: NameParameters;
   defaultAudioLanguage: string;
 }
