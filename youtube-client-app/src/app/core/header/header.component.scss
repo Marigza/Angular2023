@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 15px;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  width: 90px;
+  height: 65px;
+  background: url('../../../assets/youtube-icon.svg') no-repeat center;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
