@@ -1,5 +1,3 @@
-<div class="content" role="main">
-  <span>{{ title }} app is running!</span>
-</div>
-
+<yta-header (newItemEvent)="toggleSubmit($event)"></yta-header>
+<yta-search-results [isShown]="isSubmit"></yta-search-results>
 <router-outlet></router-outlet>
