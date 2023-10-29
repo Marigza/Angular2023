@@ -1,10 +1,5 @@
 <div class="search-wrapper">
   <ng-container *ngIf="cards$ | async as cards">
-    <yta-search-item
-      ytaColoring
-      [publishedAt]="card.snippet.publishedAt"
-      *ngFor="let card of cards"
-      [card]="card"
-    ></yta-search-item>
+    <yta-item ytaColoring [publishedAt]="card.snippet.publishedAt" *ngFor="let card of cards" [card]="card"></yta-item>
   </ng-container>
 </div>
