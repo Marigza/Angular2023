@@ -5,12 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  public title = 'youtube-client-app';
-
-  public isSubmit = false;
-
-  public toggleSubmit(searchText: string): void {
-    if (searchText) this.isSubmit = !this.isSubmit;
-  }
-}
+export class AppComponent {}
