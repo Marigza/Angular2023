@@ -1,9 +1,5 @@
 <div class="search-wrapper">
-  <yta-search-item
-    *ngFor="let item of searchResult"
-    [title]="item.snippet.title"
-    [publishedAt]="item.snippet.publishedAt"
-    [statistics]="item.statistics"
-    [image]="item.snippet.thumbnails.medium.url"
-  ></yta-search-item>
+  <ng-container *ngIf="cards$ | async as cards">
+    <yta-search-item *ngFor="let card of cards" [card]="card"></yta-search-item>
+  </ng-container>
 </div>

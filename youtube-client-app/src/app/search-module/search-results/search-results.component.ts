@@ -1,25 +1,16 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { DataFromHttpService } from '../../shared/services/data-from-http.service';
 import { SearchItem } from '../search-item.model';
-import { SearchService } from '../search.service';
 
 @Component({
   selector: 'yta-search-results',
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
 })
-export class SearchResultsComponent implements OnChanges {
-  public searchResult: SearchItem[] = [];
+export class SearchResultsComponent {
+  public cards$: Observable<SearchItem[] | null> = this.dataFromHttpService.card$$;
 
-  @Input() public isShown = false;
-
-  constructor(private searchService: SearchService) {}
-
-  public ngOnChanges(): void {
-    if (this.isShown) this.showItems();
-  }
-
-  public showItems(): void {
-    this.searchResult = this.searchService.getResult();
-  }
+  constructor(public dataFromHttpService: DataFromHttpService) {}
 }
