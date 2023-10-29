@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { DataFromHttpService } from '../../shared/services/data-from-http.service';
 
 @Component({
   selector: 'yta-header',
@@ -6,13 +8,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Output() public newItemEvent = new EventEmitter<string>();
-
-  public showAllItems(value: string): void {
-    this.newItemEvent.emit(value);
-  }
+  constructor(private dataFromHttpService: DataFromHttpService) {}
 
   // showSettings() {
   //   console.log('settings')
   // }
+
+  public showCards(): void {
+    this.dataFromHttpService.getCards();
+  }
 }
