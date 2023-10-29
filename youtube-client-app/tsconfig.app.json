@@ -11,6 +11,9 @@
   "include": [
     "src/**/*.d.ts",
     "src/**/*.model.ts",
-    "src/**/*.ts",
+    "src/**/*.directive.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
   ]
 }
