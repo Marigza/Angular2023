@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 
-import { periodInMiliseconds } from '../constants/constants';
+import { periodInMiliseconds } from '../constants/period-in-miliseconds';
 
 @Directive({
   selector: '[ytaColoring]',
