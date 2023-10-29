@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 
-import { DataHttpService } from 'src/app/search-module/data-http.service';
-import { SearchItem } from 'src/app/search-module/search-item.model';
+import { SearchItem } from 'src/app/shared/models/search-item.model';
+import { DataHttpService } from 'src/app/shared/services/data-http.service';
 
 @Injectable({
   providedIn: 'root',
