@@ -10,7 +10,7 @@ import { DataHttpService } from 'src/app/shared/services/data-http.service';
 export class DataFromHttpService {
   private card$ = new BehaviorSubject<SearchItem[] | null>(null);
 
-  public card$$ = this.card$.asObservable(); // его можно фильровать и сортировка и поиск - отображение карточек текущих
+  public card$$ = this.card$.asObservable();
 
   constructor(private dataHttpService: DataHttpService) {}
 
@@ -19,7 +19,6 @@ export class DataFromHttpService {
       .get()
       .pipe(map(({ items }) => items))
       .subscribe(data => {
-        // items.filter... or operator filter
         this.updateData(data);
       });
   }
