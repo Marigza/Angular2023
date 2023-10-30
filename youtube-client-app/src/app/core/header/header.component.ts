@@ -8,11 +8,13 @@ import { DataFromHttpService } from '../../shared/services/data-from-http.servic
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  public isShownSettings = false;
+
   constructor(private dataFromHttpService: DataFromHttpService) {}
 
-  // showSettings() {
-  //   console.log('settings')
-  // }
+  public toggleSettingsVisibility(): void {
+    this.isShownSettings = !this.isShownSettings;
+  }
 
   public showCards(): void {
     this.dataFromHttpService.getCards();
