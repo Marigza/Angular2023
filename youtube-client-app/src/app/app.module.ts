@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,10 +9,9 @@ import { CoreModule } from './core/core.module';
 import { ItemComponent } from './search-module/item/item.component';
 import { SearchResultsComponent } from './search-module/search-results/search-results.component';
 import { ButtonComponent } from './shared/components/button/button.component';
-import { ColoringDirective } from './shared/directives/coloring.directive';
 
 @NgModule({
-  declarations: [AppComponent, SearchResultsComponent, ColoringDirective],
+  declarations: [AppComponent, SearchResultsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -22,7 +20,6 @@ import { ColoringDirective } from './shared/directives/coloring.directive';
     ButtonComponent,
     HttpClientModule,
     CoreModule,
-    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

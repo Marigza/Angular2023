@@ -4,6 +4,7 @@ import { periodInMiliseconds } from '../constants/period-in-miliseconds';
 
 @Directive({
   selector: '[ytaColoring]',
+  standalone: true,
 })
 export class ColoringDirective {
   @Input() public set publishedAt(date: string) {
