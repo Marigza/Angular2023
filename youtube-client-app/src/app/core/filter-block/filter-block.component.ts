@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SortingService } from 'src/app/shared/services/sorting.service';
+import { SortingService } from '../../shared/services/sorting.service';
 
 @Component({
   selector: 'yta-filter-block',
