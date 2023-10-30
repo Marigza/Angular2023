@@ -2,6 +2,6 @@
   <div>Sorting by:</div>
   <button (click)="sortByData()">date</button>
   <button (click)="sortByViewCount()">count of view</button>
-  <button>word or sentence:</button>
-  <input type="text" name="" id="" />
+  <button (click)="filterByValue(inputValue.value)">word or sentence:</button>
+  <input type="text" name="filter" id="filter-value" #inputValue />
 </div>

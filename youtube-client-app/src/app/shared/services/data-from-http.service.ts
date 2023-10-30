@@ -23,6 +23,17 @@ export class DataFromHttpService {
       });
   }
 
+  // public getCards2(value: string): void {
+  //   this.dataHttpService
+  //     .get()
+  //     .pipe(
+  //       map(({ items }) => items),
+  //       filter(item => item.snippet.title.toLowerCase().includes(value.toLowerCase()))
+  //     ).subscribe(data => {
+  //       this.updateData(data);
+  //     });
+  // }
+
   private updateData(data: SearchItem[]): void {
     this.card$.next(data);
   }

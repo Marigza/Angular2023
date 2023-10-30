@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { FilterByValueService } from '../../shared/services/filter-by-value.service';
 import { SortingService } from '../../shared/services/sorting.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { SortingService } from '../../shared/services/sorting.service';
   styleUrls: ['./filter-block.component.scss'],
 })
 export class FilterBlockComponent {
-  constructor(private sortingService: SortingService) {}
+  constructor(
+    private sortingService: SortingService,
+    private filterByValueService: FilterByValueService
+  ) {}
 
   public sortByViewCount(): void {
     this.sortingService.sortByViewCount();
@@ -16,5 +20,10 @@ export class FilterBlockComponent {
 
   public sortByData(): void {
     this.sortingService.sortByData();
+  }
+
+  public filterByValue(value: string): void {
+    // console.log(value);
+    this.filterByValueService.filteringData2(value);
   }
 }
