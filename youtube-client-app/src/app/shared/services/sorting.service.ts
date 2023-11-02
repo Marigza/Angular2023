@@ -1,48 +1,49 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
-import { DataFromHttpService } from './data-from-http.service';
+import { SearchItem } from '../models/search-item.model';
+
+type SortingType = 'view' | 'data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SortingService {
-  public cards = this.dataFromHttpService.card$$;
+  private sortingParams$$ = new BehaviorSubject<SortingType | ''>('');
 
-  public isAscendingView = true;
+  public sortingParams$ = this.sortingParams$$.asObservable();
 
-  public isAscendingData = true;
+  private isAscendingDate = true;
 
-  constructor(private dataFromHttpService: DataFromHttpService) {}
+  private isAscendingView = true;
 
-  public sortByViewCount(): void {
-    if (this.isAscendingView) {
-      this.sortingViewCount(1);
-      this.isAscendingView = !this.isAscendingView;
-    } else {
-      this.sortingViewCount(-1);
-      this.isAscendingView = !this.isAscendingView;
+  public sortingData(cards: SearchItem[], sortParam: SortingType | ''): SearchItem[] | undefined {
+    if (sortParam === '') return cards;
+
+    if (sortParam === 'data') {
+      this.isAscendingDate = !this.isAscendingDate;
+
+      return this.isAscendingDate ? this.sortingByDate(cards, -1) : this.sortingByDate(cards, 1);
     }
+
+    this.isAscendingView = !this.isAscendingView;
+
+    return this.isAscendingView ? this.sortingByViewCount(cards, -1) : this.sortingByViewCount(cards, 1);
   }
 
-  public sortByData(): void {
-    if (this.isAscendingData) {
-      this.sortingData(-1);
-      this.isAscendingData = !this.isAscendingData;
-    } else {
-      this.sortingData(1);
-      this.isAscendingData = !this.isAscendingData;
-    }
+  /* eslint-disable class-methods-use-this */
+
+  private sortingByDate(cards: SearchItem[], asc: number): SearchItem[] {
+    return cards.sort((a, b) => (Date.parse(a.snippet.publishedAt) - Date.parse(b.snippet.publishedAt)) * asc);
   }
 
-  private sortingData(asc: number): void {
-    this.cards.subscribe(data => {
-      if (data) data.sort((a, b) => (Date.parse(a.snippet.publishedAt) - Date.parse(b.snippet.publishedAt)) * asc);
-    });
+  private sortingByViewCount(cards: SearchItem[], asc: number): SearchItem[] {
+    return cards.sort((a, b) => (Number(a.statistics.viewCount) - Number(b.statistics.viewCount)) * asc);
   }
 
-  private sortingViewCount(asc: number): void {
-    this.cards.subscribe(data => {
-      if (data) data.sort((a, b) => (Number(a.statistics.viewCount) - Number(b.statistics.viewCount)) * asc);
-    });
+  /* eslint-enable class-methods-use-this */
+
+  public updateData(sortingValue: SortingType): void {
+    this.sortingParams$$.next(sortingValue);
   }
 }
