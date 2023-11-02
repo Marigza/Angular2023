@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SearchItem } from '../../shared/models/search-item.model';
-import { DataFromHttpService } from '../../shared/services/data-from-http.service';
+import { SearchItem } from '../models/search-item.model';
+import { DataFromHttpService } from '../services/data-from-http.service';
 
 @Component({
   selector: 'yta-search-results',

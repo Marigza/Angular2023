@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { FilterByValueService } from '../../shared/services/filter-by-value.service';
-import { SortingService } from '../../shared/services/sorting.service';
+import { FilterByValueService } from '../../youtube-module/services/filter-by-value.service';
+import { SortingService } from '../../youtube-module/services/sorting.service';
 
 @Component({
   selector: 'yta-filter-block',

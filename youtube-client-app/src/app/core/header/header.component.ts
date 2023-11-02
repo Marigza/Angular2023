@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { DataFromHttpService } from '../../shared/services/data-from-http.service';
+import { DataFromHttpService } from '../../youtube-module/services/data-from-http.service';
 
 @Component({
   selector: 'yta-header',

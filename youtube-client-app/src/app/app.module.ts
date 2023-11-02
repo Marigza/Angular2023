@@ -6,9 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { ItemComponent } from './search-module/item/item.component';
-import { SearchResultsComponent } from './search-module/search-results/search-results.component';
 import { ButtonComponent } from './shared/components/button/button.component';
+import { ItemComponent } from './youtube-module/item/item.component';
+import { SearchResultsComponent } from './youtube-module/search-results/search-results.component';
 
 @NgModule({
   declarations: [AppComponent, SearchResultsComponent],
