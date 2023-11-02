@@ -17,7 +17,7 @@ export class SortingService {
 
   private isAscendingView = true;
 
-  public sortingData(cards: SearchItem[], sortParam: SortingType | ''): SearchItem[] | undefined {
+  public sortingData(cards: SearchItem[], sortParam: SortingType | ''): SearchItem[] {
     if (sortParam === '') return cards;
 
     if (sortParam === 'data') {
