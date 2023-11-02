@@ -1,31 +1,15 @@
 import { Injectable } from '@angular/core';
-
-// import { map, filter } from 'rxjs';
-import { DataFromHttpService } from './data-from-http.service';
-
-// import { SearchItem } from '../models/search-item.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterByValueService {
-  public cards = this.dataFromHttpService.card$$;
+  private filterParameter$$ = new BehaviorSubject<string>('');
 
-  constructor(private dataFromHttpService: DataFromHttpService) {}
+  public filterParameter$ = this.filterParameter$$.asObservable();
 
-  // public filteringData(value: string): void {
-  //   console.log(this.cards);
-  //   if (this.cards) {
-  //     this.cards.pipe(filter(card => card!.snippet.title.includes(value))
-  //     ).subscribe(data => data);
-  //     console.log(this.cards)
-  //   }
-  // }
-
-  public filteringData2(value: string): void {
-    this.cards.subscribe(data => {
-      if (data) data.filter(card => card.snippet.title.toLowerCase().includes(value.toLowerCase()));
-      // console.log(data2);
-    });
+  public updateData(data: string): void {
+    this.filterParameter$$.next(data);
   }
 }
