@@ -15,15 +15,14 @@ export class FilterBlockComponent {
   ) {}
 
   public sortByViewCount(): void {
-    this.sortingService.sortByViewCount();
+    this.sortingService.updateData('view');
   }
 
   public sortByData(): void {
-    this.sortingService.sortByData();
+    this.sortingService.updateData('data');
   }
 
   public filterByValue(value: string): void {
-    // console.log(value);
-    this.filterByValueService.filteringData2(value);
+    this.filterByValueService.updateData(value);
   }
 }

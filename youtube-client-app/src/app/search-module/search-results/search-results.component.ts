@@ -10,7 +10,7 @@ import { DataFromHttpService } from '../../shared/services/data-from-http.servic
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-  public cards$: Observable<SearchItem[] | null> = this.dataFromHttpService.card$$;
+  public cards$: Observable<SearchItem[] | undefined> = this.dataFromHttpService.filteredCards$;
 
   constructor(public dataFromHttpService: DataFromHttpService) {}
 }

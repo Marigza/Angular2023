@@ -18,5 +18,6 @@ export class HeaderComponent {
 
   public showCards(): void {
     this.dataFromHttpService.getCards();
+    this.dataFromHttpService.getFilteredValue();
   }
 }
