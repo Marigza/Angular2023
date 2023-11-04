@@ -31,5 +31,7 @@
       <span>{{ card.statistics.commentCount }}</span>
     </div>
   </div>
-  <yta-button>More...</yta-button>
+  <yta-button>
+    <a [title]="card.snippet.title">More...</a>
+  </yta-button>
 </mat-card>
