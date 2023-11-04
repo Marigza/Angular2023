@@ -1,0 +1,38 @@
+<div class="wrapper" *ngIf="item">
+  <div class="detailed-image">
+    <img src="{{ item.snippet.thumbnails.standard.url }}" alt="" />
+  </div>
+  <div ytaColoring [publishedAt]="item.snippet.publishedAt" class="detailed-description">
+    <h2 class="descripti0n-title">{{ item.snippet.title }}</h2>
+    <div class="description-published-at">{{ item.snippet.publishedAt | date }}</div>
+    <div class="description-text">{{ item.snippet.description }}</div>
+    <div class="statistics">
+      <div>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example visibility icon"
+          fontIcon="visibility"
+          color="primary"
+        ></mat-icon>
+        <span>{{ item.statistics.viewCount }}</span>
+      </div>
+      <div>
+        <mat-icon aria-hidden="false" aria-label="Example thumb_up icon" fontIcon="thumb_up" color="warn"></mat-icon>
+        <span>{{ item.statistics.likeCount }}</span>
+      </div>
+      <div>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example thumb_down icon"
+          fontIcon="thumb_down"
+          color="accent"
+        ></mat-icon>
+        <span>{{ item.statistics.dislikeCount }}</span>
+      </div>
+      <div>
+        <mat-icon aria-hidden="false" aria-label="Example forum icon" fontIcon="forum"></mat-icon>
+        <span>{{ item.statistics.commentCount }}</span>
+      </div>
+    </div>
+  </div>
+</div>
