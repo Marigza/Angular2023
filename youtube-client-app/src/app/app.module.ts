@@ -7,20 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { ButtonComponent } from './shared/components/button/button.component';
-import { ItemComponent } from './youtube-module/item/item.component';
-import { SearchResultsComponent } from './youtube-module/search-results/search-results.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchResultsComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ItemComponent,
-    ButtonComponent,
-    HttpClientModule,
-    CoreModule,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, ButtonComponent, HttpClientModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent],
 })
