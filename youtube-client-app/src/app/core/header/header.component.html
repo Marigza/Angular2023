@@ -1,12 +1,12 @@
 <div class="header-wrapper">
   <div class="header">
-    <div class="logo"></div>
+    <div class="logo"><button class="to-main-page" routerLink="./"></button></div>
     <input type="text" id="searchText" placeholder="enter search query" required />
     <yta-button (click)="showCards()">Seearch!</yta-button>
     <yta-button (click)="toggleSettingsVisibility()">Settings</yta-button>
     <yta-button class="login-button">
       <span></span>
-      <a href="#">LogIn</a>
+      <a routerLink="/auth">LogIn</a>
     </yta-button>
   </div>
   <yta-filter-block *ngIf="isShownSettings"></yta-filter-block>
