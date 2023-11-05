@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { FilterByValueService } from '../../youtube/services/filter-by-value.service';
-import { SortingService } from '../../youtube/services/sorting.service';
+import { SortingCardsService } from '../../youtube/services/sorting-cards.service';
 
 @Component({
   selector: 'yta-filter-block',
@@ -9,17 +9,21 @@ import { SortingService } from '../../youtube/services/sorting.service';
   styleUrls: ['./filter-block.component.scss'],
 })
 export class FilterBlockComponent {
+  private sortNumber: number = 1;
+
   constructor(
-    private sortingService: SortingService,
+    private sortingCardsService: SortingCardsService,
     private filterByValueService: FilterByValueService
   ) {}
 
   public sortByViewCount(): void {
-    this.sortingService.updateData('view');
+    this.sortNumber *= -1;
+    this.sortingCardsService.updateData({ sortType: 'view', sortNumber: this.sortNumber });
   }
 
   public sortByData(): void {
-    this.sortingService.updateData('data');
+    this.sortNumber *= -1;
+    this.sortingCardsService.updateData({ sortType: 'data', sortNumber: this.sortNumber });
   }
 
   public filterByValue(value: string): void {
