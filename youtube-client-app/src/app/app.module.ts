@@ -6,11 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { ButtonComponent } from './shared/components/button/button.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, ButtonComponent, HttpClientModule, CoreModule],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, HttpClientModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent],
 })
