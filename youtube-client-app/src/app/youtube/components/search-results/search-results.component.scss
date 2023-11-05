@@ -1,8 +1,10 @@
 .search-wrapper {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
-  & > * {
-    width: 300px;
-  }
+}
+
+.search-card {
+  width: 30%;
 }
