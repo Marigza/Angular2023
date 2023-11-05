@@ -7,10 +7,10 @@ import { SearchResponse } from '../models/search-response.model';
 @Injectable({
   providedIn: 'root',
 })
-export class DataHttpService {
+export class YoutubeHttpService {
   constructor(private http: HttpClient) {}
 
   public get(): Observable<SearchResponse> {
-    return this.http.get<SearchResponse>('assets/data.json');
+    return this.http.get<SearchResponse>('assets/data.json'); // добавить обработку ошибок catchError...of
   }
 }

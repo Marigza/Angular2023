@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
 
 import { SearchItem } from '../models/search-item.model';
-import { DataHttpService } from './data-http.service';
 import { FilterByValueService } from './filter-by-value.service';
-import { SortingService } from './sorting.service';
+import { SortingCardsService } from './sorting-cards.service';
+import { YoutubeHttpService } from './youtube-http.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataFromHttpService {
+export class CardsStateService {
   private card$$ = new BehaviorSubject<SearchItem[] | null>(null);
 
   public card$ = this.card$$.asObservable();
@@ -25,19 +25,19 @@ export class DataFromHttpService {
   );
 
   constructor(
-    private dataHttpService: DataHttpService,
+    private youtubeHttpService: YoutubeHttpService,
     private filterByValueService: FilterByValueService,
-    private sortingService: SortingService
+    private sortingCardsService: SortingCardsService
   ) {}
 
   public sortData(filteredCards: Observable<SearchItem[] | undefined>): Observable<SearchItem[] | undefined> {
-    return combineLatest(filteredCards, this.sortingService.sortingParams$).pipe(
-      map(([cards, sortingParam]) => cards && this.sortingService.sortingData(cards, sortingParam))
+    return combineLatest(filteredCards, this.sortingCardsService.sortingParams$).pipe(
+      map(([cards, sortingParam]) => cards && this.sortingCardsService.sortingData(cards, sortingParam))
     );
   }
 
   public getCards(): void {
-    this.dataHttpService
+    this.youtubeHttpService
       .get()
       .pipe(map(({ items }) => items))
       .subscribe(data => {
