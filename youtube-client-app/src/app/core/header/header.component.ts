@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { DataFromHttpService } from '../../youtube/services/data-from-http.service';
+import { CardsStateService } from '../../youtube/services/cards-state.service';
 
 @Component({
   selector: 'yta-header',
@@ -10,14 +10,14 @@ import { DataFromHttpService } from '../../youtube/services/data-from-http.servi
 export class HeaderComponent {
   public isShownSettings = false;
 
-  constructor(private dataFromHttpService: DataFromHttpService) {}
+  constructor(private cardsStateService: CardsStateService) {}
 
   public toggleSettingsVisibility(): void {
     this.isShownSettings = !this.isShownSettings;
   }
 
   public showCards(): void {
-    this.dataFromHttpService.getCards();
-    this.dataFromHttpService.getFilteredValue();
+    this.cardsStateService.getCards();
+    this.cardsStateService.getFilteredValue();
   }
 }
