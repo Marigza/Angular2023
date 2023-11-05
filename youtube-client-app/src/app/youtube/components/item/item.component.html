@@ -5,6 +5,6 @@
   <img mat-card-lg-image src="{{ card.snippet.thumbnails.medium.url }}" alt="" />
   <yta-statistic-block [card]="card"></yta-statistic-block>
   <yta-button>
-    <a [title]="card.snippet.title">More...</a>
+    <a [title]="card.snippet.title" [routerLink]="['/youtube/cards', card.id]">More...</a>
   </yta-button>
 </mat-card>

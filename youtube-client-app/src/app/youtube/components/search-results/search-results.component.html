@@ -1,5 +1,5 @@
 <div class="search-wrapper">
   <ng-container *ngIf="cards$ | async as cards">
-    <yta-item *ngFor="let card of cards" [card]="card" [routerLink]="['/youtube/cards', card.id]"></yta-item>
+    <yta-item *ngFor="let card of cards" [card]="card"></yta-item>
   </ng-container>
 </div>
