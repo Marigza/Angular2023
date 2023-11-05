@@ -1,34 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { SearchItem } from '../../models/search-item.model';
-import { DataFromHttpService } from '../../services/data-from-http.service';
+import { CardsStateService } from '../../services/cards-state.service';
 
 @Component({
   selector: 'yta-detailed-info-page',
   templateUrl: './detailed-info-page.component.html',
   styleUrls: ['./detailed-info-page.component.scss'],
 })
-export class DetailedInfoPageComponent implements OnInit {
-  public item: SearchItem | undefined;
-
-  private items$: Observable<SearchItem[] | undefined> = this.dataFromHttpService.filteredCards$;
+export class DetailedInfoPageComponent {
+  public card$: Observable<SearchItem | undefined> = this.cardsStateService.filteredCards$.pipe(
+    map(cards => cards?.find(item => item.id === this.routeId))
+  );
 
   constructor(
     private route: ActivatedRoute,
-    private dataFromHttpService: DataFromHttpService
+    private cardsStateService: CardsStateService
   ) {}
 
-  public ngOnInit(): void {
+  private get routeId(): string {
     const routeParams = this.route.snapshot.paramMap;
     const itemIdFromRoute = routeParams.get('cardId');
 
-    this.items$.subscribe(items => {
-      const targetItem = items?.find(item => item.id === itemIdFromRoute);
-      this.item = targetItem;
-
-      return this.item;
-    });
+    return itemIdFromRoute ?? '';
   }
 }
