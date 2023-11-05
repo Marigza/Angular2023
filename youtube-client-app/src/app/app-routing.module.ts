@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
-
 const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'youtube',
+  },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
@@ -13,13 +16,8 @@ const routes: Routes = [
     loadChildren: () => import('./youtube/youtube.module').then(m => m.YoutubeModule),
   },
   {
-    path: '',
-    redirectTo: '',
-    pathMatch: 'full',
-  },
-  {
     path: '**',
-    component: PageNotFoundComponent,
+    loadComponent: () => import('./shared/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent),
   },
 ];
 
