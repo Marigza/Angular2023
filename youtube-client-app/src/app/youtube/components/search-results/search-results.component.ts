@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SearchItem } from '../../models/search-item.model';
-import { DataFromHttpService } from '../../services/data-from-http.service';
+import { CardsStateService } from '../../services/cards-state.service';
 
 @Component({
   selector: 'yta-search-results',
@@ -10,7 +10,7 @@ import { DataFromHttpService } from '../../services/data-from-http.service';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-  public cards$: Observable<SearchItem[] | undefined> = this.dataFromHttpService.filteredCards$;
+  public cards$: Observable<SearchItem[] | undefined> = this.cardsStateService.filteredCards$;
 
-  constructor(public dataFromHttpService: DataFromHttpService) {}
+  constructor(public cardsStateService: CardsStateService) {}
 }
