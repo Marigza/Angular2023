@@ -1,0 +1,21 @@
+mat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 10px;
+  border-bottom: 5px solid black;
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-between;
+  align-self: stretch;
+  & > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
