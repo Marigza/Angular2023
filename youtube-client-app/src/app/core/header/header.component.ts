@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { CardsStateService } from '../../youtube/services/cards-state.service';
+import { ActionsWithTokenService } from 'src/app/auth/services/actions-with-token.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
 
 @Component({
   selector: 'yta-header',
@@ -10,7 +13,14 @@ import { CardsStateService } from '../../youtube/services/cards-state.service';
 export class HeaderComponent {
   public isShownSettings = false;
 
-  constructor(private cardsStateService: CardsStateService) {}
+  public isLogged = this.authService.isLoggedIn;
+
+  constructor(
+    private router: Router,
+    private cardsStateService: CardsStateService,
+    private actionsWithTokenService: ActionsWithTokenService,
+    private authService: AuthService
+  ) {}
 
   public toggleSettingsVisibility(): void {
     this.isShownSettings = !this.isShownSettings;
@@ -19,5 +29,13 @@ export class HeaderComponent {
   public showCards(): void {
     this.cardsStateService.getCards();
     this.cardsStateService.getFilteredValue();
+  }
+
+  public logOut(): Promise<boolean> {
+    this.actionsWithTokenService.removeToken();
+    this.authService.logout();
+    this.isLogged = this.authService.isLoggedIn;
+
+    return this.router.navigate(['/auth']);
   }
 }

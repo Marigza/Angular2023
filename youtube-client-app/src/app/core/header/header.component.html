@@ -4,9 +4,8 @@
     <input type="text" id="searchText" placeholder="enter search query" required />
     <yta-button routerLink="/youtube" (click)="showCards()">Seearch!</yta-button>
     <yta-button (click)="toggleSettingsVisibility()">Settings</yta-button>
-    <yta-button class="login-button">
-      <a routerLink="/auth">LogIn</a>
-    </yta-button>
+    <yta-button class="login-button" *ngIf="!isLogged">LogIn</yta-button>
+    <yta-button class="login-button" *ngIf="isLogged" (click)="logOut()">LogOut</yta-button>
   </div>
   <yta-filter-block *ngIf="isShownSettings"></yta-filter-block>
 </div>
