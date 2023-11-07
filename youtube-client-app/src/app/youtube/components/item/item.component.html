@@ -1,10 +1,8 @@
-<mat-card ytaColoring [publishedAt]="card.snippet.publishedAt">
+<mat-card ytaColoring [publishedAt]="card.snippet.publishedAt" class="card">
   <mat-card-header>
     <mat-card-title>{{ card.snippet.title }}</mat-card-title>
   </mat-card-header>
   <img mat-card-lg-image src="{{ card.snippet.thumbnails.medium.url }}" alt="" />
   <yta-statistic-block [card]="card"></yta-statistic-block>
-  <yta-button>
-    <a class="card-link" [title]="card.snippet.title" [routerLink]="['/youtube/cards', card.id]">More...</a>
-  </yta-button>
+  <yta-button [title]="card.snippet.title" [routerLink]="['/youtube/cards', card.id]"> More... </yta-button>
 </mat-card>

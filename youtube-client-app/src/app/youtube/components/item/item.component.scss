@@ -1,4 +1,4 @@
-mat-card {
+.card {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -7,9 +7,4 @@ mat-card {
   height: 100%;
   padding: 10px;
   border-bottom: 5px solid black;
-}
-
-.card-link {
-  color: inherit;
-  text-decoration: none;
 }
