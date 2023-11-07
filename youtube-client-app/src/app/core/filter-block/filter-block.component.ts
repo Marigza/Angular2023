@@ -12,7 +12,7 @@ import { SortingCardsService } from '../../youtube/services/sorting-cards.servic
 export class FilterBlockComponent {
   public filterControl = new FormControl('');
 
-  private sortNumber: number = 1;
+  private sortDirection: number = 1;
 
   constructor(
     private sortingCardsService: SortingCardsService,
@@ -20,13 +20,13 @@ export class FilterBlockComponent {
   ) {}
 
   public sortByViewCount(): void {
-    this.sortNumber *= -1;
-    this.sortingCardsService.updateData({ sortType: 'view', sortNumber: this.sortNumber });
+    this.sortDirection *= -1;
+    this.sortingCardsService.updateData({ sortType: 'view', sortDirection: this.sortDirection });
   }
 
   public sortByData(): void {
-    this.sortNumber *= -1;
-    this.sortingCardsService.updateData({ sortType: 'data', sortNumber: this.sortNumber });
+    this.sortDirection *= -1;
+    this.sortingCardsService.updateData({ sortType: 'data', sortDirection: this.sortDirection });
   }
 
   public filterByInput(): void {
