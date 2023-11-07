@@ -13,4 +13,12 @@ export class SearchResultsComponent {
   public cards$: Observable<SearchItem[] | undefined> = this.cardsStateService.filteredCards$;
 
   constructor(public cardsStateService: CardsStateService) {}
+
+  /* eslint-disable class-methods-use-this */
+
+  public trackByCards(index: number, item: SearchItem): string {
+    return item.id;
+  }
+
+  /* eslint-enable class-methods-use-this */
 }
