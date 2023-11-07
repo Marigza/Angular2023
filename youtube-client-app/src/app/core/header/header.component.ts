@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ActionsWithTokenService } from 'src/app/auth/services/actions-with-token.service';
@@ -11,6 +12,8 @@ import { CardsStateService } from 'src/app/youtube/services/cards-state.service'
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  public searchControl = new FormControl('');
+
   public isShownSettings = false;
 
   public isLogged = this.authService.isLoggedIn;
