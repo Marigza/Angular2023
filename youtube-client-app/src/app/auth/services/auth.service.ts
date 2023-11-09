@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { ActionsWithTokenService } from './actions-with-token.service';
 
@@ -10,13 +11,27 @@ export class AuthService {
 
   public redirectUrl: string | null = null;
 
+  public logState$ = new BehaviorSubject<boolean>(this.isLoggedIn);
+
   constructor(private actionsWithTokenService: ActionsWithTokenService) {}
 
-  public login(): void {
-    this.isLoggedIn = true;
+  public login(login: string): void {
+    this.actionsWithTokenService.setToken(login);
+    this.logState$.next(true);
+    this.logStateChanges();
   }
 
   public logout(): void {
-    this.isLoggedIn = false;
+    this.actionsWithTokenService.removeToken();
+    this.logState$.next(false);
+    this.logStateChanges();
+  }
+
+  public logStateChanges(): void {
+    this.logState$.subscribe({
+      next: v => {
+        this.isLoggedIn = v;
+      },
+    });
   }
 }

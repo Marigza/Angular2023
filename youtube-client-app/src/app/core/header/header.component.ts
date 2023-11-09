@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ActionsWithTokenService } from 'src/app/auth/services/actions-with-token.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
 
@@ -11,7 +10,7 @@ import { CardsStateService } from 'src/app/youtube/services/cards-state.service'
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy, OnInit {
   public searchControl = new FormControl('');
 
   public isShownSettings = false;
@@ -21,9 +20,12 @@ export class HeaderComponent {
   constructor(
     private router: Router,
     private cardsStateService: CardsStateService,
-    private actionsWithTokenService: ActionsWithTokenService,
     private authService: AuthService
   ) {}
+
+  public ngOnInit(): void {
+    this.traceLoginState();
+  }
 
   public toggleSettingsVisibility(): void {
     this.isShownSettings = !this.isShownSettings;
@@ -35,10 +37,21 @@ export class HeaderComponent {
   }
 
   public logOut(): Promise<boolean> {
-    this.actionsWithTokenService.removeToken();
     this.authService.logout();
-    this.isLogged = this.authService.isLoggedIn;
+    this.traceLoginState();
 
     return this.router.navigate(['/auth']);
+  }
+
+  private traceLoginState(): void {
+    this.authService.logState$.subscribe({
+      next: v => {
+        this.isLogged = v;
+      },
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.authService.logState$.unsubscribe();
   }
 }
