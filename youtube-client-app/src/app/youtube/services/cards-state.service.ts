@@ -38,10 +38,15 @@ export class CardsStateService {
 
   public getCards(targetValue: string): void {
     this.youtubeHttpService
-      .get()
-      .pipe(map(({ items }) => items.filter(card => card.snippet.title.toLowerCase().includes(targetValue))))
-      .subscribe(data => {
-        this.updateData(data);
+      .get(targetValue.toLowerCase())
+      .pipe(map(({ items }) => items))
+      .subscribe(dataFromYoutube => {
+        this.youtubeHttpService
+          .getVideos(...dataFromYoutube)
+          .pipe(map(({ items }) => items))
+          .subscribe(dataWithVideo => {
+            this.updateData(dataWithVideo);
+          });
       });
   }
 
