@@ -28,10 +28,8 @@ export class AuthService {
   }
 
   public logStateChanges(): void {
-    this.logState$.subscribe({
-      next: v => {
-        this.isLoggedIn = v;
-      },
+    this.logState$.subscribe(booleanValue => {
+      this.isLoggedIn = booleanValue;
     });
   }
 }
