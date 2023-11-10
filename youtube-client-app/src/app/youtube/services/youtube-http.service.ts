@@ -23,11 +23,11 @@ export class YoutubeHttpService {
   }
 
   public getVideos(...items: SearchItem[]): Observable<SearchResponse> {
-    const videoIdArr = items.map(item => item.id.videoId).join(',');
+    const videoIdCollection = items.map(item => item.id.videoId).join(',');
 
     return this.http
       .get<SearchResponse>(
-        `https://www.googleapis.com/youtube/v3/videos?key=${this.apiKey}&id=${videoIdArr}&part=snippet,statistics`
+        `https://www.googleapis.com/youtube/v3/videos?key=${this.apiKey}&id=${videoIdCollection}&part=snippet,statistics`
       )
       .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
   }
