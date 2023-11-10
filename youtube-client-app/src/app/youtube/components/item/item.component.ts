@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { SearchItem } from '../../models/search-item.model';
+import { ItemWithDetails } from '../../models/item-with-details.model';
 
 @Component({
   selector: 'yta-item',
@@ -8,5 +8,5 @@ import { SearchItem } from '../../models/search-item.model';
   styleUrls: ['./item.component.scss'],
 })
 export class ItemComponent {
-  @Input() public card!: SearchItem;
+  @Input() public card!: ItemWithDetails;
 }

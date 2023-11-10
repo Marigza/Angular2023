@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
-import { SearchItem } from '../../models/search-item.model';
+import { ItemWithDetails } from '../../models/item-with-details.model';
 import { CardsStateService } from '../../services/cards-state.service';
 
 @Component({
@@ -11,8 +11,8 @@ import { CardsStateService } from '../../services/cards-state.service';
   styleUrls: ['./detailed-info-page.component.scss'],
 })
 export class DetailedInfoPageComponent {
-  public card$: Observable<SearchItem | undefined> = this.cardsStateService.filteredCards$.pipe(
-    map(cards => cards?.find(item => item.id.videoId === this.routeId))
+  public card$: Observable<ItemWithDetails | undefined> = this.cardsStateService.filteredCards$.pipe(
+    map(cards => cards?.find(item => item.id === this.routeId))
   );
 
   constructor(

@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { SearchItem } from '../models/search-item.model';
 import { SearchResponse } from '../models/search-response.model';
+import { VideosResponse } from '../models/videos-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +23,11 @@ export class YoutubeHttpService {
       .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
   }
 
-  public getVideos(...items: SearchItem[]): Observable<SearchResponse> {
+  public getVideos(...items: SearchItem[]): Observable<VideosResponse> {
     const videoIdCollection = items.map(item => item.id.videoId).join(',');
 
     return this.http
-      .get<SearchResponse>(
+      .get<VideosResponse>(
         `https://www.googleapis.com/youtube/v3/videos?key=${this.apiKey}&id=${videoIdCollection}&part=snippet,statistics`
       )
       .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));

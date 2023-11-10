@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
 
-import { SearchItem } from '../models/search-item.model';
+import { ItemWithDetails } from '../models/item-with-details.model';
 import { FilterByValueService } from './filter-by-value.service';
 import { SortingCardsService } from './sorting-cards.service';
 import { YoutubeHttpService } from './youtube-http.service';
@@ -10,11 +10,11 @@ import { YoutubeHttpService } from './youtube-http.service';
   providedIn: 'root',
 })
 export class CardsStateService {
-  private card$$ = new BehaviorSubject<SearchItem[] | null>(null);
+  private card$$ = new BehaviorSubject<ItemWithDetails[] | null>(null);
 
   public card$ = this.card$$.asObservable();
 
-  public filteredCards$: Observable<SearchItem[] | undefined> = this.filterByValueService.filterParameter$.pipe(
+  public filteredCards$: Observable<ItemWithDetails[] | undefined> = this.filterByValueService.filterParameter$.pipe(
     switchMap(value => {
       const filteredCards = this.card$.pipe(
         map(cards => cards?.filter(card => card.snippet.title.toLowerCase().includes(value.toLowerCase())))
@@ -30,7 +30,7 @@ export class CardsStateService {
     private sortingCardsService: SortingCardsService
   ) {}
 
-  public sortData(filteredCards: Observable<SearchItem[] | undefined>): Observable<SearchItem[] | undefined> {
+  public sortData(filteredCards: Observable<ItemWithDetails[] | undefined>): Observable<ItemWithDetails[] | undefined> {
     return combineLatest(filteredCards, this.sortingCardsService.sortingParams$).pipe(
       map(([cards, sortingParam]) => cards && this.sortingCardsService.sortingData(cards, sortingParam))
     );
@@ -54,7 +54,7 @@ export class CardsStateService {
     this.filterByValueService.updateData('');
   }
 
-  private updateData(data: SearchItem[]): void {
+  private updateData(data: ItemWithDetails[]): void {
     this.card$$.next(data);
   }
 }

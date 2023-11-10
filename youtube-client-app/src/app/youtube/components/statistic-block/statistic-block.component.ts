@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { SearchItem } from '../../models/search-item.model';
 import { StatisticView } from '../../models/statistic-view.model';
+import { ItemWithDetails } from '../../models/item-with-details.model';
 
 @Component({
   selector: 'yta-statistic-block',
@@ -9,7 +9,7 @@ import { StatisticView } from '../../models/statistic-view.model';
   styleUrls: ['./statistic-block.component.scss'],
 })
 export class StatisticBlockComponent implements OnInit {
-  @Input() public card!: SearchItem;
+  @Input() public card!: ItemWithDetails;
 
   public arrayStatistic: StatisticView[] = [];
 
