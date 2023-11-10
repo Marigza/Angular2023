@@ -17,7 +17,7 @@ export class SearchResultsComponent {
   /* eslint-disable class-methods-use-this */
 
   public trackByCards(index: number, item: SearchItem): string {
-    return item.id;
+    return item.id.videoId;
   }
 
   /* eslint-enable class-methods-use-this */
