@@ -54,11 +54,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
 
   private traceLoginState(): void {
-    this.authService.logState$.subscribe({
-      // убрать next
-      next: v => {
-        this.isLogged = v;
-      },
+    this.authService.logState$.subscribe(booleanValue => {
+      this.isLogged = booleanValue;
     });
   }
 
