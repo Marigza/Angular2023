@@ -36,10 +36,10 @@ export class CardsStateService {
     );
   }
 
-  public getCards(): void {
+  public getCards(targetValue: string): void {
     this.youtubeHttpService
       .get()
-      .pipe(map(({ items }) => items))
+      .pipe(map(({ items }) => items.filter(card => card.snippet.title.toLowerCase().includes(targetValue))))
       .subscribe(data => {
         this.updateData(data);
       });

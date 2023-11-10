@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { debounceTime, filter } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
@@ -11,7 +12,9 @@ import { CardsStateService } from 'src/app/youtube/services/cards-state.service'
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnDestroy, OnInit {
-  public searchControl = new FormControl('');
+  public searchForm = this.formBuilder.group({
+    searchControl: [''],
+  });
 
   public isShownSettings = false;
 
@@ -20,20 +23,27 @@ export class HeaderComponent implements OnDestroy, OnInit {
   constructor(
     private router: Router,
     private cardsStateService: CardsStateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
     this.traceLoginState();
+    this.searchForm
+      .get('searchControl')
+      ?.valueChanges.pipe(
+        debounceTime(1500),
+        filter(Boolean),
+        filter(value => value.length > 2)
+      )
+      .subscribe(value => {
+        this.cardsStateService.getCards(value.toLowerCase());
+        this.cardsStateService.getFilteredValue();
+      });
   }
 
   public toggleSettingsVisibility(): void {
     this.isShownSettings = !this.isShownSettings;
-  }
-
-  public showCards(): void {
-    this.cardsStateService.getCards();
-    this.cardsStateService.getFilteredValue();
   }
 
   public logOut(): Promise<boolean> {
@@ -45,6 +55,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
 
   private traceLoginState(): void {
     this.authService.logState$.subscribe({
+      // убрать next
       next: v => {
         this.isLogged = v;
       },
