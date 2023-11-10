@@ -9,8 +9,6 @@ import { ActionsWithTokenService } from './actions-with-token.service';
 export class AuthService {
   public isLoggedIn = this.actionsWithTokenService.hasToken();
 
-  public redirectUrl: string | null = null;
-
   public logState$ = new BehaviorSubject<boolean>(this.isLoggedIn);
 
   constructor(private actionsWithTokenService: ActionsWithTokenService) {}

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { debounceTime, filter } from 'rxjs';
+import { debounceTime, filter, Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
@@ -20,6 +20,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
 
   public isLogged = this.authService.isLoggedIn;
 
+  public subs = new Subscription();
+
   constructor(
     private router: Router,
     private cardsStateService: CardsStateService,
@@ -28,18 +30,24 @@ export class HeaderComponent implements OnDestroy, OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.traceLoginState();
-    this.searchForm
-      .get('searchControl')
-      ?.valueChanges.pipe(
-        debounceTime(1500),
-        filter(Boolean),
-        filter(value => value.length > 2)
-      )
-      .subscribe(value => {
-        this.cardsStateService.getCards(value.toLowerCase());
-        this.cardsStateService.getFilteredValue();
-      });
+    this.subs.add(
+      this.authService.logState$.subscribe(booleanValue => {
+        this.isLogged = booleanValue;
+      })
+    );
+    this.subs.add(
+      this.searchForm
+        .get('searchControl')
+        ?.valueChanges.pipe(
+          debounceTime(1500),
+          filter(Boolean),
+          filter(value => value.length > 2)
+        )
+        .subscribe(value => {
+          this.cardsStateService.getCards(value.toLowerCase());
+          this.cardsStateService.getFilteredValue();
+        })
+    );
   }
 
   public toggleSettingsVisibility(): void {
@@ -48,18 +56,11 @@ export class HeaderComponent implements OnDestroy, OnInit {
 
   public logOut(): Promise<boolean> {
     this.authService.logout();
-    this.traceLoginState();
 
     return this.router.navigate(['/auth']);
   }
 
-  private traceLoginState(): void {
-    this.authService.logState$.subscribe(booleanValue => {
-      this.isLogged = booleanValue;
-    });
-  }
-
   public ngOnDestroy(): void {
-    this.authService.logState$.unsubscribe();
+    this.subs.unsubscribe();
   }
 }
