@@ -9,6 +9,7 @@
     <ng-template #elseBlock>
       <yta-button class="login-button" (click)="logOut()">LogOut</yta-button>
     </ng-template>
+    <yta-button *ngIf="isLogged" (click)="showCardCreation()">Create card</yta-button>
   </div>
   <yta-filter-block *ngIf="isShownSettings"></yta-filter-block>
 </div>
