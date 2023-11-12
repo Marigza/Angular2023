@@ -1,0 +1,26 @@
+:host {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.create-card-block {
+  margin: 20px auto;
+  width: 300px;
+  padding: 0px 10px 20px 10px;
+}
+
+.card-header {
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons-block {
+  display: flex;
+  gap: 30px;
+}
