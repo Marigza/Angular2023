@@ -68,6 +68,10 @@ export class HeaderComponent implements OnDestroy, OnInit {
     return this.router.navigate(['/auth']);
   }
 
+  public showCardCreation(): Promise<boolean> {
+    return this.router.navigate(['/youtube/admin']);
+  }
+
   public ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
