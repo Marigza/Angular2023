@@ -261,6 +261,12 @@
             "types": "never"
           }
         ],
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+          "ignoreStatic": true
+          }
+        ],
         "@typescript-eslint/prefer-includes": 2,
         "@typescript-eslint/no-non-null-assertion": 2,
         "@typescript-eslint/dot-notation": [2, { "allowIndexSignaturePropertyAccess": true }],
