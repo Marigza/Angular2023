@@ -3,18 +3,28 @@
     <mat-card-header>
       <mat-card-title>LogIn</mat-card-title>
     </mat-card-header>
-    <mat-form-field appearance="outline">
-      <mat-label>login</mat-label>
-      <input matInput placeholder="enter your login" [formControl]="loginControl" />
-      <mat-hint></mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="enter your password" [formControl]="passwordControl" />
-      <mat-hint></mat-hint>
-    </mat-form-field>
-    <div class="login-button">
-      <yta-button (click)="onSubmit()">Login</yta-button>
-    </div>
+    <form [formGroup]="login" class="form" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>email</mat-label>
+        <input matInput placeholder="sample@email.ru" formControlName="email" required />
+        <mat-error>{{ getErrorEmailMessage() }}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="isHide ? 'password' : 'text'"
+          placeholder="enter your password"
+          formControlName="password"
+        />
+        <button mat-icon-button matSuffix (click)="isHide = !isHide">
+          <mat-icon>{{ isHide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error>{{ getErrorPasswordMessage() }}</mat-error>
+      </mat-form-field>
+      <div class="login-button">
+        <yta-button (click)="onSubmit()">Login</yta-button>
+      </div>
+    </form>
   </mat-card>
 </div>
