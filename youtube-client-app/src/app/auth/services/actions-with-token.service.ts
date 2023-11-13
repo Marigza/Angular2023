@@ -4,18 +4,18 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ActionsWithTokenService {
-  public key = 'fakeToken';
+  public storageToken = 'userToken';
 
-  public setToken(login: string, password: string): void {
-    localStorage.setItem(this.key, `${login}:${password}`);
+  public setToken(login: string): void {
+    localStorage.setItem(this.storageToken, login);
   }
 
   public removeToken(): void {
-    localStorage.removeItem(this.key);
+    localStorage.removeItem(this.storageToken);
   }
 
   public hasToken(): boolean {
-    const value = localStorage.getItem(this.key);
+    const value = localStorage.getItem(this.storageToken);
 
     return !!value;
   }

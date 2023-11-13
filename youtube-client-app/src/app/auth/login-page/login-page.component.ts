@@ -23,7 +23,7 @@ export class LoginPageComponent {
 
   public async onSubmit(): Promise<void> {
     if (this.loginControl.value && this.passwordControl.value) {
-      this.actionsWithTokenService.setToken(this.loginControl.value, this.passwordControl.value);
+      this.actionsWithTokenService.setToken(this.loginControl.value);
       this.authService.login();
       await this.router.navigate(['/youtube']);
     }
