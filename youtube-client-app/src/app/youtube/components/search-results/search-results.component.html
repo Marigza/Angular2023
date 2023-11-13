@@ -1,5 +1,3 @@
-<div class="search-wrapper">
-  <ng-container *ngIf="cards$ | async as cards">
-    <yta-item class="search-card" *ngFor="let card of cards; trackBy: trackByCards" [card]="card"></yta-item>
-  </ng-container>
-</div>
+<ng-container *ngIf="cards$ | async as cards">
+  <yta-item class="search-card" *ngFor="let card of cards; trackBy: trackByCards" [card]="card"></yta-item>
+</ng-container>
