@@ -1,18 +1,9 @@
-<div class="statistics">
-  <div class="statistic-element">
-    <mat-icon aria-hidden="false" aria-label="Example visibility icon" fontIcon="visibility" color="primary"></mat-icon>
-    <span>{{ card.statistics.viewCount }}</span>
-  </div>
-  <div class="statistic-element">
-    <mat-icon aria-hidden="false" aria-label="Example thumb_up icon" fontIcon="thumb_up" color="warn"></mat-icon>
-    <span>{{ card.statistics.likeCount }}</span>
-  </div>
-  <div class="statistic-element">
-    <mat-icon aria-hidden="false" aria-label="Example thumb_down icon" fontIcon="thumb_down" color="accent"></mat-icon>
-    <span>{{ card.statistics.dislikeCount }}</span>
-  </div>
-  <div class="statistic-element">
-    <mat-icon aria-hidden="false" aria-label="Example forum icon" fontIcon="forum"></mat-icon>
-    <span>{{ card.statistics.commentCount }}</span>
-  </div>
+<div *ngFor="let element of arrayStatistic; trackBy: trackByIndex" class="statistic-element">
+  <mat-icon
+    aria-hidden="false"
+    aria-label="Example icon"
+    fontIcon="{{ element.icon }}"
+    color="{{ element.color }}"
+  ></mat-icon>
+  <span>{{ element.view }}</span>
 </div>

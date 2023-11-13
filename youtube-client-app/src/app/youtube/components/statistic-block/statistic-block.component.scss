@@ -1,6 +1,7 @@
-.statistics {
+:host {
   display: flex;
   gap: 30px;
+  justify-content: center;
   align-self: stretch;
 
   & > .statistic-element {
