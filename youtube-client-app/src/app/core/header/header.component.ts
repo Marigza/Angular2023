@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { DataFromHttpService } from '../../youtube-module/services/data-from-http.service';
+import { ActionsWithTokenService } from 'src/app/auth/services/actions-with-token.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
 
 @Component({
   selector: 'yta-header',
@@ -8,16 +12,33 @@ import { DataFromHttpService } from '../../youtube-module/services/data-from-htt
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  public searchControl = new FormControl('');
+
   public isShownSettings = false;
 
-  constructor(private dataFromHttpService: DataFromHttpService) {}
+  public isLogged = this.authService.isLoggedIn;
+
+  constructor(
+    private router: Router,
+    private cardsStateService: CardsStateService,
+    private actionsWithTokenService: ActionsWithTokenService,
+    private authService: AuthService
+  ) {}
 
   public toggleSettingsVisibility(): void {
     this.isShownSettings = !this.isShownSettings;
   }
 
   public showCards(): void {
-    this.dataFromHttpService.getCards();
-    this.dataFromHttpService.getFilteredValue();
+    this.cardsStateService.getCards();
+    this.cardsStateService.getFilteredValue();
+  }
+
+  public logOut(): Promise<boolean> {
+    this.actionsWithTokenService.removeToken();
+    this.authService.logout();
+    this.isLogged = this.authService.isLoggedIn;
+
+    return this.router.navigate(['/auth']);
   }
 }

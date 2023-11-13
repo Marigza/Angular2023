@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
-import { FilterByValueService } from '../../youtube-module/services/filter-by-value.service';
-import { SortingService } from '../../youtube-module/services/sorting.service';
+import { FilterByValueService } from '../../youtube/services/filter-by-value.service';
+import { SortingCardsService } from '../../youtube/services/sorting-cards.service';
 
 @Component({
   selector: 'yta-filter-block',
@@ -9,20 +10,30 @@ import { SortingService } from '../../youtube-module/services/sorting.service';
   styleUrls: ['./filter-block.component.scss'],
 })
 export class FilterBlockComponent {
+  public filterControl = new FormControl('');
+
+  private sortDirection: number = 1;
+
   constructor(
-    private sortingService: SortingService,
+    private sortingCardsService: SortingCardsService,
     private filterByValueService: FilterByValueService
   ) {}
 
   public sortByViewCount(): void {
-    this.sortingService.updateData('view');
+    this.sortDirection *= -1;
+    this.sortingCardsService.updateData({ sortType: 'view', sortDirection: this.sortDirection });
   }
 
   public sortByData(): void {
-    this.sortingService.updateData('data');
+    this.sortDirection *= -1;
+    this.sortingCardsService.updateData({ sortType: 'data', sortDirection: this.sortDirection });
   }
 
-  public filterByValue(value: string): void {
+  public filterByInput(): void {
+    this.filterControl.value ? this.filterByValue(this.filterControl.value) : this.filterByValue('');
+  }
+
+  private filterByValue(value: string): void {
     this.filterByValueService.updateData(value);
   }
 }

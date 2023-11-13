@@ -1,0 +1,11 @@
+<div class="wrapper" *ngIf="card$ | async as card">
+  <div class="detailed-image">
+    <img src="{{ card.snippet.thumbnails.standard.url }}" alt="" />
+  </div>
+  <div ytaColoring [publishedAt]="card.snippet.publishedAt" class="detailed-description">
+    <h2 class="descripti0n-title">{{ card.snippet.title }}</h2>
+    <div class="description-published-at">{{ card.snippet.publishedAt | date }}</div>
+    <div class="description-text">{{ card.snippet.description }}</div>
+    <yta-statistic-block [card]="card"></yta-statistic-block>
+  </div>
+</div>

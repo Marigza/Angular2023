@@ -1,0 +1,20 @@
+<div class="login-page-wrapper">
+  <mat-card class="auth-block">
+    <mat-card-header>
+      <mat-card-title>LogIn</mat-card-title>
+    </mat-card-header>
+    <mat-form-field appearance="outline">
+      <mat-label>login</mat-label>
+      <input matInput placeholder="enter your login" [formControl]="loginControl" />
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="enter your password" [formControl]="passwordControl" />
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <div class="login-button">
+      <yta-button (click)="onSubmit()">Login</yta-button>
+    </div>
+  </mat-card>
+</div>
