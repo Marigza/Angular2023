@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { passwordValidator } from '../../shared/validators/password.validator';
 import { AuthService } from '../services/auth.service';
+import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'yta-login-page',
@@ -21,56 +22,28 @@ export class LoginPageComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: NonNullableFormBuilder,
+    private validationService: ValidationService
   ) {}
 
   public async onSubmit(): Promise<void> {
-
-    if (this.loginValue && this.passValue) {
-      this.authService.login(this.loginValue);
-      await this.router.navigate(['/youtube']);
-    }
-  }
-
-  public get loginValue(): string | null | undefined {
-    if (this.emailFormField?.valid) {
-      return this.emailFormField?.value;
-    }
-
-    return undefined;
-  }
-
-  public get passValue(): string | null | undefined {
-    if (this.passwordFormField?.valid) {
-      return this.passwordFormField?.value;
-    }
-
-    return undefined;
+    this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
+    await this.router.navigate(['/youtube']);
   }
 
   public getErrorEmailMessage(): string {
-    if (this.emailFormField?.hasError('required')) {
-      return 'Please enter a login email';
-    }
-
-    return this.emailFormField?.hasError('email') ? 'The login email is invalid' : '';
+    return this.validationService.getErrorEmailMessage(this.emailFormField);
   }
 
   public getErrorPasswordMessage(): string {
-    if (this.passwordFormField?.hasError('required')) {
-      return 'Please enter a password';
-    }
-
-    return this.passwordFormField?.errors
-      ? `Your password is not strong enough: ${this.passwordFormField?.errors['requiredValue']}`
-      : '';
+    return this.validationService.getErrorPasswordMessage(this.passwordFormField);
   }
 
-  private get passwordFormField(): AbstractControl<string | null, string | null> | null {
+  private get passwordFormField(): AbstractControl<string> | null {
     return this.login.get('password');
   }
 
-  private get emailFormField(): AbstractControl<string | null, string | null> | null {
+  private get emailFormField(): AbstractControl<string> | null {
     return this.login.get('email');
   }
 }
