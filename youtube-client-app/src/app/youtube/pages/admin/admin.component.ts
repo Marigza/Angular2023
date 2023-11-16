@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 
 import { dateValidator } from '../../../shared/validators/date.validator';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'yta-admin',
@@ -17,43 +18,53 @@ export class AdminComponent {
     date: ['', [Validators.required, Validators.maxLength(10), dateValidator]],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  public arrayFields = [
+    {
+      label: 'title',
+      errorMessage: (): string => this.validationService.getErrorTitleMessage(this.createCard.get('title')),
+      requiered: true,
+      type: 'text',
+    },
+    {
+      label: 'description',
+      errorMessage: (): string => this.validationService.getErrorDescriptionMessage(this.createCard.get('description')),
+      requiered: false,
+      type: 'text',
+    },
+    {
+      label: 'image',
+      errorMessage: (): string => this.validationService.getErrorImageMessage(this.createCard.get('image')),
+      requiered: true,
+      type: 'text',
+    },
+    {
+      label: 'video',
+      errorMessage: (): string => this.validationService.getErrorVideoMessage(this.createCard.get('video')),
+      requiered: true,
+      type: 'text',
+    },
+    {
+      label: 'date',
+      errorMessage: (): string => this.validationService.getErrorDateMessage(this.createCard.get('date')),
+      requiered: true,
+      type: 'date',
+    },
+  ];
 
-  public getErrorTitleMessage(): string {
-    if (!this.createCard.get('title')?.touched) return '';
-
-    if (this.createCard.get('title')?.hasError('required')) {
-      return 'Please enter a title';
-    }
-
-    if (this.createCard.get('date')?.hasError('minLength(3)')) {
-      return 'The title is too short';
-    }
-
-    return this.createCard.get('date')?.hasError('maxLength(20)') ? '' : 'The title is too long';
-  }
-
-  public getErrorDescriptionMessage(): string {
-    if (!this.createCard.get('description')?.touched) return '';
-
-    return this.createCard.get('description')?.hasError('maxLength(255)') ? '' : 'The description is too long';
-  }
-
-  public getErrorSourceMessage(source: string): string {
-    if (!this.createCard.get(source)?.touched) return '';
-
-    return this.createCard.get(source)?.hasError('required') ? `Please enter a link to the ${source}` : '';
-  }
-
-  public getErrorDateMessage(): string {
-    if (!this.createCard.get('date')?.touched) return '';
-
-    if (this.createCard.get('date')?.hasError('required')) return 'Please enter a creation date';
-
-    return this.createCard.get('date')?.errors ? 'The date is invalid' : '';
-  }
+  constructor(
+    private formBuilder: NonNullableFormBuilder,
+    private validationService: ValidationService
+  ) {}
 
   public resetForm(): void {
     this.createCard.reset();
   }
+
+  /* eslint-disable class-methods-use-this */
+
+  public trackByIndex(index: number): number {
+    return index;
+  }
+
+  /* eslint-enable class-methods-use-this */
 }
