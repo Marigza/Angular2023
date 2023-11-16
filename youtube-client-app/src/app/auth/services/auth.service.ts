@@ -15,19 +15,13 @@ export class AuthService {
 
   public login(login: string): void {
     this.actionsWithTokenService.setToken(login);
+    this.isLoggedIn = true;
     this.logState$.next(true);
-    this.logStateChanges();
   }
 
   public logout(): void {
     this.actionsWithTokenService.removeToken();
+    this.isLoggedIn = false;
     this.logState$.next(false);
-    this.logStateChanges();
-  }
-
-  public logStateChanges(): void {
-    this.logState$.subscribe(booleanValue => {
-      this.isLoggedIn = booleanValue;
-    });
   }
 }
