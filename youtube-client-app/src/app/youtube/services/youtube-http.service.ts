@@ -15,27 +15,27 @@ export class YoutubeHttpService {
 
   constructor(private http: HttpClient) {}
 
-  public get(target: string): Observable<SearchResponse> {
+  public get$(target: string): Observable<SearchResponse> {
     return this.http
       .get<SearchResponse>(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${target}&key=${this.apiKey}`
       )
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public getVideos(...items: SearchItem[]): Observable<VideosResponse> {
+  public getVideos$(...items: SearchItem[]): Observable<VideosResponse> {
     const videoIdCollection = items.map(item => item.id.videoId).join(',');
 
     return this.http
       .get<VideosResponse>(
         `https://www.googleapis.com/youtube/v3/videos?key=${this.apiKey}&id=${videoIdCollection}&part=snippet,statistics`
       )
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
   /* eslint-disable class-methods-use-this */
 
-  private handleError(err: HttpErrorResponse): Observable<never> {
+  private handleError$(err: HttpErrorResponse): Observable<never> {
     return throwError(() => new Error(err.message));
   }
 

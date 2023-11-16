@@ -44,7 +44,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
           filter(value => value.length > 2)
         )
         .subscribe(value => {
-          this.cardsStateService.getCards(value.toLowerCase());
+          this.cardsStateService.getCards$(value.toLowerCase()).subscribe(dataWithVideo => {
+            this.cardsStateService.updateData(dataWithVideo);
+          });
           this.cardsStateService.getFilteredValue();
         })
     );
