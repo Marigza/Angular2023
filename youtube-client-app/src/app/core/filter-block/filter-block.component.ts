@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 
 import { FilterByValueService } from '../../youtube/services/filter-by-value.service';
 import { SortingCardsService } from '../../youtube/services/sorting-cards.service';
@@ -10,13 +10,16 @@ import { SortingCardsService } from '../../youtube/services/sorting-cards.servic
   styleUrls: ['./filter-block.component.scss'],
 })
 export class FilterBlockComponent {
-  public filterControl = new FormControl('');
+  public filter = this.formBuilder.group({
+    filterControl: [''],
+  });
 
   private sortDirection: number = 1;
 
   constructor(
     private sortingCardsService: SortingCardsService,
-    private filterByValueService: FilterByValueService
+    private filterByValueService: FilterByValueService,
+    private formBuilder: NonNullableFormBuilder
   ) {}
 
   public sortByViewCount(): void {
@@ -30,7 +33,7 @@ export class FilterBlockComponent {
   }
 
   public filterByInput(): void {
-    this.filterControl.value ? this.filterByValue(this.filterControl.value) : this.filterByValue('');
+    this.filterByValue(this.filter.get('filterControl')?.value ?? '');
   }
 
   private filterByValue(value: string): void {
