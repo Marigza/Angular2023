@@ -13,7 +13,7 @@ import { VideosResponse } from '../models/videos-response.model';
 export class YoutubeHttpService {
   constructor(private http: HttpClient) {}
 
-  public get(searchValue: string): Observable<SearchResponse> {
+  public get$(searchValue: string): Observable<SearchResponse> {
     return this.http
       .get<SearchResponse>('search', {
         params: {
@@ -22,10 +22,10 @@ export class YoutubeHttpService {
           q: searchValue,
         },
       })
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public getVideos(...items: SearchItem[]): Observable<VideosResponse> {
+  public getVideos$(...items: SearchItem[]): Observable<VideosResponse> {
     const id = items.map(item => item.id.videoId).join(',');
 
     return this.http
@@ -35,12 +35,12 @@ export class YoutubeHttpService {
           part: 'snippet,statistics',
         },
       })
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
   /* eslint-disable class-methods-use-this */
 
-  private handleError(err: HttpErrorResponse): Observable<never> {
+  private handleError$(err: HttpErrorResponse): Observable<never> {
     return throwError(() => new Error(err.message));
   }
 

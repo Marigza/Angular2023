@@ -36,25 +36,18 @@ export class CardsStateService {
     );
   }
 
-  public getCards(targetValue: string): void {
-    this.youtubeHttpService
-      .get(targetValue.toLowerCase())
-      .pipe(map(({ items }) => items))
-      .subscribe(dataFromYoutube => {
-        this.youtubeHttpService
-          .getVideos(...dataFromYoutube)
-          .pipe(map(({ items }) => items))
-          .subscribe(dataWithVideo => {
-            this.updateData(dataWithVideo);
-          });
-      });
+  public getCards$(targetValue: string): Observable<ItemWithDetails[]> {
+    return this.youtubeHttpService.get$(targetValue.toLowerCase()).pipe(
+      map(({ items }) => items),
+      switchMap(searchItems => this.youtubeHttpService.getVideos$(...searchItems).pipe(map(({ items }) => items)))
+    );
   }
 
   public getFilteredValue(): void {
     this.filterByValueService.updateData('');
   }
 
-  private updateData(data: ItemWithDetails[]): void {
+  public updateData(data: ItemWithDetails[]): void {
     this.card$$.next(data);
   }
 }
