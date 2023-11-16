@@ -2,4 +2,6 @@
 <button (click)="sortByData()">date</button>
 <button (click)="sortByViewCount()">count of view</button>
 <button (click)="filterByInput()">word or sentence:</button>
-<input type="text" name="filter" id="filter-value" [formControl]="filterControl" />
+<form [formGroup]="filter" class="form" novalidate>
+  <input type="text" name="filter" id="filter-value" formControlName="filterControl" />
+</form>
