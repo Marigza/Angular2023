@@ -3,30 +3,10 @@
     <mat-card-title>Create new card</mat-card-title>
   </mat-card-header>
   <form [formGroup]="createCard" class="form" novalidate>
-    <mat-form-field appearance="outline">
-      <mat-label>title</mat-label>
-      <input matInput formControlName="title" required />
-      <mat-error>{{ getErrorTitleMessage() }}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>description</mat-label>
-      <input matInput formControlName="description" />
-      <mat-error>{{ getErrorDescriptionMessage() }}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>image</mat-label>
-      <input matInput formControlName="image" required />
-      <mat-error>{{ getErrorSourceMessage('image') }}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>video</mat-label>
-      <input matInput formControlName="video" required />
-      <mat-error>{{ getErrorSourceMessage('video') }}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>date</mat-label>
-      <input type="date" matInput formControlName="date" required />
-      <mat-error>{{ getErrorDateMessage() }}</mat-error>
+    <mat-form-field *ngFor="let field of arrayFields; trackBy: trackByIndex" appearance="outline">
+      <mat-label>{{ field.label }}</mat-label>
+      <input type="{{ field.type }}" matInput formControlName="{{ field.label }}" required="{{ field.requiered }}" />
+      <mat-error>{{ field.errorMessage() }}</mat-error>
     </mat-form-field>
     <div class="buttons-block">
       <button mat-raised-button color="primary" type="submit" [disabled]="!createCard.valid">Create</button>
