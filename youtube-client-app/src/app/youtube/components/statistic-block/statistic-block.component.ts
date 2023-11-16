@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { StatisticView } from '../../models/statistic-view.model';
 import { ItemWithDetails } from '../../models/item-with-details.model';
+import { StatisticView } from '../../models/statistic-view.model';
 
 @Component({
   selector: 'yta-statistic-block',
