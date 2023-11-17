@@ -11,25 +11,30 @@ import { VideosResponse } from '../models/videos-response.model';
   providedIn: 'root',
 })
 export class YoutubeHttpService {
-  private apiKey = 'AIzaSyDJhkBMN6u7R12Jp1zoGWxjrq0-2xYafK8';
-
   constructor(private http: HttpClient) {}
 
-  public get(target: string): Observable<SearchResponse> {
+  public get(searchValue: string): Observable<SearchResponse> {
     return this.http
-      .get<SearchResponse>(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${target}&key=${this.apiKey}`
-      )
+      .get<SearchResponse>('search', {
+        params: {
+          type: 'video',
+          maxResults: 3,
+          q: searchValue,
+        },
+      })
       .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
   }
 
   public getVideos(...items: SearchItem[]): Observable<VideosResponse> {
-    const videoIdCollection = items.map(item => item.id.videoId).join(',');
+    const id = items.map(item => item.id.videoId).join(',');
 
     return this.http
-      .get<VideosResponse>(
-        `https://www.googleapis.com/youtube/v3/videos?key=${this.apiKey}&id=${videoIdCollection}&part=snippet,statistics`
-      )
+      .get<VideosResponse>('videos', {
+        params: {
+          id,
+          part: 'snippet,statistics',
+        },
+      })
       .pipe(catchError((err: HttpErrorResponse) => this.handleError(err)));
   }
 
