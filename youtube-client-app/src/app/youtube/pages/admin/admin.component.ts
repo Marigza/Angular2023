@@ -21,8 +21,8 @@ export class AdminComponent {
 
   public dateValidator(): ValidatorFn {
     return (control: AbstractControl<string>): ValidationErrors | null => {
-      const inputData = new Date(control.value);
-      const deltaTime = Number(this.currentDate) - Number(inputData);
+      const inputDate = new Date(control.value);
+      const deltaTime = Number(this.currentDate) - Number(inputDate);
 
       return deltaTime < 0 ? { dateInFuture: true } : null;
     };
