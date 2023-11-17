@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { AbstractControl, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { passwordValidator } from '../../shared/validators/password.validator';
 import { AuthService } from '../services/auth.service';
-import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'yta-login-page',
@@ -16,40 +14,75 @@ export class LoginPageComponent {
 
   public visibleIcon: 'visibility_off' | 'visibility' = 'visibility_off';
 
+  public regExpUpperCase = '^(?=.*[A-Z])';
+
+  public regExpLowerCase = '(?=.*[a-z])';
+
+  public regExpDigit = '(.*[0-9].*)';
+
+  public regExpChar = '(?=.*[!@#$%^&*])';
+
   public login = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, passwordValidator]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        this.upperCaseValidator(),
+        this.lowerCaseValidator(),
+        this.digitValidator(),
+        this.characterValidator(),
+      ],
+    ],
   });
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private formBuilder: NonNullableFormBuilder,
-    private validationService: ValidationService
+    private formBuilder: NonNullableFormBuilder
   ) {}
 
   public async onSubmit(): Promise<void> {
-    if (this.login.valid) {
-      this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
-      await this.router.navigate(['/youtube']);
-    }
+    this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
+    await this.router.navigate(['/youtube']);
   }
 
-  public getErrorEmailMessage(): string {
-    return this.validationService.getErrorEmailMessage(this.emailFormField);
+  public upperCaseValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const inputPassword = control.value;
+
+      return inputPassword.match(this.regExpUpperCase) ? null : { noUpperCase: true };
+    };
   }
 
-  public getErrorPasswordMessage(): string {
-    return this.validationService.getErrorPasswordMessage(this.passwordFormField);
+  public lowerCaseValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const inputPassword = control.value;
+
+      return inputPassword.match(this.regExpLowerCase) ? null : { noLowerCase: true };
+    };
   }
 
-  public showPassword(): void {
-    this.canVisiblePassword ? (this.visibleIcon = 'visibility_off') : (this.visibleIcon = 'visibility');
+  public digitValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const inputPassword = control.value;
+
+      return inputPassword.match(this.regExpDigit) ? null : { noDigit: true };
+    };
+  }
+
+  public characterValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const inputPassword = control.value;
+
+      return inputPassword.match(this.regExpChar) ? null : { noChar: true };
+    };
+  }
+
+  public changePasswordVisibility(): void {
+    this.canVisiblePassword ? (this.visibleIcon = 'visibility') : (this.visibleIcon = 'visibility_off');
     this.canVisiblePassword = !this.canVisiblePassword;
-  }
-
-  private get passwordFormField(): AbstractControl<string> | null {
-    return this.login.get('password');
   }
 
   private get emailFormField(): AbstractControl<string> | null {
