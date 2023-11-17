@@ -44,7 +44,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
           filter(value => value.length > 2)
         )
         .subscribe(value => {
-          this.cardsStateService.getCards$(value.toLowerCase()).subscribe(dataWithVideo => {
+          // передать значение в поле класса и к нему подписаться. вместо вложенной подписки
+          this.cardsStateService.getCards$(value).subscribe(dataWithVideo => {
             this.cardsStateService.updateData(dataWithVideo);
           });
           this.cardsStateService.getFilteredValue();

@@ -36,8 +36,8 @@ export class CardsStateService {
     );
   }
 
-  public getCards$(targetValue: string): Observable<ItemWithDetails[]> {
-    return this.youtubeHttpService.get$(targetValue.toLowerCase()).pipe(
+  public getCards$(searchValue: string): Observable<ItemWithDetails[]> {
+    return this.youtubeHttpService.get$(searchValue.toLowerCase().trim()).pipe(
       map(({ items }) => items),
       switchMap(searchItems => this.youtubeHttpService.getVideos$(...searchItems).pipe(map(({ items }) => items)))
     );
