@@ -44,13 +44,18 @@ export class HeaderComponent implements OnDestroy, OnInit {
           filter(value => value.length > 2)
         )
         .subscribe(value => {
-          // передать значение в поле класса и к нему подписаться. вместо вложенной подписки
-          this.cardsStateService.getCards$(value).subscribe(dataWithVideo => {
-            this.cardsStateService.updateData(dataWithVideo);
-          });
-          this.cardsStateService.getFilteredValue();
+          this.updateSearchResult(value);
         })
     );
+  }
+
+  public updateSearchResult(value: string): void {
+    this.subs.add(
+      this.cardsStateService.getCards$(value).subscribe(dataWithVideo => {
+        this.cardsStateService.updateData(dataWithVideo);
+      })
+    );
+    this.cardsStateService.getFilteredValue();
   }
 
   public toggleSettingsVisibility(): void {
