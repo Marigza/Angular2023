@@ -6,18 +6,21 @@
     <mat-form-field appearance="outline">
       <mat-label>email</mat-label>
       <input matInput placeholder="sample@email.ru" formControlName="email" required />
-      <mat-error>{{ getErrorEmailMessage() }}</mat-error>
+      <mat-error *ngIf="">{{ getErrorEmailMessage() }}</mat-error>
+      <!-- <mat-error *ngIf="">{{ getErrorEmailMessage() }}</mat-error>
+      <mat-error *ngIf="">{{ getErrorEmailMessage() }}</mat-error>
+      <mat-error *ngIf="">{{ getErrorEmailMessage() }}</mat-error> -->
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input
         matInput
-        [type]="isHide ? 'password' : 'text'"
+        [type]="canVisiblePassword ? 'password' : 'text'"
         placeholder="enter your password"
         formControlName="password"
       />
-      <button mat-icon-button matSuffix (click)="isHide = !isHide">
-        <mat-icon>{{ isHide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      <button type="button" mat-icon-button matSuffix (click)="showPassword()">
+        <mat-icon>{{ visibleIcon }}</mat-icon>
       </button>
       <mat-error>{{ getErrorPasswordMessage() }}</mat-error>
     </mat-form-field>

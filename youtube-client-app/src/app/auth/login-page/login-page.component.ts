@@ -12,7 +12,9 @@ import { ValidationService } from '../services/validation.service';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
-  public isHide = true;
+  public canVisiblePassword = true;
+
+  public visibleIcon: 'visibility_off' | 'visibility' = 'visibility_off';
 
   public login = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -27,8 +29,10 @@ export class LoginPageComponent {
   ) {}
 
   public async onSubmit(): Promise<void> {
-    this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
-    await this.router.navigate(['/youtube']);
+    if (this.login.valid) {
+      this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
+      await this.router.navigate(['/youtube']);
+    }
   }
 
   public getErrorEmailMessage(): string {
@@ -37,6 +41,11 @@ export class LoginPageComponent {
 
   public getErrorPasswordMessage(): string {
     return this.validationService.getErrorPasswordMessage(this.passwordFormField);
+  }
+
+  public showPassword(): void {
+    this.canVisiblePassword ? (this.visibleIcon = 'visibility_off') : (this.visibleIcon = 'visibility');
+    this.canVisiblePassword = !this.canVisiblePassword;
   }
 
   private get passwordFormField(): AbstractControl<string> | null {
