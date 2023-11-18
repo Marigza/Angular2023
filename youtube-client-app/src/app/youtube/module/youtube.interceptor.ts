@@ -6,9 +6,9 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class YoutubeInterceptor implements HttpInterceptor {
-  private apiKey = environment.apiKey;
+  private apiKey = environment.API_KEY;
 
-  private apiUrl = environment.urlYoutube;
+  private apiUrl = environment.URL_YOUTUBE;
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const url = `${this.apiUrl}${request.url}`;
