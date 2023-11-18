@@ -1,11 +1,14 @@
 <div class="header-wrapper">
   <div class="header">
     <div class="logo"><a class="logo-link" routerLink="./"> </a></div>
-    <input type="text" id="searchText" placeholder="enter search query" required [formControl]="searchControl" />
-    <yta-button routerLink="/youtube" (click)="showCards()">Seearch!</yta-button>
+    <form [formGroup]="searchForm">
+      <input type="text" id="searchText" placeholder="enter search query" required formControlName="searchControl" />
+    </form>
     <yta-button (click)="toggleSettingsVisibility()">Settings</yta-button>
-    <yta-button class="login-button" *ngIf="!isLogged">LogIn</yta-button>
-    <yta-button class="login-button" *ngIf="isLogged" (click)="logOut()">LogOut</yta-button>
+    <yta-button class="login-button" *ngIf="!isLogged; else elseBlock">LogIn</yta-button>
+    <ng-template #elseBlock>
+      <yta-button class="login-button" (click)="logOut()">LogOut</yta-button>
+    </ng-template>
   </div>
   <yta-filter-block *ngIf="isShownSettings"></yta-filter-block>
 </div>

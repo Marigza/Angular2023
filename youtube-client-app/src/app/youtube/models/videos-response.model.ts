@@ -1,6 +1,6 @@
-import { SearchItem } from './search-item.model';
+import { ItemWithDetails } from './item-with-details.model';
 
-export interface SearchResponse {
+export interface VideosResponse {
   toDo?: string;
   kind: string;
   etag: string;
@@ -10,6 +10,6 @@ export interface SearchResponse {
     totalResults: number;
     resultsPerPage: number;
   };
-  items: SearchItem[];
+  items: ItemWithDetails[];
   regionCode: string;
 }

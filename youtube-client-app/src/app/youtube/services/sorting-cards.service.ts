@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { SearchItem } from '../models/search-item.model';
+import { ItemWithDetails } from '../models/item-with-details.model';
 import { SortParams } from '../models/sort-params.model';
 
 @Injectable({
@@ -15,9 +15,9 @@ export class SortingCardsService {
 
   public sortingParams$ = this.sortingParams$$.asObservable();
 
-  private cardsForTransform: SearchItem[] = [];
+  private cardsForTransform: ItemWithDetails[] = [];
 
-  public sortingData(cards: SearchItem[], sortParam: SortParams): SearchItem[] {
+  public sortingData(cards: ItemWithDetails[], sortParam: SortParams): ItemWithDetails[] {
     if (sortParam.sortType === 'data') {
       this.sortingByDate(cards, sortParam.sortDirection);
 
@@ -29,13 +29,13 @@ export class SortingCardsService {
     return this.cardsForTransform;
   }
 
-  private sortingByDate(cards: SearchItem[], direction: number): void {
+  private sortingByDate(cards: ItemWithDetails[], direction: number): void {
     this.cardsForTransform = cards.sort(
       (a, b) => (Date.parse(a.snippet.publishedAt) - Date.parse(b.snippet.publishedAt)) * direction
     );
   }
 
-  private sortingByViewCount(cards: SearchItem[], direction: number): void {
+  private sortingByViewCount(cards: ItemWithDetails[], direction: number): void {
     this.cardsForTransform = cards.sort(
       (a, b) => (Number(a.statistics.viewCount) - Number(b.statistics.viewCount)) * direction
     );

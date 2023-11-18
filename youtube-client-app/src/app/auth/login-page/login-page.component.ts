@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ActionsWithTokenService } from '../services/actions-with-token.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -17,14 +16,12 @@ export class LoginPageComponent {
 
   constructor(
     private router: Router,
-    private actionsWithTokenService: ActionsWithTokenService,
     private authService: AuthService
   ) {}
 
   public async onSubmit(): Promise<void> {
     if (this.loginControl.value && this.passwordControl.value) {
-      this.actionsWithTokenService.setToken(this.loginControl.value);
-      this.authService.login();
+      this.authService.login(this.loginControl.value);
       await this.router.navigate(['/youtube']);
     }
   }

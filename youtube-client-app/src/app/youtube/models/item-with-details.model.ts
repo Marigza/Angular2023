@@ -1,15 +1,10 @@
 import { Snippet } from './snippet.model';
 import { StatisticParameters } from './statistic-parameters.model';
 
-export interface SearchItem {
+export interface ItemWithDetails {
   kind: string;
   etag: string;
-  id: {
-    kind: string;
-    videoId: string;
-    channelId: string;
-    playlistId: string;
-  };
+  id: string;
   snippet: Snippet;
   statistics: StatisticParameters;
 }

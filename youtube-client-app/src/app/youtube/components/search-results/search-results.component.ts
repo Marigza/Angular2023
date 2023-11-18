@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SearchItem } from '../../models/search-item.model';
+import { ItemWithDetails } from '../../models/item-with-details.model';
 import { CardsStateService } from '../../services/cards-state.service';
 
 @Component({
@@ -10,13 +10,13 @@ import { CardsStateService } from '../../services/cards-state.service';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-  public cards$: Observable<SearchItem[] | undefined> = this.cardsStateService.filteredCards$;
+  public cards$: Observable<ItemWithDetails[] | undefined> = this.cardsStateService.filteredCards$;
 
   constructor(public cardsStateService: CardsStateService) {}
 
   /* eslint-disable class-methods-use-this */
 
-  public trackByCards(index: number, item: SearchItem): string {
+  public trackByCards(index: number, item: ItemWithDetails): string {
     return item.id;
   }
 
