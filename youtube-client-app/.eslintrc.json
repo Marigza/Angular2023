@@ -3,7 +3,9 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
-  "plugins": ["prettier"],
+  "plugins": [
+    "prettier"
+  ],
   "overrides": [
     {
       "files": [
@@ -11,7 +13,9 @@
       ],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
-        "project": ["tsconfig.(app|spec).json"],
+        "project": [
+          "tsconfig.(app|spec).json"
+        ],
         "emitDecoratorMetadata": true
       },
       "extends": [
@@ -25,36 +29,63 @@
         "airbnb-base",
         "airbnb-typescript/base",
         "prettier",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:@ngrx/recommended-requiring-type-checking"
       ],
       "rules": {
         "@typescript-eslint/naming-convention": [
           2,
           {
             "selector": "default",
-            "format": ["strictCamelCase"],
+            "format": [
+              "strictCamelCase"
+            ],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "variable",
-            "format": ["strictCamelCase", "UPPER_CASE"],
-            "modifiers": ["const"],
-            "types": ["boolean", "string", "number"],
+            "format": [
+              "strictCamelCase",
+              "UPPER_CASE"
+            ],
+            "modifiers": [
+              "const"
+            ],
+            "types": [
+              "boolean",
+              "string",
+              "number"
+            ],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
-            "selector": ["variable", "property"],
-            "types": ["boolean"],
-            "format": ["PascalCase"],
-            "prefix": ["is", "has", "should", "can", "will"],
+            "selector": [
+              "variable",
+              "property"
+            ],
+            "types": [
+              "boolean"
+            ],
+            "format": [
+              "PascalCase"
+            ],
+            "prefix": [
+              "is",
+              "has",
+              "should",
+              "can",
+              "will"
+            ],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "variable",
-            "modifiers": ["destructured"],
+            "modifiers": [
+              "destructured"
+            ],
             "format": null
           },
           {
@@ -65,30 +96,37 @@
           },
           {
             "selector": "parameter",
-            "format": ["strictCamelCase"],
+            "format": [
+              "strictCamelCase"
+            ],
             "leadingUnderscore": "allow",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "typeLike",
-            "format": ["PascalCase"],
+            "format": [
+              "PascalCase"
+            ],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "enum",
-            "format": ["PascalCase"],
+            "format": [
+              "PascalCase"
+            ],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "enumMember",
-            "format": ["PascalCase"],
+            "format": [
+              "PascalCase"
+            ],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           }
         ],
-
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -115,15 +153,30 @@
         "prettier/prettier": 2,
         "radix": 2,
         "curly": 2,
-        "eqeqeq": [2, "smart"],
+        "eqeqeq": [
+          2,
+          "smart"
+        ],
         "default-case": 2,
         "default-case-last": 2,
         "object-shorthand": 2,
         "require-atomic-updates": 2,
-        "complexity": [2, 10],
-        "max-depth": [2, 4],
-        "max-statements": [2, 20],
-        "max-nested-callbacks": [2, 4],
+        "complexity": [
+          2,
+          10
+        ],
+        "max-depth": [
+          2,
+          4
+        ],
+        "max-statements": [
+          2,
+          20
+        ],
+        "max-nested-callbacks": [
+          2,
+          4
+        ],
         "max-lines-per-function": [
           2,
           {
@@ -171,11 +224,18 @@
         "prefer-object-has-own": 2,
         "prefer-numeric-literals": 2,
         "prefer-exponentiation-operator": 2,
-        "no-return-assign": [2, "always"],
+        "no-return-assign": [
+          2,
+          "always"
+        ],
         "no-console": [
           1,
           {
-            "allow": ["warn", "error", "debug"]
+            "allow": [
+              "warn",
+              "error",
+              "debug"
+            ]
           }
         ],
         "no-sequences": [
@@ -264,12 +324,17 @@
         "@typescript-eslint/unbound-method": [
           "error",
           {
-          "ignoreStatic": true
+            "ignoreStatic": true
           }
         ],
         "@typescript-eslint/prefer-includes": 2,
         "@typescript-eslint/no-non-null-assertion": 2,
-        "@typescript-eslint/dot-notation": [2, { "allowIndexSignaturePropertyAccess": true }],
+        "@typescript-eslint/dot-notation": [
+          2,
+          {
+            "allowIndexSignaturePropertyAccess": true
+          }
+        ],
         "@typescript-eslint/no-throw-literal": 2,
         "@typescript-eslint/no-base-to-string": 2,
         "@typescript-eslint/no-dynamic-delete": 2,
@@ -341,12 +406,22 @@
           2,
           {
             "hoist": "all",
-            "allow": ["resolve", "reject", "done", "next", "err", "error"],
+            "allow": [
+              "resolve",
+              "reject",
+              "done",
+              "next",
+              "err",
+              "error"
+            ],
             "ignoreTypeValueShadow": true,
             "ignoreFunctionTypeParameterNameValueShadow": true
           }
         ],
-        "@typescript-eslint/return-await": [2, "in-try-catch"],
+        "@typescript-eslint/return-await": [
+          2,
+          "in-try-catch"
+        ],
         "@typescript-eslint/no-use-before-define": [
           2,
           {
@@ -366,18 +441,42 @@
           2,
           {
             "blankLine": "always",
-            "prev": ["case", "default", "block", "block-like", "multiline-block-like", "interface", "type", "export"],
+            "prev": [
+              "case",
+              "default",
+              "block",
+              "block-like",
+              "multiline-block-like",
+              "interface",
+              "type",
+              "export"
+            ],
             "next": "*"
           },
           {
             "blankLine": "any",
-            "prev": ["const", "let"],
-            "next": ["const", "let"]
+            "prev": [
+              "const",
+              "let"
+            ],
+            "next": [
+              "const",
+              "let"
+            ]
           },
           {
             "blankLine": "always",
             "prev": "*",
-            "next": ["switch", "while", "try", "return", "if", "interface", "type", "function"]
+            "next": [
+              "switch",
+              "while",
+              "try",
+              "return",
+              "if",
+              "interface",
+              "type",
+              "function"
+            ]
           }
         ],
         "@typescript-eslint/no-extraneous-class": 0
@@ -394,7 +493,9 @@
       "rules": {}
     },
     {
-      "files": ["*.spec.ts"],
+      "files": [
+        "*.spec.ts"
+      ],
       "env": {
         "jest": true
       },
@@ -403,7 +504,9 @@
   ],
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts"]
+      "@typescript-eslint/parser": [
+        ".ts"
+      ]
     },
     "import/resolver": {
       "typescript": {
