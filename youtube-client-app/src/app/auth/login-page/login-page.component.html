@@ -1,20 +1,56 @@
-<div class="login-page-wrapper">
-  <mat-card class="auth-block">
-    <mat-card-header>
-      <mat-card-title>LogIn</mat-card-title>
-    </mat-card-header>
+<mat-card class="auth-block">
+  <mat-card-header>
+    <mat-card-title>LogIn</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="login" class="form" novalidate (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
-      <mat-label>login</mat-label>
-      <input matInput placeholder="enter your login" [formControl]="loginControl" />
-      <mat-hint></mat-hint>
+      <mat-label>email</mat-label>
+      <input matInput placeholder="sample@email.ru" formControlName="email" required />
+      <mat-error *ngIf="login.controls.email.touched && login.controls.email.hasError('required')"
+        >Please enter a login email</mat-error
+      >
+      <mat-error *ngIf="login.controls.email.hasError('email')">The login email is invalid</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="enter your password" [formControl]="passwordControl" />
-      <mat-hint></mat-hint>
+      <input
+        matInput
+        [type]="canVisiblePassword ? 'password' : 'text'"
+        placeholder="enter your password"
+        formControlName="password"
+      />
+      <button type="button" mat-icon-button matSuffix (click)="changePasswordVisibility()">
+        <mat-icon>{{ visibleIcon }}</mat-icon>
+      </button>
+      <mat-error *ngIf="login.controls.password.touched && login.controls.password.hasError('required')"
+        >Please enter a password</mat-error
+      >
+      <mat-error *ngIf="login.controls.password.dirty && login.controls.password.value.length"
+        >Your password is not strong enough:</mat-error
+      >
+      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noUpperCase')">
+        <mat-icon>warning</mat-icon>
+        At least one uppercase letter.</mat-error
+      >
+      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noLowerCase')">
+        <mat-icon>warning</mat-icon>
+        At least one lowercase letter.</mat-error
+      >
+      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noDigit')">
+        <mat-icon>warning</mat-icon>
+        At least one digit.</mat-error
+      >
+      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noChar')">
+        <mat-icon>warning</mat-icon>
+        At least one special character.</mat-error
+      >
+      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('minlength')">
+        <mat-icon>warning</mat-icon>
+        At least 8 characters.
+      </mat-error>
     </mat-form-field>
     <div class="login-button">
-      <yta-button (click)="onSubmit()">Login</yta-button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!login.valid">Login</button>
     </div>
-  </mat-card>
-</div>
+  </form>
+</mat-card>

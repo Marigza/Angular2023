@@ -12,7 +12,7 @@ import { CardsStateService } from '../../services/cards-state.service';
 })
 export class DetailedInfoPageComponent {
   public card$: Observable<ItemWithDetails | undefined> = this.cardsStateService.filteredCards$.pipe(
-    map(cards => cards?.find(item => item.id === this.routeId))
+    map(cards => cards?.find(({ id }) => id === this.routeId))
   );
 
   constructor(

@@ -1,14 +1,13 @@
-<div class="header-wrapper">
-  <div class="header">
-    <div class="logo"><a class="logo-link" routerLink="./"> </a></div>
-    <form [formGroup]="searchForm">
-      <input type="text" id="searchText" placeholder="enter search query" required formControlName="searchControl" />
-    </form>
-    <yta-button (click)="toggleSettingsVisibility()">Settings</yta-button>
-    <yta-button class="login-button" *ngIf="!isLogged; else elseBlock">LogIn</yta-button>
-    <ng-template #elseBlock>
-      <yta-button class="login-button" (click)="logOut()">LogOut</yta-button>
-    </ng-template>
-  </div>
-  <yta-filter-block *ngIf="isShownSettings"></yta-filter-block>
+<div class="header">
+  <div class="logo"><a class="logo-link" routerLink="./"> </a></div>
+  <form [formGroup]="searchForm">
+    <input type="text" id="searchText" placeholder="enter search query" required formControlName="searchControl" />
+  </form>
+  <yta-button (click)="toggleSettingsVisibility()">Settings</yta-button>
+  <yta-button *ngIf="isLogged" (click)="showCardCreation()">Create card</yta-button>
+  <yta-button class="login-button" *ngIf="!isLogged; else elseBlock">LogIn</yta-button>
+  <ng-template #elseBlock>
+    <yta-button class="login-button" (click)="logOut()">LogOut</yta-button>
+  </ng-template>
 </div>
+<yta-filter-block *ngIf="isShownSettings"></yta-filter-block>
