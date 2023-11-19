@@ -8,3 +8,10 @@
   padding: 10px;
   border-bottom: 5px solid black;
 }
+
+.card_buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

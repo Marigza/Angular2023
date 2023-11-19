@@ -11,6 +11,10 @@ import { CardsStateService } from '../../services/cards-state.service';
   styleUrls: ['./detailed-info-page.component.scss'],
 })
 export class DetailedInfoPageComponent {
+  public isFavorite = false;
+
+  public isCustomCard = false;
+
   public card$: Observable<ItemWithDetails | undefined> = this.cardsStateService.filteredCards$.pipe(
     map(cards => cards?.find(({ id }) => id === this.routeId))
   );
@@ -19,6 +23,10 @@ export class DetailedInfoPageComponent {
     private route: ActivatedRoute,
     private cardsStateService: CardsStateService
   ) {}
+
+  public toggleFavorite(): void {
+    this.isFavorite = !this.isFavorite;
+  }
 
   private get routeId(): string {
     const routeParams = this.route.snapshot.paramMap;

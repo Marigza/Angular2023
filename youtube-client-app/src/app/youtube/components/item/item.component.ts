@@ -9,4 +9,12 @@ import { ItemWithDetails } from '../../models/item-with-details.model';
 })
 export class ItemComponent {
   @Input() public card!: ItemWithDetails;
+
+  public isFavorite = false;
+
+  public isCustomCard = false;
+
+  public toggleFavorite(): void {
+    this.isFavorite = !this.isFavorite;
+  }
 }
