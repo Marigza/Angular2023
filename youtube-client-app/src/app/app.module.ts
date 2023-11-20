@@ -21,8 +21,8 @@ import { YoutubeInterceptor } from './youtube/module/youtube.interceptor';
     HttpClientModule,
     CoreModule,
     SharedModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(),
+    EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [
