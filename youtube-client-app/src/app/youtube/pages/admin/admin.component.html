@@ -2,7 +2,7 @@
   <mat-card-header class="card-header">
     <mat-card-title>Create new card</mat-card-title>
   </mat-card-header>
-  <form [formGroup]="createCard" class="form" novalidate>
+  <form [formGroup]="createCard" class="form" novalidate (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
       <mat-label>title</mat-label>
       <input type="text" matInput formControlName="title" required />
@@ -41,7 +41,7 @@
     </mat-form-field>
     <div class="buttons-block">
       <button mat-raised-button color="primary" type="submit" [disabled]="!createCard.valid">Create</button>
-      <yta-button type="button" (click)="resetForm()">Reset</yta-button>
+      <yta-button (click)="resetForm()">Reset</yta-button>
     </div>
   </form>
 </mat-card>

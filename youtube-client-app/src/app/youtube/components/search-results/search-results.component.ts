@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { ItemWithDetails } from '../../models/item-with-details.model';
@@ -12,7 +13,12 @@ import { CardsStateService } from '../../services/cards-state.service';
 export class SearchResultsComponent {
   public cards$: Observable<ItemWithDetails[] | undefined> = this.cardsStateService.filteredCards$;
 
-  constructor(public cardsStateService: CardsStateService) {}
+  // public customCards$: Observable<ItemWithDetails[]> | undefined = !get from Store!
+
+  constructor(
+    public cardsStateService: CardsStateService,
+    private store: Store
+  ) {}
 
   /* eslint-disable class-methods-use-this */
 

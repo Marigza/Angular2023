@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { debounceTime, filter, Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { youtubeApiActions } from 'src/app/redux/actions/card-api.actions';
 import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
 
 @Component({
@@ -26,7 +28,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
     private router: Router,
     private cardsStateService: CardsStateService,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
@@ -53,6 +56,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
     this.subs.add(
       this.cardsStateService.getCards$(value).subscribe(dataWithVideo => {
         this.cardsStateService.updateData(dataWithVideo);
+        this.store.dispatch(youtubeApiActions.cardsLoadedSuccess({ cards: dataWithVideo }));
       })
     );
     this.cardsStateService.getFilteredValue();
