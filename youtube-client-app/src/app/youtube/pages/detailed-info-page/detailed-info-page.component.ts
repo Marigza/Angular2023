@@ -22,7 +22,11 @@ export class DetailedInfoPageComponent {
   constructor(
     private route: ActivatedRoute,
     private cardsStateService: CardsStateService
-  ) {}
+  ) {
+    this.card$.subscribe(card => {
+      this.isCustomCard = card?.kind === 'custom#video';
+    });
+  }
 
   public toggleFavorite(): void {
     this.isFavorite = !this.isFavorite;

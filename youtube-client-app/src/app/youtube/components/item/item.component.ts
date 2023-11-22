@@ -12,9 +12,11 @@ export class ItemComponent {
 
   public isFavorite = false;
 
-  public isCustomCard = false;
-
   public toggleFavorite(): void {
     this.isFavorite = !this.isFavorite;
+  }
+
+  public get isCustomCard(): boolean {
+    return this.card?.kind === 'custom#video';
   }
 }
