@@ -10,7 +10,7 @@
       *ngIf="!isCustomCard; else elseBlock"
       mat-icon-button
       color="primary"
-      aria-label="Example icon button with a heart icon"
+      aria-label="favorite"
       (click)="toggleFavorite()"
     >
       <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
