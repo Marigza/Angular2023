@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { selectCustomCards } from '../../../redux/selectors/custom-cards.selector';
 import { ItemWithDetails } from '../../models/item-with-details.model';
 import { CardsStateService } from '../../services/cards-state.service';
 
@@ -12,19 +10,9 @@ import { CardsStateService } from '../../services/cards-state.service';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-  public youtubeCards$: Observable<ItemWithDetails[] | undefined> = this.cardsStateService.filteredCards$; // не должно быть undefined
+  public cards$: Observable<ItemWithDetails[]> = this.cardsStateService.commonCards$;
 
-  public customCards$: Observable<ItemWithDetails[]> = this.store.select(selectCustomCards);
-
-  public cards$: Observable<ItemWithDetails[]> = combineLatest([this.customCards$, this.youtubeCards$]).pipe(
-    map(([custom, youtube]) => [custom || [], youtube || []]),
-    map(([custom, youtube]) => custom.concat(youtube))
-  );
-
-  constructor(
-    public cardsStateService: CardsStateService,
-    private store: Store
-  ) {}
+  constructor(public cardsStateService: CardsStateService) {}
 
   /* eslint-disable class-methods-use-this */
 

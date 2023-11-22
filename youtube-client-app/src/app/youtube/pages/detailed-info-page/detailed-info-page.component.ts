@@ -15,7 +15,7 @@ export class DetailedInfoPageComponent {
 
   public isCustomCard = false;
 
-  public card$: Observable<ItemWithDetails | undefined> = this.cardsStateService.filteredCards$.pipe(
+  public card$: Observable<ItemWithDetails | undefined> = this.cardsStateService.commonCards$.pipe(
     map(cards => cards?.find(({ id }) => id === this.routeId))
   );
 
