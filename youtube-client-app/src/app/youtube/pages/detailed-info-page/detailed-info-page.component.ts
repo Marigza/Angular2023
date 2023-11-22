@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 import { ItemWithDetails } from '../../models/item-with-details.model';
 import { CardsStateService } from '../../services/cards-state.service';
@@ -10,10 +10,12 @@ import { CardsStateService } from '../../services/cards-state.service';
   templateUrl: './detailed-info-page.component.html',
   styleUrls: ['./detailed-info-page.component.scss'],
 })
-export class DetailedInfoPageComponent {
+export class DetailedInfoPageComponent implements OnInit, OnDestroy {
   public isFavorite = false;
 
   public isCustomCard = false;
+
+  public subs = new Subscription();
 
   public card$: Observable<ItemWithDetails | undefined> = this.cardsStateService.commonCards$.pipe(
     map(cards => cards?.find(({ id }) => id === this.routeId))
@@ -22,10 +24,14 @@ export class DetailedInfoPageComponent {
   constructor(
     private route: ActivatedRoute,
     private cardsStateService: CardsStateService
-  ) {
-    this.card$.subscribe(card => {
-      this.isCustomCard = card?.kind === 'custom#video';
-    });
+  ) {}
+
+  public ngOnInit(): void {
+    this.subs.add(
+      this.card$.subscribe(card => {
+        this.isCustomCard = card?.kind === 'custom#video'; // add ES6 syntax
+      })
+    );
   }
 
   public toggleFavorite(): void {
@@ -37,5 +43,9 @@ export class DetailedInfoPageComponent {
     const itemIdFromRoute = routeParams.get('cardId');
 
     return itemIdFromRoute ?? '';
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
