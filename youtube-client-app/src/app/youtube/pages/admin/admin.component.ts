@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-// import { Observable } from 'rxjs';
 import { adminCardActions } from '../../../redux/actions/custom-card.actions';
 import { ItemWithDetails } from '../../models/item-with-details.model';
 
@@ -15,7 +14,7 @@ export class AdminComponent {
   public currentDate = new Date();
 
   public newCard: ItemWithDetails = {
-    kind: '',
+    kind: 'custom#video',
     etag: '',
     id: '',
     snippet: {
@@ -70,8 +69,6 @@ export class AdminComponent {
     },
   };
 
-  // public customCards$: Observable<ItemWithDetails[]>;
-
   public createCard = this.formBuilder.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
     description: ['', [Validators.maxLength(255)]],
@@ -83,9 +80,7 @@ export class AdminComponent {
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private store: Store
-  ) {
-    // this.customCards$ = store.select('customCards');
-  }
+  ) {}
 
   public dateValidator(): ValidatorFn {
     return (control: AbstractControl<string>): ValidationErrors | null => {
@@ -103,11 +98,12 @@ export class AdminComponent {
     this.newCard.snippet.thumbnails.high.url = this.createCard.get('image')?.value ?? '';
     this.newCard.snippet.thumbnails.maxres.url = this.createCard.get('video')?.value ?? '';
     this.newCard.snippet.publishedAt = this.createCard.get('date')?.value ?? '';
+    this.newCard.id = this.generateId();
 
     this.store.dispatch(adminCardActions.createCustomCard({ card: this.newCard }));
 
     this.newCard = {
-      kind: '',
+      kind: 'custom#video',
       etag: '',
       id: '',
       snippet: {
@@ -163,6 +159,14 @@ export class AdminComponent {
     };
     this.resetForm();
   }
+
+  /* eslint-disable class-methods-use-this */
+
+  public generateId(): string {
+    return String(Math.round(Math.random() * 1000000));
+  }
+
+  /* eslint-enable class-methods-use-this */
 
   public resetForm(): void {
     this.createCard.reset();
