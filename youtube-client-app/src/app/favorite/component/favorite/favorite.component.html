@@ -1,1 +1,3 @@
-<p>favorite works!</p>
+<ng-container *ngIf="favoriteCards$ | async as cards">
+  <yta-item class="search-card" *ngFor="let card of cards; trackBy: trackByCards" [card]="card"></yta-item>
+</ng-container>
