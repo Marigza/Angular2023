@@ -23,7 +23,7 @@ export const customCardReducer = createReducer(
   })),
   on(mainPageActions.deleteCustomCard, viewPageActions.deleteCustomCard, (state, action) => ({
     ...state,
-    customCards: state.customCards.filter(card => card.id !== action.id),
+    customCards: state.customCards.filter(({ id }) => id !== action.id),
   })),
   on(mainPageActions.addFavoriteCard, viewPageActions.addFavoriteCard, (state, action) => ({
     ...state,
