@@ -17,9 +17,9 @@ export const cardsFeatureKey = 'cards';
 export const customCardReducer = createReducer(
   initialState,
   on(youtubeApiActions.cardsLoadedSuccess, (state, action) => ({ ...state, youtubeCards: action.cards })),
-  on(adminCardActions.createCustomCard, (state, card) => ({
+  on(adminCardActions.createCustomCard, (state, action) => ({
     ...state,
-    customCards: state.customCards.concat(card.card),
+    customCards: state.customCards.concat(action.card),
   })),
   on(mainPageActions.deleteCustomCard, viewPageActions.deleteCustomCard, (state, action) => ({
     ...state,
