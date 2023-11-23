@@ -5,7 +5,7 @@
   <div ytaColoring [publishedAt]="card.snippet.publishedAt" class="detailed-description">
     <div class="header_info">
       <button
-        *ngIf="!isCustomCard; else elseBlock"
+        *ngIf="!isCustomCard; else deleteButton"
         mat-icon-button
         color="warn"
         aria-label="favorite"
@@ -18,8 +18,8 @@
     <div class="description-published-at">{{ card.snippet.publishedAt | date }}</div>
     <div class="description-text">{{ card.snippet.description }}</div>
     <yta-statistic-block [card]="card"></yta-statistic-block>
-    <ng-template #elseBlock>
-      <button type="button" mat-raised-button color="warn">Delete</button>
+    <ng-template #deleteButton>
+      <button type="button" mat-raised-button color="warn" (click)="deleteCustomCard()">Delete</button>
     </ng-template>
   </div>
 </div>

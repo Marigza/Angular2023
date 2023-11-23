@@ -7,7 +7,7 @@
   <div class="card_buttons">
     <yta-button [title]="card.snippet.title" [routerLink]="['/youtube/cards', card.id]"> More... </yta-button>
     <button
-      *ngIf="!isCustomCard; else elseBlock"
+      *ngIf="!isCustomCard; else deleteButton"
       mat-icon-button
       color="primary"
       aria-label="favorite"
@@ -16,7 +16,7 @@
       <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
     </button>
   </div>
-  <ng-template #elseBlock>
-    <button type="button" mat-raised-button color="warn">Delete</button>
+  <ng-template #deleteButton>
+    <button type="button" mat-raised-button color="warn" (click)="deleteCustomCard()">Delete</button>
   </ng-template>
 </mat-card>
