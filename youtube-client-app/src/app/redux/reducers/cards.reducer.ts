@@ -23,12 +23,7 @@ export const customCardReducer = createReducer(
   })),
   on(mainPageActions.deleteCustomCard, viewPageActions.deleteCustomCard, (state, action) => ({
     ...state,
-    customCards: state.customCards
-      .slice(
-        0,
-        state.customCards.findIndex(({ id }) => id === action.id)
-      )
-      .concat(state.customCards.slice(state.customCards.findIndex(({ id }) => id === action.id) + 1)),
+    customCards: state.customCards.filter(card => card.id !== action.id),
   })),
   on(mainPageActions.addFavoriteCard, viewPageActions.addFavoriteCard, (state, action) => ({
     ...state,
@@ -36,11 +31,6 @@ export const customCardReducer = createReducer(
   })),
   on(mainPageActions.deleteFavoriteCard, viewPageActions.deleteFavoriteCard, (state, action) => ({
     ...state,
-    favoriteCards: state.favoriteCards
-      .slice(
-        0,
-        state.favoriteCards.findIndex(({ id }) => id === action.id)
-      )
-      .concat(state.favoriteCards.slice(state.favoriteCards.findIndex(({ id }) => id === action.id) + 1)),
+    favoriteCards: state.favoriteCards.filter(({ id }) => id !== action.id),
   }))
 );
