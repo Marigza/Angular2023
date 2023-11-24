@@ -1,12 +1,11 @@
 import { createActionGroup, props } from '@ngrx/store';
 
 import { ItemWithDetails } from '../../youtube/models/item-with-details.model';
+import { ActionSource } from '../enums/action-source.enum';
 
 export const adminCardActions = createActionGroup({
-  source: 'Admin',
+  source: ActionSource.Admin,
   events: {
     'Create Custom Card': props<{ card: ItemWithDetails }>(),
-    'Obtain Custom Cards': props<{ cards: ItemWithDetails[] }>(),
-    'Delete Custom Cards': props<{ cardIndex: number }>(),
   },
 });

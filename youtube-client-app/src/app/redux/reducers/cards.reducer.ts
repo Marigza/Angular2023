@@ -10,27 +10,40 @@ export const initialState: YoutubeStore = {
   customCards: [],
   youtubeCards: [],
   favoriteCards: [],
+  error: null,
+  isLoading: false,
 };
 
 export const cardsFeatureKey = 'cards';
 
 export const customCardReducer = createReducer(
   initialState,
-  on(youtubeApiActions.cardsLoadedSuccess, (state, action) => ({ ...state, youtubeCards: action.cards })),
-  on(adminCardActions.createCustomCard, (state, action) => ({
+  on(youtubeApiActions.requestSend, state => ({ ...state, isLoading: true })),
+  on(youtubeApiActions.cardsLoadedSuccess, (state, { cards }) => ({
     ...state,
-    customCards: state.customCards.concat(action.card),
+    youtubeCards: cards,
+    isLoading: false,
+    error: null,
+  })),
+  on(youtubeApiActions.cardsLoadedFail, state => ({ ...state, isLoading: false, error: 'An error has occurred' })),
+  on(adminCardActions.createCustomCard, (state, { card }) => ({
+    ...state,
+    customCards: state.customCards.concat(card),
+    isLoading: false,
   })),
   on(mainPageActions.deleteCustomCard, viewPageActions.deleteCustomCard, (state, action) => ({
     ...state,
     customCards: state.customCards.filter(({ id }) => id !== action.id),
+    isLoading: false,
   })),
-  on(mainPageActions.addFavoriteCard, viewPageActions.addFavoriteCard, (state, action) => ({
+  on(mainPageActions.addFavoriteCard, viewPageActions.addFavoriteCard, (state, { card }) => ({
     ...state,
-    favoriteCards: state.favoriteCards.concat(action.card),
+    favoriteCards: state.favoriteCards.concat(card),
+    isLoading: false,
   })),
   on(mainPageActions.deleteFavoriteCard, viewPageActions.deleteFavoriteCard, (state, action) => ({
     ...state,
     favoriteCards: state.favoriteCards.filter(({ id }) => id !== action.id),
+    isLoading: false,
   }))
 );
