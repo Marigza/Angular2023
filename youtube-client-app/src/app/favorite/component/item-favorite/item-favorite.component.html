@@ -1,0 +1,13 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{ card.snippet.title }}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-lg-image src="{{ card.snippet.thumbnails.medium.url }}" alt="" />
+
+  <div class="card_buttons">
+    <yta-button [title]="card.snippet.title" [routerLink]="['/youtube/cards', card.id]"> More... </yta-button>
+    <button mat-icon-button color="primary" aria-label="favorite" (click)="toggleFavorite()">
+      <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+  </div>
+</mat-card>
