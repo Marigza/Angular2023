@@ -9,6 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { ApiGetCardsEffects } from './redux/effects/api.effects';
 import { SharedModule } from './shared/shared.module';
 import { YoutubeInterceptor } from './youtube/module/youtube.interceptor';
 
@@ -22,7 +23,7 @@ import { YoutubeInterceptor } from './youtube/module/youtube.interceptor';
     CoreModule,
     SharedModule,
     StoreModule.forRoot(),
-    EffectsModule.forRoot(),
+    EffectsModule.forRoot([ApiGetCardsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [
