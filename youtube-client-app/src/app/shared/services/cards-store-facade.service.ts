@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 import { youtubeApiActions } from 'src/app/redux/actions/card-api.actions';
 import { adminCardActions } from 'src/app/redux/actions/custom-card.actions';
 import { mainPageActions } from 'src/app/redux/actions/main-page-card.actions';
-import { selectAllCards, selectCustomCards, selectFavoriteCards } from 'src/app/redux/selectors/custom-cards.selector';
+import { selectAllCards, selectCustomCards, selectFavoriteCards } from 'src/app/redux/selectors/store-cards.selector';
 import { ItemWithDetails } from 'src/app/youtube/models/item-with-details.model';
 
 @Injectable({
