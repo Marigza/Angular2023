@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
 
-import { selectCustomCards } from '../../redux/selectors/custom-cards.selector';
+import { CardsStoreFacadeService } from '../../shared/services/cards-store-facade.service';
 import { ItemWithDetails } from '../models/item-with-details.model';
 import { FilterByValueService } from './filter-by-value.service';
 import { SortingCardsService } from './sorting-cards.service';
@@ -25,7 +24,7 @@ export class CardsStateService {
     })
   );
 
-  public customCards$: Observable<ItemWithDetails[]> = this.store.select(selectCustomCards);
+  public customCards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.customCards$;
 
   public commonCards$: Observable<ItemWithDetails[]> = combineLatest([this.customCards$, this.filteredCards$]).pipe(
     map(([custom, youtube]) => [custom || [], youtube || []]),
@@ -35,7 +34,7 @@ export class CardsStateService {
   constructor(
     private filterByValueService: FilterByValueService,
     private sortingCardsService: SortingCardsService,
-    private store: Store
+    private cardsStoreFacadeService: CardsStoreFacadeService
   ) {}
 
   public sortData(filteredCards: Observable<ItemWithDetails[] | undefined>): Observable<ItemWithDetails[] | undefined> {

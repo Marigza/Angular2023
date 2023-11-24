@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { selectFavoriteCards } from 'src/app/redux/selectors/custom-cards.selector';
+import { CardsStoreFacadeService } from 'src/app/shared/services/cards-store-facade.service';
 import { ItemWithDetails } from 'src/app/youtube/models/item-with-details.model';
 
 @Component({
@@ -11,9 +10,9 @@ import { ItemWithDetails } from 'src/app/youtube/models/item-with-details.model'
   styleUrls: ['./favorite.component.scss'],
 })
 export class FavoriteComponent {
-  public favoriteCards$: Observable<ItemWithDetails[]> = this.store.select(selectFavoriteCards);
+  public favoriteCards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.favoriteCards$;
 
-  constructor(private store: Store) {}
+  constructor(private cardsStoreFacadeService: CardsStoreFacadeService) {}
 
   /* eslint-disable class-methods-use-this */
 

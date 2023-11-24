@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 
-import { adminCardActions } from '../../../redux/actions/custom-card.actions';
+import { CardsStoreFacadeService } from '../../../shared/services/cards-store-facade.service';
 import { ItemWithDetails } from '../../models/item-with-details.model';
 
 @Component({
@@ -79,7 +78,7 @@ export class AdminComponent {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private store: Store
+    private cardsStoreFacadeService: CardsStoreFacadeService
   ) {}
 
   public dateValidator(): ValidatorFn {
@@ -100,7 +99,7 @@ export class AdminComponent {
     this.newCard.snippet.publishedAt = this.createCard.get('date')?.value ?? '';
     this.newCard.id = this.generateId();
 
-    this.store.dispatch(adminCardActions.createCustomCard({ card: this.newCard }));
+    this.cardsStoreFacadeService.createCustomCard(this.newCard);
 
     this.newCard = {
       kind: 'custom#video',
