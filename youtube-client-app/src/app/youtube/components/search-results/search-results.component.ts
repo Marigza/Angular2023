@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CardsStoreFacadeService } from '../../../shared/services/cards-store-facade.service';
 import { ItemWithDetails } from '../../models/item-with-details.model';
 import { CardsStateService } from '../../services/cards-state.service';
 
@@ -11,12 +10,9 @@ import { CardsStateService } from '../../services/cards-state.service';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-  public cards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.allCards$;
+  public cards$: Observable<ItemWithDetails[] | undefined> = this.cardsStateService.commonCards$;
 
-  constructor(
-    public cardsStateService: CardsStateService,
-    private cardsStoreFacadeService: CardsStoreFacadeService
-  ) {}
+  constructor(public cardsStateService: CardsStateService) {}
 
   /* eslint-disable class-methods-use-this */
 

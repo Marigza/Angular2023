@@ -16,7 +16,7 @@ export class CardsStateService {
 
   public filteredCards$: Observable<ItemWithDetails[] | undefined> = this.filterByValueService.filterParameter$.pipe(
     switchMap(value => {
-      const filteredCards = this.card$.pipe(
+      const filteredCards = this.youtubeCards$.pipe(
         map(cards => cards?.filter(card => card.snippet.title.toLowerCase().includes(value.toLowerCase())))
       );
 
@@ -25,6 +25,8 @@ export class CardsStateService {
   );
 
   public customCards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.customCards$;
+
+  public youtubeCards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.youtubeCards$;
 
   public commonCards$: Observable<ItemWithDetails[]> = combineLatest([this.customCards$, this.filteredCards$]).pipe(
     map(([custom, youtube]) => [custom || [], youtube || []]),
