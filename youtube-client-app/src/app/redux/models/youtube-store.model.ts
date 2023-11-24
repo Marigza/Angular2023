@@ -4,4 +4,6 @@ export interface YoutubeStore {
   customCards: ItemWithDetails[];
   youtubeCards: ItemWithDetails[];
   favoriteCards: ItemWithDetails[];
+  error: string | null;
+  isLoading: boolean;
 }
