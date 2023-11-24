@@ -6,7 +6,6 @@ import { selectCustomCards } from '../../redux/selectors/custom-cards.selector';
 import { ItemWithDetails } from '../models/item-with-details.model';
 import { FilterByValueService } from './filter-by-value.service';
 import { SortingCardsService } from './sorting-cards.service';
-import { YoutubeHttpService } from './youtube-http.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,22 +33,14 @@ export class CardsStateService {
   );
 
   constructor(
-    private youtubeHttpService: YoutubeHttpService,
     private filterByValueService: FilterByValueService,
     private sortingCardsService: SortingCardsService,
     private store: Store
   ) {}
 
   public sortData(filteredCards: Observable<ItemWithDetails[] | undefined>): Observable<ItemWithDetails[] | undefined> {
-    return combineLatest(filteredCards, this.sortingCardsService.sortingParams$).pipe(
+    return combineLatest([filteredCards, this.sortingCardsService.sortingParams$]).pipe(
       map(([cards, sortingParam]) => cards && this.sortingCardsService.sortingData(cards, sortingParam))
-    );
-  }
-
-  public getCards$(searchValue: string): Observable<ItemWithDetails[]> {
-    return this.youtubeHttpService.get$(searchValue.toLowerCase().trim()).pipe(
-      map(({ items }) => items),
-      switchMap(searchItems => this.youtubeHttpService.getVideos$(...searchItems).pipe(map(({ items }) => items)))
     );
   }
 
