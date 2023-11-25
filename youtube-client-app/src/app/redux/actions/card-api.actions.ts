@@ -4,7 +4,7 @@ import { ItemWithDetails } from '../../youtube/models/item-with-details.model';
 import { ActionSource } from '../enums/action-source.enum';
 
 export const youtubeApiActions = createActionGroup({
-  source: ActionSource.YoutubeApi, // string to enum
+  source: ActionSource.YoutubeApi,
   events: {
     'Cards Loaded Success': props<{ cards: ItemWithDetails[] }>(),
     'Cards Loaded Fail': props<{ error: Error }>(),

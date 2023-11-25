@@ -13,10 +13,6 @@ export class ItemFavoriteComponent {
 
   public isFavorite = true;
 
-  // public isFavorite = this.store.select(selectFavoriteCards).pipe(map(cards => cards.map(({ id }) => id).includes(this.card.id)));
-
-  // card.isFavorite create logic
-
   constructor(private cardsStoreFacadeService: CardsStoreFacadeService) {}
 
   public toggleFavorite(): void {
