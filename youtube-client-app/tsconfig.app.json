@@ -5,7 +5,9 @@
     "types": []
   },
   "files": [
-    "src/main.ts"
+    "src/main.ts",
+    "setup-jest.ts",
+    "jest.config.ts"
   ],
   "include": [
     "src/**/*.d.ts",
