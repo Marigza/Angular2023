@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { StoreModule } from '@ngrx/store';
 
 import { ItemWithDetails } from '../../models/item-with-details.model';
@@ -66,7 +68,7 @@ describe('ItemComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ItemComponent],
-      imports: [StoreModule.forRoot()],
+      imports: [StoreModule.forRoot(), MatIconModule, MatCardModule],
     });
     fixture = TestBed.createComponent(ItemComponent);
     component = fixture.componentInstance;
