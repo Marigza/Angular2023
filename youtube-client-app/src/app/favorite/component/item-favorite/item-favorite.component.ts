@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
 
 import { CardsStoreFacadeService } from '../../../shared/services/cards-store-facade.service';
-import { ItemWithDetails } from '../../models/item-with-details.model';
+import { ItemWithDetails } from '../../../youtube/models/item-with-details.model';
 
 @Component({
-  selector: 'yta-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss'],
+  selector: 'yta-item-favorite',
+  templateUrl: './item-favorite.component.html',
+  styleUrls: ['./item-favorite.component.scss'],
 })
-export class ItemComponent {
+export class ItemFavoriteComponent {
   @Input() public card!: ItemWithDetails;
 
-  public isFavorite = false;
+  public isFavorite = true;
 
   constructor(private cardsStoreFacadeService: CardsStoreFacadeService) {}
 

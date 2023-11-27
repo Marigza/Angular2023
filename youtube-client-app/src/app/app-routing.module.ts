@@ -16,6 +16,11 @@ const routes: Routes = [
     canActivate: [loginGuard],
   },
   {
+    path: 'favorite',
+    loadChildren: () => import('./favorite/favorite.module').then(m => m.FavoriteModule),
+    canActivate: [authGuard],
+  },
+  {
     path: 'youtube',
     loadChildren: () => import('./youtube/youtube.module').then(m => m.YoutubeModule),
     canActivate: [authGuard],

@@ -4,5 +4,19 @@
   </mat-card-header>
   <img mat-card-lg-image src="{{ card.snippet.thumbnails.medium.url }}" alt="" />
   <yta-statistic-block [card]="card"></yta-statistic-block>
-  <yta-button [title]="card.snippet.title" [routerLink]="['/youtube/cards', card.id]"> More... </yta-button>
+  <div class="card_buttons">
+    <yta-button [title]="card.snippet.title" [routerLink]="card.id"> More... </yta-button>
+    <button
+      *ngIf="!isCustomCard; else deleteButton"
+      mat-icon-button
+      color="primary"
+      aria-label="favorite"
+      (click)="toggleFavorite()"
+    >
+      <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+  </div>
+  <ng-template #deleteButton>
+    <button type="button" mat-raised-button color="warn" (click)="deleteCustomCard()">Delete</button>
+  </ng-template>
 </mat-card>

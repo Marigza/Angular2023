@@ -1,11 +1,25 @@
-<div class="card" *ngIf="card$ | async as card">
+<div class="card" *ngIf="card">
   <div class="detailed-image">
     <img src="{{ card.snippet.thumbnails.high.url }}" alt="" />
   </div>
   <div ytaColoring [publishedAt]="card.snippet.publishedAt" class="detailed-description">
-    <h2 class="descripti0n-title">{{ card.snippet.title }}</h2>
+    <div class="header_info">
+      <button
+        *ngIf="!isCustomCard; else deleteButton"
+        mat-icon-button
+        color="warn"
+        aria-label="favorite"
+        (click)="toggleFavorite()"
+      >
+        <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+      <h2 class="descripti0n-title">{{ card.snippet.title }}</h2>
+    </div>
     <div class="description-published-at">{{ card.snippet.publishedAt | date }}</div>
     <div class="description-text">{{ card.snippet.description }}</div>
     <yta-statistic-block [card]="card"></yta-statistic-block>
+    <ng-template #deleteButton>
+      <button type="button" mat-raised-button color="warn" (click)="deleteCustomCard()">Delete</button>
+    </ng-template>
   </div>
 </div>

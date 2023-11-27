@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { debounceTime, filter, Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { CardsStateService } from 'src/app/youtube/services/cards-state.service';
+import { CardsStoreFacadeService } from 'src/app/shared/services/cards-store-facade.service';
 
 @Component({
   selector: 'yta-header',
@@ -24,9 +24,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
 
   constructor(
     private router: Router,
-    private cardsStateService: CardsStateService,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cardsStoreFacadeService: CardsStoreFacadeService
   ) {}
 
   public ngOnInit(): void {
@@ -44,18 +44,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
           filter(value => value.length > 2)
         )
         .subscribe(value => {
-          this.updateSearchResult(value);
+          this.cardsStoreFacadeService.requestSendAction(value);
         })
     );
-  }
-
-  public updateSearchResult(value: string): void {
-    this.subs.add(
-      this.cardsStateService.getCards$(value).subscribe(dataWithVideo => {
-        this.cardsStateService.updateData(dataWithVideo);
-      })
-    );
-    this.cardsStateService.getFilteredValue();
   }
 
   public toggleSettingsVisibility(): void {

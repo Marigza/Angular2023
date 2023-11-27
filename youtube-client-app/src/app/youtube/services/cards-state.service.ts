@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
 
+import { CardsStoreFacadeService } from '../../shared/services/cards-store-facade.service';
 import { ItemWithDetails } from '../models/item-with-details.model';
 import { FilterByValueService } from './filter-by-value.service';
 import { SortingCardsService } from './sorting-cards.service';
-import { YoutubeHttpService } from './youtube-http.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class CardsStateService {
 
   public filteredCards$: Observable<ItemWithDetails[] | undefined> = this.filterByValueService.filterParameter$.pipe(
     switchMap(value => {
-      const filteredCards = this.card$.pipe(
+      const filteredCards = this.youtubeCards$.pipe(
         map(cards => cards?.filter(card => card.snippet.title.toLowerCase().includes(value.toLowerCase())))
       );
 
@@ -24,22 +24,24 @@ export class CardsStateService {
     })
   );
 
+  public customCards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.customCards$;
+
+  public youtubeCards$: Observable<ItemWithDetails[]> = this.cardsStoreFacadeService.youtubeCards$;
+
+  public commonCards$: Observable<ItemWithDetails[]> = combineLatest([this.customCards$, this.filteredCards$]).pipe(
+    map(([custom, youtube]) => [custom || [], youtube || []]),
+    map(([custom, youtube]) => custom.concat(youtube))
+  );
+
   constructor(
-    private youtubeHttpService: YoutubeHttpService,
     private filterByValueService: FilterByValueService,
-    private sortingCardsService: SortingCardsService
+    private sortingCardsService: SortingCardsService,
+    private cardsStoreFacadeService: CardsStoreFacadeService
   ) {}
 
   public sortData(filteredCards: Observable<ItemWithDetails[] | undefined>): Observable<ItemWithDetails[] | undefined> {
-    return combineLatest(filteredCards, this.sortingCardsService.sortingParams$).pipe(
+    return combineLatest([filteredCards, this.sortingCardsService.sortingParams$]).pipe(
       map(([cards, sortingParam]) => cards && this.sortingCardsService.sortingData(cards, sortingParam))
-    );
-  }
-
-  public getCards$(searchValue: string): Observable<ItemWithDetails[]> {
-    return this.youtubeHttpService.get$(searchValue.toLowerCase().trim()).pipe(
-      map(({ items }) => items),
-      switchMap(searchItems => this.youtubeHttpService.getVideos$(...searchItems).pipe(map(({ items }) => items)))
     );
   }
 

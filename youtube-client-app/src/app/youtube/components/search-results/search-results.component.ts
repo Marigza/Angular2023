@@ -10,7 +10,7 @@ import { CardsStateService } from '../../services/cards-state.service';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-  public cards$: Observable<ItemWithDetails[] | undefined> = this.cardsStateService.filteredCards$;
+  public cards$: Observable<ItemWithDetails[] | undefined> = this.cardsStateService.commonCards$;
 
   constructor(public cardsStateService: CardsStateService) {}
 

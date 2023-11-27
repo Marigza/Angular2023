@@ -6,9 +6,14 @@ import { DetailedInfoPageComponent } from './pages/detailed-info-page/detailed-i
 import { MainPageComponent } from './pages/main-page/main-page.component';
 
 const routes: Routes = [
-  { path: '', component: MainPageComponent },
-  { path: 'cards/:cardId', component: DetailedInfoPageComponent },
-  { path: 'admin', component: AdminComponent },
+  {
+    children: [
+      { path: '', component: MainPageComponent },
+      { path: 'admin', component: AdminComponent },
+      { path: ':cardId', component: DetailedInfoPageComponent },
+    ],
+    path: '',
+  },
 ];
 
 @NgModule({
