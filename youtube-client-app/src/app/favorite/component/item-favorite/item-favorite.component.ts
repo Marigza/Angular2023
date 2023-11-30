@@ -22,12 +22,4 @@ export class ItemFavoriteComponent {
 
     this.isFavorite = !this.isFavorite;
   }
-
-  public get isCustomCard(): boolean {
-    return this.card?.kind === 'custom#video';
-  }
-
-  public deleteCustomCard(): void {
-    this.cardsStoreFacadeService.deleteCustomCard(this.card.id);
-  }
 }

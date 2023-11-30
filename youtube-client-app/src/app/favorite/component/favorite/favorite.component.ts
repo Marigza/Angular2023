@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CardsStoreFacadeService } from 'src/app/shared/services/cards-store-facade.service';
-import { ItemWithDetails } from 'src/app/youtube/models/item-with-details.model';
+import { CardsStoreFacadeService } from '../../../shared/services/cards-store-facade.service';
+import { ItemWithDetails } from '../../../youtube/models/item-with-details.model';
 
 @Component({
   selector: 'yta-favorite',

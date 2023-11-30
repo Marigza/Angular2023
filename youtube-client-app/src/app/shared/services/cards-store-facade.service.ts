@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 
-import { youtubeApiActions } from 'src/app/redux/actions/card-api.actions';
-import { adminCardActions } from 'src/app/redux/actions/custom-card.actions';
-import { mainPageActions } from 'src/app/redux/actions/main-page-card.actions';
+import { youtubeApiActions } from '../../redux/actions/card-api.actions';
+import { adminCardActions } from '../../redux/actions/custom-card.actions';
+import { mainPageActions } from '../../redux/actions/main-page-card.actions';
 import {
   selectAllCards,
   selectCustomCards,
   selectFavoriteCards,
   selectYoutubeCards,
-} from 'src/app/redux/selectors/store-cards.selector';
-import { ItemWithDetails } from 'src/app/youtube/models/item-with-details.model';
+} from '../../redux/selectors/store-cards.selector';
+import { ItemWithDetails } from '../../youtube/models/item-with-details.model';
 
 @Injectable({
   providedIn: 'root',
