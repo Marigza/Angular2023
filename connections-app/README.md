@@ -1,3 +1,7 @@
+# link to deploy
+
+[connections-app](https://rolling-scopes-school.github.io/marigza-ANGULAR2023Q4/connections-app/)
+
 # ConnectionsApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
