@@ -1,0 +1,44 @@
+<mat-card class="profile-block">
+  <mat-card-header class="profile-header">
+    <mat-card-title>Profile Information</mat-card-title>
+    <button mat-raised-button color="primary" type="button">LogOut</button>
+  </mat-card-header>
+  <ng-template #nameBlock>
+    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>name</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error *ngIf="profile.controls.name.touched && profile.controls.name.hasError('required')"
+          >Please enter your name</mat-error
+        >
+        <mat-error *ngIf="profile.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
+      </mat-form-field>
+      <div class="edit-buttons">
+        <button mat-raised-button color="primary" type="button" class="button">Save</button>
+        <button mat-raised-button color="primary" type="button" class="button">Cancel</button>
+      </div>
+    </form>
+  </ng-template>
+
+  <div class="profile">
+    <div class="profile-field">
+      <div class="field-title">name</div>
+      <div class="field-value" *ngIf="!canRedact; else nameBlock">NAME</div>
+    </div>
+    <div class="profile-field">
+      <div class="field-title">Email</div>
+      <div class="field-value">EMAIL</div>
+    </div>
+    <div class="profile-field">
+      <div class="field-title">id</div>
+      <div class="field-value">ID</div>
+    </div>
+    <div class="profile-field">
+      <div class="field-title">date create</div>
+      <div class="field-value">DATE</div>
+    </div>
+  </div>
+  <div class="edit-button">
+    <button mat-raised-button color="primary" type="button" (click)="toggleRedact()">Edit</button>
+  </div>
+</mat-card>

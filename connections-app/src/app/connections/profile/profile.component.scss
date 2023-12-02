@@ -1,0 +1,52 @@
+.profile-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+  max-width: 500px;
+  height: 450px;
+  padding: 10px;
+  margin: 20px auto 0;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  display: flex;
+  gap: 20px;
+}
+
+.profile-field {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.field-title {
+  flex: 1;
+  font-size: 2em;
+  line-height: 130%;
+}
+
+.field-value {
+  flex: 2;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.edit-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.button {
+  font-size: 0.7em;
+  height: 24px;
+}
+
+.edit-button {
+  align-self: flex-end;
+}
