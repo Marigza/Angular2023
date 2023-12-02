@@ -2,22 +2,22 @@
   <mat-card-header>
     <mat-card-title>Registration</mat-card-title>
   </mat-card-header>
-  <form [formGroup]="login" class="form" novalidate (ngSubmit)="onSubmit()">
+  <form [formGroup]="registration" class="form" novalidate (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
       <mat-label>name</mat-label>
       <input matInput formControlName="name" required />
-      <mat-error *ngIf="login.controls.name.touched && login.controls.name.hasError('required')"
+      <mat-error *ngIf="registration.controls.name.touched && registration.controls.name.hasError('required')"
         >Please enter your name</mat-error
       >
-      <mat-error *ngIf="login.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
+      <mat-error *ngIf="registration.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>email</mat-label>
       <input matInput placeholder="sample@email.ru" formControlName="email" required />
-      <mat-error *ngIf="login.controls.email.touched && login.controls.email.hasError('required')"
-        >Please enter a login email</mat-error
+      <mat-error *ngIf="registration.controls.email.touched && registration.controls.email.hasError('required')"
+        >Please enter a registration email</mat-error
       >
-      <mat-error *ngIf="login.controls.email.hasError('email')">The login email is invalid</mat-error>
+      <mat-error *ngIf="registration.controls.email.hasError('email')">The registration email is invalid</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
@@ -30,31 +30,39 @@
       <button type="button" mat-icon-button matSuffix (click)="changePasswordVisibility()">
         <mat-icon>{{ visibleIcon }}</mat-icon>
       </button>
-      <mat-error *ngIf="login.controls.password.touched && login.controls.password.hasError('required')"
+      <mat-error *ngIf="registration.controls.password.touched && registration.controls.password.hasError('required')"
         >Please enter a password</mat-error
       >
-      <mat-error *ngIf="login.controls.password.dirty && login.controls.password.value.length"
+      <mat-error *ngIf="registration.controls.password.dirty && registration.controls.password.value.length"
         >Your password is not strong enough:</mat-error
       >
-      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noUpperCase')">
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('noUpperCase')"
+      >
         <mat-icon>warning</mat-icon>
         At least one uppercase letter.</mat-error
       >
-      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noDigit')">
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('noDigit')"
+      >
         <mat-icon>warning</mat-icon>
         At least one digit.</mat-error
       >
-      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('noChar')">
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('noChar')"
+      >
         <mat-icon>warning</mat-icon>
         At least one special character.</mat-error
       >
-      <mat-error *ngIf="login.controls.password.value.length && login.controls.password.hasError('minlength')">
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('minlength')"
+      >
         <mat-icon>warning</mat-icon>
         At least 8 characters.
       </mat-error>
     </mat-form-field>
-    <div class="login-button">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!login.valid">Login</button>
+    <div class="registration-button">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!registration.valid">register</button>
     </div>
   </form>
   <mat-card-footer>
