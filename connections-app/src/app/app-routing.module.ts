@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { SigninComponent } from './auth/signin/signin.component';
+import { SignupComponent } from './auth/signup/signup.component';
+
 const routes: Routes = [
   {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    path: 'signin',
+    component: SigninComponent,
     // canActivate: [loginGuard],
   },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    // canActivate: [loginGuard],
+  },
+
   {
     path: '',
     loadChildren: () => import('./connections/connections.module').then(m => m.ConnectionsModule),
