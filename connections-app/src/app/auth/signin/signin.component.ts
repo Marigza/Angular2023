@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
+import { LoginParams } from '../../core/models/login-params.model';
+import { ConnectionsHttpService } from '../../core/services/connections-http.service';
+
 @Component({
   selector: 'con-signin',
   templateUrl: './signin.component.html',
@@ -32,6 +35,7 @@ export class SigninComponent {
   });
 
   constructor(
+    private connectionsHttpService: ConnectionsHttpService,
     // private router: Router,
     // private authService: AuthService,
     private formBuilder: NonNullableFormBuilder
@@ -41,6 +45,17 @@ export class SigninComponent {
   //   this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
   //   await this.router.navigate(['/youtube']);
   // }
+  public onSubmit(): void {
+    if (this.login.valid) {
+      const loginParams: LoginParams = {
+        email: this.login.get('email')?.value ?? '',
+        password: this.login.get('password')?.value ?? '',
+      };
+      this.connectionsHttpService.loginPost$(loginParams).subscribe(response => response);
+      // убрать эту бобуйню
+      // console.log(JSON.stringify(response));
+    }
+  }
 
   public upperCaseValidator(): ValidatorFn {
     return (control: AbstractControl<string>): ValidationErrors | null => {

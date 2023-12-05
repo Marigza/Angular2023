@@ -4,7 +4,7 @@
     <button mat-raised-button color="primary" type="button">LogOut</button>
   </mat-card-header>
   <ng-template #nameBlock>
-    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock" (ngSubmit)="onSubmit()">
+    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock">
       <mat-form-field appearance="outline">
         <mat-label>name</mat-label>
         <input matInput formControlName="name" required />
