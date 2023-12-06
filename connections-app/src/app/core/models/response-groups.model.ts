@@ -1,21 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { GroupParams } from './group-params.model';
 
 export interface ResponseGroups {
   Count: 'number';
-  Items: Array<{
-    id: {
-      S: 'string';
-    };
-    name: {
-      S: 'string';
-    };
-    createdAt: {
-      S: 'string';
-    };
-    createdBy: {
-      S: 'string';
-    };
-  }>;
+  Items: GroupParams[];
 }
 
 /* eslint-enable @typescript-eslint/naming-convention */
