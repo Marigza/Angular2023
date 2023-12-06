@@ -1,60 +1,108 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
+import { ErrorResponseObject } from '../models/error-response-object.model';
 import { LoginParams } from '../models/login-params.model';
+import { ProfileParams } from '../models/profile-params.model';
 import { RegisterParams } from '../models/register-params.model';
+import { ResponseGroups } from '../models/response-groups.model';
+import { ResponseLogin } from '../models/response-login.model';
 import { TokenParams } from '../models/token-params.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConnectionsHttpService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) {}
 
-  public registerPost$(registerParams: RegisterParams): Observable<RegisterParams> {
+  public registerPost$(registerParams: RegisterParams): Observable<HttpStatusCode> {
     return this.http
-      .post<RegisterParams>('registration', JSON.stringify(registerParams), {
+      .post<HttpStatusCode>('registration', JSON.stringify(registerParams), {
         headers: { 'content-type': 'application/json' },
       })
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+      .pipe(
+        tap(() => this.snackBar.open('success registration!', undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
   }
 
-  public loginPost$(loginParams: LoginParams): Observable<LoginParams> {
+  public loginPost$(loginParams: LoginParams): Observable<ResponseLogin> {
     return this.http
-      .post<LoginParams>('login', JSON.stringify(loginParams), { headers: { 'content-type': 'application/json' } })
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+      .post<ResponseLogin>('login', JSON.stringify(loginParams), { headers: { 'content-type': 'application/json' } })
+      .pipe(
+        tap(() => this.snackBar.open('login success', undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
   }
 
-  public getProfile$(tokenParams: TokenParams): Observable<TokenParams> {
+  public getProfile$(tokenParams: TokenParams): Observable<ProfileParams> {
     return this.http
-      .get<TokenParams>('profile', {
+      .get<ProfileParams>('profile', {
         headers: {
-          'rs-uid': tokenParams['rs-uid'],
-          'rs-email': tokenParams['rs-email'],
-          Authorization: `Bearer ${tokenParams.Authorization}`,
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
         },
       })
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public getGroups$(tokenParams: TokenParams): Observable<TokenParams> {
+  public updateProfile$(tokenParams: TokenParams, name: string): Observable<HttpStatusCode> {
     return this.http
-      .get<TokenParams>('groups/list', {
+      .put<HttpStatusCode>(
+        'profile',
+        { name },
+        {
+          headers: {
+            'rs-uid': tokenParams.uid,
+            'rs-email': tokenParams.email,
+            Authorization: `Bearer ${tokenParams.token}`,
+          },
+        }
+      )
+      .pipe(
+        tap(() => this.snackBar.open('profile update successfully', undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
+  }
+
+  public getGroups$(tokenParams: TokenParams): Observable<ResponseGroups> {
+    return this.http
+      .get<ResponseGroups>('groups/list', {
         headers: {
-          'rs-uid': tokenParams['rs-uid'],
-          'rs-email': tokenParams['rs-email'],
-          Authorization: `Bearer ${tokenParams.Authorization}`,
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
         },
       })
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public logout$(tokenParams: TokenParams): Observable<HttpStatusCode> {
+    return this.http
+      .delete<HttpStatusCode>('logout', {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(
+        tap(() => this.snackBar.open('user is logged out', undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
   }
 
   /* eslint-disable class-methods-use-this */
 
   private handleError$(err: HttpErrorResponse): Observable<never> {
-    // console.log(err.error);
+    const errorResponse = err.error as ErrorResponseObject;
+    this.snackBar.open(errorResponse.message, undefined, { duration: 3000 });
 
     return throwError(() => new Error(err.message));
   }
