@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { GroupParams } from '../../core/models/group-params.model';
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 
@@ -9,20 +10,31 @@ import { ConnectionsHttpService } from '../../core/services/connections-http.ser
   styleUrls: ['./group.component.scss'],
 })
 export class GroupComponent {
+  public groups: GroupParams[] = [];
+
   constructor(private connectionsHttpService: ConnectionsHttpService) {
     this.showGroups();
   }
 
   public showGroups(): void {
     const token: TokenParams = {
-      // заменить получением токена
-      'rs-uid': 'iptcfxklsv7',
-      'rs-email': 'test',
-      Authorization: 'snxq183xbql',
+      uid: localStorage.getItem('uid') ?? '',
+      email: localStorage.getItem('email') ?? '',
+      token: localStorage.getItem('token') ?? '',
     };
-    this.connectionsHttpService.getGroups$(token).subscribe(res => res);
+    this.connectionsHttpService.getGroups$(token).subscribe(res => {
+      this.groups = res.Items;
+    });
 
     // console.log(res);
     // убрать эту бобуйню;
   }
+
+  /* eslint-disable class-methods-use-this */
+
+  public trackByIndex(index: number, item: GroupParams): string {
+    return item.id.S;
+  }
+
+  /* eslint-enable class-methods-use-this */
 }

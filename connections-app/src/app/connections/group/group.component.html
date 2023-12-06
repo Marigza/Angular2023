@@ -1,1 +1,9 @@
-<p>group works!</p>
+<div *ngIf="groups">
+  <ul *ngFor="let group of groups; trackBy: trackByIndex">
+    <li class="group-item">
+      <a>{{ group.name.S }}</a>
+      <button>x</button>
+    </li>
+  </ul>
+</div>
+<button mat-raised-button color="primary" type="submit">Update</button>
