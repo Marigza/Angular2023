@@ -1,21 +1,21 @@
-<mat-card class="profile-block">
+<mat-card *ngIf="profileParam" class="profile-block">
   <mat-card-header class="profile-header">
     <mat-card-title>Profile Information</mat-card-title>
-    <button mat-raised-button color="primary" type="button">LogOut</button>
+    <button mat-raised-button color="primary" type="button" (click)="logout()">LogOut</button>
   </mat-card-header>
   <ng-template #nameBlock>
-    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock">
+    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock" (ngSubmit)="updateProfile()">
       <mat-form-field appearance="outline">
-        <mat-label>name</mat-label>
-        <input matInput formControlName="name" required />
+        <mat-label>{{ profileParam.name.S }}</mat-label>
+        <input matInput formControlName="name" required [placeholder]="profileParam.name.S" />
         <mat-error *ngIf="profile.controls.name.touched && profile.controls.name.hasError('required')"
           >Please enter your name</mat-error
         >
         <mat-error *ngIf="profile.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
       </mat-form-field>
       <div class="edit-buttons">
-        <button mat-raised-button color="primary" type="button" class="button">Save</button>
-        <button mat-raised-button color="primary" type="button" class="button">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" class="button">Save</button>
+        <button mat-raised-button color="primary" type="button" class="button" (click)="toggleRedact()">Cancel</button>
       </div>
     </form>
   </ng-template>
@@ -23,19 +23,19 @@
   <div class="profile">
     <div class="profile-field">
       <div class="field-title">name</div>
-      <div class="field-value" *ngIf="!canRedact; else nameBlock">NAME</div>
+      <div class="field-value" *ngIf="!canRedact; else nameBlock">{{ profileParam.name.S }}</div>
     </div>
     <div class="profile-field">
-      <div class="field-title">Email</div>
-      <div class="field-value">EMAIL</div>
+      <div class="field-title">email</div>
+      <div class="field-value">{{ profileParam.email.S }}</div>
     </div>
     <div class="profile-field">
       <div class="field-title">id</div>
-      <div class="field-value">ID</div>
+      <div class="field-value">{{ profileParam.uid.S }}</div>
     </div>
     <div class="profile-field">
       <div class="field-title">date create</div>
-      <div class="field-value">DATE</div>
+      <div class="field-value">{{ profileParam.createdAt.S | date }}</div>
     </div>
   </div>
   <div class="edit-button">
