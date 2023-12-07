@@ -39,6 +39,6 @@
     </div>
   </div>
   <div class="edit-button">
-    <button mat-raised-button color="primary" type="button" (click)="toggleRedact()">Edit</button>
+    <button mat-raised-button color="primary" type="button" *ngIf="!canRedact" (click)="toggleRedact()">Edit</button>
   </div>
 </mat-card>
