@@ -12,7 +12,7 @@ export const profileActions = createActionGroup({
     'Profile Info Get Fail': props<{ error: HttpErrorResponse }>(),
     'Profile Request Send': props<{ token: TokenParams }>(),
     'Profile Update Request': props<{ token: TokenParams; name: string }>(),
-    'Profile Update Success': props<{ response: HttpStatusCode }>(),
+    'Profile Update Success': props<{ response: HttpStatusCode; name: string }>(),
     'Profile Update Fail': props<{ error: HttpErrorResponse }>(),
   },
 });

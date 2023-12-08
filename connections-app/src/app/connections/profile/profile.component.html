@@ -4,7 +4,7 @@
     <button mat-raised-button color="primary" type="button">LogOut</button>
   </mat-card-header>
   <ng-template #nameBlock>
-    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock">
+    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock" (ngSubmit)="updateProfile()">
       <mat-form-field appearance="outline">
         <mat-label>{{ profileParam.name.S }}</mat-label>
         <input matInput formControlName="name" required [placeholder]="profileParam.name.S" />
@@ -14,8 +14,19 @@
         <mat-error *ngIf="profile.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
       </mat-form-field>
       <div class="edit-buttons">
-        <button mat-raised-button color="primary" type="submit" class="button">Save</button>
-        <button mat-raised-button color="primary" type="button" class="button" (click)="toggleRedact()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" class="button" [disabled]="isDisabled$ | async">
+          Save
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          class="button"
+          (click)="toggleRedact()"
+          [disabled]="isDisabled$ | async"
+        >
+          Cancel
+        </button>
       </div>
     </form>
   </ng-template>

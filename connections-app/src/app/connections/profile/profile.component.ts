@@ -14,6 +14,8 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
 export class ProfileComponent {
   public profileParam$ = this.connectionsStoreFacadeService.selectProfile$;
 
+  public isDisabled$ = this.connectionsStoreFacadeService.isLoading$;
+
   public canRedact = false;
 
   public profile = this.formBuilder.group({
@@ -37,18 +39,12 @@ export class ProfileComponent {
     });
   }
 
-  // public updateProfile(): void {
-  // const token: TokenParams = {
-  //   uid: localStorage.getItem('uid') ?? '',
-  //   email: localStorage.getItem('email') ?? '',
-  //   token: localStorage.getItem('token') ?? '',
-  // };
-  // const name = this.profile.get('name')?.value ?? '';
-  // console.log(token, name);
-  // this.connectionsHttpService.updateProfile$(token, name).subscribe(() => {
-  //   console.log(`update name success`);
-  // });
-  // }
+  public updateProfile(): void {
+    const name = this.profile.get('name')?.value ?? '';
+    this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
+      token && this.connectionsStoreFacadeService.profileUpdateRequest(token, name);
+    });
+  }
 
   public toggleRedact(): void {
     this.canRedact = !this.canRedact;

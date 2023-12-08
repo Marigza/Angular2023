@@ -52,4 +52,8 @@ export class ConnectionsStoreFacadeService {
   public profileRequestSend(token: TokenParams): void {
     this.store.dispatch(profileActions.profileRequestSend({ token }));
   }
+
+  public profileUpdateRequest(token: TokenParams, name: string): void {
+    this.store.dispatch(profileActions.profileUpdateRequest({ token, name }));
+  }
 }

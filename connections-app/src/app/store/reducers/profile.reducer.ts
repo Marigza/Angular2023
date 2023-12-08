@@ -27,6 +27,7 @@ export const profileReducer = createReducer(
     loginActions.loginRequestSend,
     registrationActions.registrationRequestSend,
     profileActions.profileRequestSend,
+    profileActions.profileUpdateRequest,
     (state): ConnectionStore => ({
       ...state,
       isLoading: true,
@@ -51,11 +52,24 @@ export const profileReducer = createReducer(
       error: null,
     })
   ),
-  on(registrationActions.registrationSuccess, (state): ConnectionStore => ({ ...state, isLoading: false })),
+  on(
+    registrationActions.registrationSuccess,
+    (state): ConnectionStore => ({ ...state, isLoading: false, error: null })
+  ),
+  on(
+    profileActions.profileUpdateSuccess,
+    (state, { name }): ConnectionStore => ({
+      ...state,
+      profile: Object.defineProperty(structuredClone(state.profile), 'name', { value: { S: name } }),
+      isLoading: false,
+      error: null,
+    })
+  ),
   on(
     loginActions.loginFail,
     registrationActions.registrationFail,
     profileActions.profileInfoGetFail,
+    profileActions.profileUpdateFail,
     (state, err): ConnectionStore => ({
       ...state,
       isLoading: false,

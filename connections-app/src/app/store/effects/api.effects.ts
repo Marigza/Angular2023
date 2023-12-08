@@ -61,6 +61,18 @@ export class ApiLoginEffects {
     );
   });
 
+  public updateProfileInfo$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(profileActions.profileUpdateRequest),
+      exhaustMap(({ token, name }) =>
+        this.connectionsHttpService.updateProfile$(token, name).pipe(
+          map(response => profileActions.profileUpdateSuccess({ response, name })),
+          catchError((error: HttpErrorResponse) => of(profileActions.profileUpdateFail({ error })))
+        )
+      )
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private router: Router,
