@@ -1,10 +1,10 @@
-<mat-card *ngIf="profileParam" class="profile-block">
+<mat-card *ngIf="profileParam$ | async as profileParam" class="profile-block">
   <mat-card-header class="profile-header">
     <mat-card-title>Profile Information</mat-card-title>
-    <button mat-raised-button color="primary" type="button" (click)="logout()">LogOut</button>
+    <button mat-raised-button color="primary" type="button">LogOut</button>
   </mat-card-header>
   <ng-template #nameBlock>
-    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock" (ngSubmit)="updateProfile()">
+    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock">
       <mat-form-field appearance="outline">
         <mat-label>{{ profileParam.name.S }}</mat-label>
         <input matInput formControlName="name" required [placeholder]="profileParam.name.S" />

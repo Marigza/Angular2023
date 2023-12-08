@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { LoginParams } from '../../core/models/login-params.model';
 import { RegisterParams } from '../../core/models/register-params.model';
 import { ResponseLogin } from '../../core/models/response-login.model';
+import { TokenParams } from '../../core/models/token-params.model';
 import { loginActions } from '../../store/actions/login-page.actions';
-// import { profileActions } from '../../store/actions/profile-page.actions';
+import { profileActions } from '../../store/actions/profile-page.actions';
 import { registrationActions } from '../../store/actions/registration-page.actions';
 import { selectError, selectIsLoading, selectProfile, selectToken } from '../../store/selectors/profile.selector';
 
@@ -46,5 +47,9 @@ export class ConnectionsStoreFacadeService {
 
   public registrationFail(response: HttpErrorResponse): void {
     this.store.dispatch(registrationActions.registrationFail({ error: response }));
+  }
+
+  public profileRequestSend(token: TokenParams): void {
+    this.store.dispatch(profileActions.profileRequestSend({ token }));
   }
 }

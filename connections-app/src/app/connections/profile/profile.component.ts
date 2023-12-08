@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { AbstractControl, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { TokenParams } from '../../core/models/token-params.model';
+// import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
+import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
 @Component({
   selector: 'con-profile',
@@ -10,6 +12,8 @@ import { ConnectionsHttpService } from '../../core/services/connections-http.ser
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
+  public profileParam$ = this.connectionsStoreFacadeService.selectProfile$;
+
   public canRedact = false;
 
   public profile = this.formBuilder.group({
@@ -18,35 +22,47 @@ export class ProfileComponent {
 
   constructor(
     private connectionsHttpService: ConnectionsHttpService,
-    // private router: Router,
-    // private authService: AuthService,
-    private formBuilder: NonNullableFormBuilder
+    private router: Router,
+    private formBuilder: NonNullableFormBuilder,
+    private connectionsStoreFacadeService: ConnectionsStoreFacadeService
   ) {
-    this.showProfile();
+    this.profileParam$.subscribe(value => {
+      if (value === null) this.showProfile();
+    });
   }
-
-  // public async onSubmit(): Promise<void> {
-  //   this.emailFormField?.value && this.authService.login(this.emailFormField?.value);
-  //   await this.router.navigate(['/youtube']);
-  // }
 
   public showProfile(): void {
-    const token: TokenParams = {
-      // заменить получением токена
-      'rs-uid': 'iptcfxklsv7',
-      'rs-email': 'test',
-      Authorization: 'snxq183xbql',
-    };
-    this.connectionsHttpService.getProfile$(token).subscribe(res => res);
-    //  console.log(res);
-    // убрать эту бобуйню;
+    this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
+      token && this.connectionsStoreFacadeService.profileRequestSend(token);
+    });
   }
+
+  // public updateProfile(): void {
+  // const token: TokenParams = {
+  //   uid: localStorage.getItem('uid') ?? '',
+  //   email: localStorage.getItem('email') ?? '',
+  //   token: localStorage.getItem('token') ?? '',
+  // };
+  // const name = this.profile.get('name')?.value ?? '';
+  // console.log(token, name);
+  // this.connectionsHttpService.updateProfile$(token, name).subscribe(() => {
+  //   console.log(`update name success`);
+  // });
+  // }
 
   public toggleRedact(): void {
     this.canRedact = !this.canRedact;
   }
 
-  private get emailFormField(): AbstractControl<string> | null {
-    return this.profile.get('email');
-  }
+  // public logout(): void {
+  // const token: TokenParams = {
+  //   uid: localStorage.getItem('uid') ?? '',
+  //   email: localStorage.getItem('email') ?? '',
+  //   token: localStorage.getItem('token') ?? '',
+  // };
+  // this.connectionsHttpService.logout$(token).subscribe(() => {
+  //   this.router.navigate(['/signin']);
+  //   localStorage.clear();
+  // });
+  // }
 }

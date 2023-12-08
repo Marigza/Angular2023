@@ -7,6 +7,7 @@ import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 import { loginActions } from '../actions/login-page.actions';
+import { profileActions } from '../actions/profile-page.actions';
 import { registrationActions } from '../actions/registration-page.actions';
 
 @Injectable()
@@ -43,6 +44,18 @@ export class ApiLoginEffects {
             return registrationActions.registrationSuccess({ response });
           }),
           catchError((error: HttpErrorResponse) => of(registrationActions.registrationFail({ error })))
+        )
+      )
+    );
+  });
+
+  public getProfileInfo$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(profileActions.profileRequestSend),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.getProfile$(token).pipe(
+          map(response => profileActions.profileInfoGetSuccess({ response })),
+          catchError((error: HttpErrorResponse) => of(profileActions.profileInfoGetFail({ error })))
         )
       )
     );
