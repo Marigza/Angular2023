@@ -1,12 +1,13 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { LoginParams } from '../../core/models/login-params.model';
+import { RegisterParams } from '../../core/models/register-params.model';
 import { ResponseLogin } from '../../core/models/response-login.model';
 import { loginActions } from '../../store/actions/login-page.actions';
 // import { profileActions } from '../../store/actions/profile-page.actions';
-// import { registrationActions } from '../../store/actions/registration-page.actions';
+import { registrationActions } from '../../store/actions/registration-page.actions';
 import { selectError, selectIsLoading, selectProfile, selectToken } from '../../store/selectors/profile.selector';
 
 @Injectable({
@@ -33,5 +34,17 @@ export class ConnectionsStoreFacadeService {
 
   public loginFail(response: HttpErrorResponse): void {
     this.store.dispatch(loginActions.loginFail({ error: response }));
+  }
+
+  public registrationRequestSend(params: RegisterParams): void {
+    this.store.dispatch(registrationActions.registrationRequestSend({ registration: params }));
+  }
+
+  public registrationSuccess(code: HttpStatusCode): void {
+    this.store.dispatch(registrationActions.registrationSuccess({ response: code }));
+  }
+
+  public registrationFail(response: HttpErrorResponse): void {
+    this.store.dispatch(registrationActions.registrationFail({ error: response }));
   }
 }

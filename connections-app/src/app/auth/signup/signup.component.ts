@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-import { ConnectionsHttpService } from '../../core/services/connections-http.service';
+import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
 @Component({
   selector: 'con-signup',
@@ -10,6 +10,8 @@ import { ConnectionsHttpService } from '../../core/services/connections-http.ser
 })
 export class SignupComponent {
   public canVisiblePassword = true;
+
+  public isLoaded$ = this.connectionsStoreFacadeService.isLoading$;
 
   public visibleIcon: 'visibility_off' | 'visibility' = 'visibility_off';
 
@@ -35,16 +37,10 @@ export class SignupComponent {
   });
 
   constructor(
-    private connectionsHttpService: ConnectionsHttpService,
-    // private router: Router,
-    // private authService: AuthService,
+    private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     private formBuilder: NonNullableFormBuilder
   ) {}
 
-  // public async onSubmit(): Promise<void> {
-  //   this.emailFormField?.value && this.authService.registration(this.emailFormField?.value);
-  //   await this.router.navigate(['/youtube']);
-  // }
   public onSubmit(): void {
     if (this.registration.valid) {
       const registParam = {
@@ -52,10 +48,7 @@ export class SignupComponent {
         email: this.registration.get('email')?.value ?? '',
         password: this.registration.get('password')?.value ?? '',
       };
-      // console.log(registParam)
-      this.connectionsHttpService.registerPost$(registParam).subscribe(response => response);
-      // убрать эту бобуйню
-      // console.log(`POST completed sucessfully. The response received ${JSON.stringify(response)}`);
+      this.connectionsStoreFacadeService.registrationRequestSend(registParam);
     }
   }
 
@@ -86,9 +79,5 @@ export class SignupComponent {
   public changePasswordVisibility(): void {
     this.canVisiblePassword ? (this.visibleIcon = 'visibility') : (this.visibleIcon = 'visibility_off');
     this.canVisiblePassword = !this.canVisiblePassword;
-  }
-
-  private get emailFormField(): AbstractControl<string> | null {
-    return this.registration.get('email');
   }
 }

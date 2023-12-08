@@ -7,6 +7,7 @@ import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 import { loginActions } from '../actions/login-page.actions';
+import { registrationActions } from '../actions/registration-page.actions';
 
 @Injectable()
 export class ApiLoginEffects {
@@ -25,8 +26,23 @@ export class ApiLoginEffects {
 
             return loginActions.loginSuccess({ response, email: login.email });
           }),
-
           catchError((error: HttpErrorResponse) => of(loginActions.loginFail({ error })))
+        )
+      )
+    );
+  });
+
+  public initUserRegistration$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(registrationActions.registrationRequestSend),
+      exhaustMap(({ registration }) =>
+        this.connectionsHttpService.registerPost$(registration).pipe(
+          map(response => {
+            this.router.navigate(['/signin']).catch(({ message }: Error) => message || null);
+
+            return registrationActions.registrationSuccess({ response });
+          }),
+          catchError((error: HttpErrorResponse) => of(registrationActions.registrationFail({ error })))
         )
       )
     );
