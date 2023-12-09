@@ -14,5 +14,8 @@ export const profileActions = createActionGroup({
     'Profile Update Request': props<{ token: TokenParams; name: string }>(),
     'Profile Update Success': props<{ response: HttpStatusCode; name: string }>(),
     'Profile Update Fail': props<{ error: HttpErrorResponse }>(),
+    'Profile Logout Send': props<{ token: TokenParams }>(),
+    'Profile Logout Success': props<{ response: HttpStatusCode }>(),
+    'Profile Logout Fail': props<{ error: HttpErrorResponse }>(),
   },
 });

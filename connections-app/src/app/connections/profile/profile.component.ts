@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
-// import { TokenParams } from '../../core/models/token-params.model';
-import { ConnectionsHttpService } from '../../core/services/connections-http.service';
+import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
 @Component({
@@ -23,21 +21,9 @@ export class ProfileComponent {
   });
 
   constructor(
-    private connectionsHttpService: ConnectionsHttpService,
-    private router: Router,
     private formBuilder: NonNullableFormBuilder,
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService
-  ) {
-    this.profileParam$.subscribe(value => {
-      if (value === null) this.showProfile();
-    });
-  }
-
-  public showProfile(): void {
-    this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
-      token && this.connectionsStoreFacadeService.profileRequestSend(token);
-    });
-  }
+  ) {}
 
   public updateProfile(): void {
     const name = this.profile.get('name')?.value ?? '';
@@ -50,15 +36,15 @@ export class ProfileComponent {
     this.canRedact = !this.canRedact;
   }
 
-  // public logout(): void {
-  // const token: TokenParams = {
-  //   uid: localStorage.getItem('uid') ?? '',
-  //   email: localStorage.getItem('email') ?? '',
-  //   token: localStorage.getItem('token') ?? '',
-  // };
-  // this.connectionsHttpService.logout$(token).subscribe(() => {
-  //   this.router.navigate(['/signin']);
-  //   localStorage.clear();
-  // });
-  // }
+  public logout(): void {
+    // this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
+    //   token && this.connectionsStoreFacadeService.profileLogoutSend(token);
+    // })
+    const token: TokenParams = {
+      uid: localStorage.getItem('uid') ?? '',
+      email: localStorage.getItem('email') ?? '',
+      token: localStorage.getItem('token') ?? '',
+    };
+    this.connectionsStoreFacadeService.profileLogoutSend(token);
+  }
 }

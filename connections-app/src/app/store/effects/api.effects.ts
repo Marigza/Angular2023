@@ -73,6 +73,25 @@ export class ApiLoginEffects {
     );
   });
 
+  public logoutProfile$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(profileActions.profileLogoutSend),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.logout$(token).pipe(
+          map(response => {
+            this.router.navigate(['/signin']).catch(({ message }: Error) => message || null);
+
+            return profileActions.profileLogoutSuccess({ response });
+          }),
+          tap(() => {
+            localStorage.clear();
+          }),
+          catchError((error: HttpErrorResponse) => of(profileActions.profileLogoutFail({ error })))
+        )
+      )
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private router: Router,

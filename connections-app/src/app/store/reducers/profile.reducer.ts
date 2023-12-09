@@ -28,6 +28,7 @@ export const profileReducer = createReducer(
     registrationActions.registrationRequestSend,
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
+    profileActions.profileLogoutSend,
     (state): ConnectionStore => ({
       ...state,
       isLoading: true,
@@ -66,10 +67,21 @@ export const profileReducer = createReducer(
     })
   ),
   on(
+    profileActions.profileLogoutSuccess,
+    (state): ConnectionStore => ({
+      ...state,
+      token: null,
+      profile: null,
+      isLoading: false,
+      error: null,
+    })
+  ),
+  on(
     loginActions.loginFail,
     registrationActions.registrationFail,
     profileActions.profileInfoGetFail,
     profileActions.profileUpdateFail,
+    profileActions.profileLogoutFail,
     (state, err): ConnectionStore => ({
       ...state,
       isLoading: false,
