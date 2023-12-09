@@ -9,6 +9,7 @@ import { ProfileParams } from '../models/profile-params.model';
 import { RegisterParams } from '../models/register-params.model';
 import { ResponseGroups } from '../models/response-groups.model';
 import { ResponseLogin } from '../models/response-login.model';
+import { ResponsePeople } from '../models/response-people.model';
 import { TokenParams } from '../models/token-params.model';
 
 @Injectable({
@@ -74,6 +75,18 @@ export class ConnectionsHttpService {
   public getGroups$(tokenParams: TokenParams): Observable<ResponseGroups> {
     return this.http
       .get<ResponseGroups>('groups/list', {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public getPeople$(tokenParams: TokenParams): Observable<ResponsePeople> {
+    return this.http
+      .get<ResponsePeople>('users', {
         headers: {
           'rs-uid': tokenParams.uid,
           'rs-email': tokenParams.email,
