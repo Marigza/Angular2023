@@ -78,6 +78,8 @@ export const profileReducer = createReducer(
       ...state,
       token: null,
       profile: null,
+      groups: [],
+      people: [],
       isLoading: false,
       error: null,
     })
