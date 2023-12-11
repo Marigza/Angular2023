@@ -7,9 +7,17 @@ import { RegisterParams } from '../../core/models/register-params.model';
 import { ResponseLogin } from '../../core/models/response-login.model';
 import { TokenParams } from '../../core/models/token-params.model';
 import { loginActions } from '../../store/actions/login-page.actions';
+import { mainActions } from '../../store/actions/main-page.actions';
 import { profileActions } from '../../store/actions/profile-page.actions';
 import { registrationActions } from '../../store/actions/registration-page.actions';
-import { selectError, selectIsLoading, selectProfile, selectToken } from '../../store/selectors/profile.selector';
+import {
+  selectError,
+  selectGroups,
+  selectIsLoading,
+  selectPeople,
+  selectProfile,
+  selectToken,
+} from '../../store/selectors/profile.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +30,10 @@ export class ConnectionsStoreFacadeService {
   public selectProfile$ = this.store.select(selectProfile);
 
   public selectToken$ = this.store.select(selectToken);
+
+  public selectGroups$ = this.store.select(selectGroups);
+
+  public selectPeople$ = this.store.select(selectPeople);
 
   constructor(private store: Store) {}
 
@@ -47,6 +59,14 @@ export class ConnectionsStoreFacadeService {
 
   public registrationFail(response: HttpErrorResponse): void {
     this.store.dispatch(registrationActions.registrationFail({ error: response }));
+  }
+
+  public groupsRequestSend(token: TokenParams): void {
+    this.store.dispatch(mainActions.groupsRequestSend({ token }));
+  }
+
+  public peopleRequestSend(token: TokenParams): void {
+    this.store.dispatch(mainActions.peopleRequestSend({ token }));
   }
 
   public profileRequestSend(token: TokenParams): void {

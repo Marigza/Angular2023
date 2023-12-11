@@ -12,3 +12,7 @@ export const selectProfile = createSelector(selectFeature, ({ profile }) => prof
 export const selectError = createSelector(selectFeature, ({ error }) => error);
 
 export const selectIsLoading = createSelector(selectFeature, ({ isLoading }) => isLoading);
+
+export const selectGroups = createSelector(selectFeature, ({ groups }) => groups);
+
+export const selectPeople = createSelector(selectFeature, ({ people }) => people);

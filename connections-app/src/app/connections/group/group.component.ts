@@ -1,33 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { exhaustMap, filter, map, Subscription } from 'rxjs';
 
 import { GroupParams } from '../../core/models/group-params.model';
-import { TokenParams } from '../../core/models/token-params.model';
-import { ConnectionsHttpService } from '../../core/services/connections-http.service';
+import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
 @Component({
   selector: 'con-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.scss'],
 })
-export class GroupComponent {
-  public groups: GroupParams[] = [];
+export class GroupComponent implements OnInit, OnDestroy {
+  public groups$ = this.connectionsStoreFacadeService.selectGroups$;
 
-  constructor(private connectionsHttpService: ConnectionsHttpService) {
-    this.showGroups();
-  }
+  public isGroupOwner = false;
 
-  public showGroups(): void {
-    const token: TokenParams = {
-      uid: localStorage.getItem('uid') ?? '',
-      email: localStorage.getItem('email') ?? '',
-      token: localStorage.getItem('token') ?? '',
-    };
-    this.connectionsHttpService.getGroups$(token).subscribe(res => {
-      this.groups = res.Items;
-    });
+  public subs = new Subscription();
 
-    // console.log(res);
-    // убрать эту бобуйню;
+  constructor(private connectionsStoreFacadeService: ConnectionsStoreFacadeService) {}
+
+  public ngOnInit(): void {
+    this.subs.add(
+      this.connectionsStoreFacadeService.selectGroups$
+        .pipe(
+          filter(groupsParams => groupsParams.length === 0),
+          exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
+          map(token => {
+            token && this.connectionsStoreFacadeService.groupsRequestSend(token);
+          })
+        )
+        .subscribe(data => data)
+    );
   }
 
   /* eslint-disable class-methods-use-this */
@@ -37,4 +39,8 @@ export class GroupComponent {
   }
 
   /* eslint-enable class-methods-use-this */
+
+  public ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 }

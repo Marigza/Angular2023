@@ -7,6 +7,7 @@ import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 import { loginActions } from '../actions/login-page.actions';
+import { mainActions } from '../actions/main-page.actions';
 import { profileActions } from '../actions/profile-page.actions';
 import { registrationActions } from '../actions/registration-page.actions';
 
@@ -44,6 +45,30 @@ export class ApiLoginEffects {
             return registrationActions.registrationSuccess({ response });
           }),
           catchError((error: HttpErrorResponse) => of(registrationActions.registrationFail({ error })))
+        )
+      )
+    );
+  });
+
+  public getGroups$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.groupsRequestSend),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.getGroups$(token).pipe(
+          map(response => mainActions.groupsGetSuccess({ response })),
+          catchError((error: HttpErrorResponse) => of(mainActions.groupsGetFail({ error })))
+        )
+      )
+    );
+  });
+
+  public getPeople$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.peopleRequestSend),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.getPeople$(token).pipe(
+          map(response => mainActions.peopleGetSuccess({ response })),
+          catchError((error: HttpErrorResponse) => of(mainActions.peopleGetFail({ error })))
         )
       )
     );

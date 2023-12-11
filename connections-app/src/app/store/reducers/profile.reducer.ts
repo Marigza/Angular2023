@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { loginActions } from '../actions/login-page.actions';
+import { mainActions } from '../actions/main-page.actions';
 import { profileActions } from '../actions/profile-page.actions';
 import { registrationActions } from '../actions/registration-page.actions';
 import { ConnectionStore } from '../models/connection-store.model';
@@ -15,6 +16,8 @@ const tokenInfo: TokenParams = {
 export const initialState: ConnectionStore = {
   token: tokenInfo,
   profile: null,
+  groups: [],
+  people: [],
   error: null,
   isLoading: false,
 };
@@ -26,6 +29,8 @@ export const profileReducer = createReducer(
   on(
     loginActions.loginRequestSend,
     registrationActions.registrationRequestSend,
+    mainActions.peopleRequestSend,
+    mainActions.groupsRequestSend,
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
     profileActions.profileLogoutSend,
@@ -77,8 +82,28 @@ export const profileReducer = createReducer(
     })
   ),
   on(
+    mainActions.groupsGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      isLoading: false,
+      groups: response.Items,
+      error: null,
+    })
+  ),
+  on(
+    mainActions.peopleGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      isLoading: false,
+      people: response.Items,
+      error: null,
+    })
+  ),
+  on(
     loginActions.loginFail,
     registrationActions.registrationFail,
+    mainActions.peopleGetFail,
+    mainActions.groupsGetFail,
     profileActions.profileInfoGetFail,
     profileActions.profileUpdateFail,
     profileActions.profileLogoutFail,
