@@ -6,7 +6,7 @@
   <ul *ngFor="let group of groups; trackBy: trackByIndex">
     <li class="group-item">
       <a>{{ group.name.S }}</a>
-      <button *ngIf="isGroupOwner">x</button>
+      <button *ngIf="owner === group.createdBy.S">x</button>
     </li>
   </ul>
 </div>

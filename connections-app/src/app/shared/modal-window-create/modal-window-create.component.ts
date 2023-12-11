@@ -60,7 +60,7 @@ export class ModalWindowCreateComponent {
             this.dialogRef.close();
           })
         )
-        .subscribe(data => data);
+        .subscribe(data => data); // TODO убрать подписку куда-нибудь... с глаз долой
     }
   }
 

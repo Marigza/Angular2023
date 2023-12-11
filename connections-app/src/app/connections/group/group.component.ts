@@ -14,7 +14,7 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
 export class GroupComponent implements OnInit, OnDestroy {
   public groups$ = this.connectionsStoreFacadeService.selectGroups$;
 
-  public isGroupOwner = false;
+  public owner = localStorage.getItem('uid');
 
   public subs = new Subscription();
 
