@@ -2,16 +2,16 @@
 
 export interface GroupParams {
   id: {
-    S: 'string';
+    S: string;
   };
   name: {
-    S: 'string';
+    S: string;
   };
   createdAt: {
-    S: 'string';
+    S: string;
   };
   createdBy: {
-    S: 'string';
+    S: string;
   };
 }
 
