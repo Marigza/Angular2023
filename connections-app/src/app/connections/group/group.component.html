@@ -1,6 +1,6 @@
 <div class="buttons">
   <button mat-raised-button color="primary" type="submit">Update</button>
-  <button mat-raised-button color="primary" type="button">Create</button>
+  <button mat-raised-button color="primary" type="button" (click)="openModal()">Create</button>
 </div>
 <div *ngIf="groups$ | async as groups">
   <ul *ngFor="let group of groups; trackBy: trackByIndex">
