@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 
 import { ErrorResponseObject } from '../models/error-response-object.model';
+import { GroupCreate } from '../models/group-create-response.model';
 import { LoginParams } from '../models/login-params.model';
 import { ProfileParams } from '../models/profile-params.model';
 import { RegisterParams } from '../models/register-params.model';
@@ -82,6 +83,40 @@ export class ConnectionsHttpService {
         },
       })
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public createGroup$(tokenParams: TokenParams, name: string): Observable<GroupCreate> {
+    return this.http
+      .post<GroupCreate>(
+        'groups/create',
+        { name },
+        {
+          headers: {
+            'rs-uid': tokenParams.uid,
+            'rs-email': tokenParams.email,
+            Authorization: `Bearer ${tokenParams.token}`,
+          },
+        }
+      )
+      .pipe(
+        tap(() => this.snackBar.open(`group ${name} add successfully`, undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
+  }
+
+  public deleteGroup$(tokenParams: TokenParams, groupId: string): Observable<HttpStatusCode> {
+    return this.http
+      .delete<HttpStatusCode>(`groups/delete?groupID={:${groupId}}`, {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(
+        tap(() => this.snackBar.open(`group ${groupId} delete successfully`, undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
   }
 
   public getPeople$(tokenParams: TokenParams): Observable<ResponsePeople> {
