@@ -65,6 +65,11 @@ export class ConnectionsStoreFacadeService {
     this.store.dispatch(mainActions.groupsRequestSend({ token }));
   }
 
+  public createGroup(token: TokenParams, name: string): void {
+    this.store.dispatch(mainActions.createGroup({ token, name }));
+  }
+  // public groupDelete
+
   public peopleRequestSend(token: TokenParams): void {
     this.store.dispatch(mainActions.peopleRequestSend({ token }));
   }

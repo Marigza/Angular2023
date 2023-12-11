@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createActionGroup, props } from '@ngrx/store';
 
+import { GroupParams } from '../../core/models/group-params.model';
 import { ResponseGroups } from '../../core/models/response-groups.model';
 import { ResponsePeople } from '../../core/models/response-people.model';
 import { TokenParams } from '../../core/models/token-params.model';
@@ -15,5 +16,8 @@ export const mainActions = createActionGroup({
     'People Get Success': props<{ response: ResponsePeople }>(),
     'People Get Fail': props<{ error: HttpErrorResponse }>(),
     'People Request Send': props<{ token: TokenParams }>(),
+    'Create Group': props<{ token: TokenParams; name: string }>(),
+    'Create Group Success': props<{ response: GroupParams }>(),
+    'Create Group Fail': props<{ error: HttpErrorResponse }>(),
   },
 });
