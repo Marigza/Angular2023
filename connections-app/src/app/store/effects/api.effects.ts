@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { catchError, endWith, exhaustMap, map, takeWhile, tap } from 'rxjs/operators';
+import { catchError, endWith, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 import { CountDownService } from '../../core/services/count-down.service';
@@ -81,7 +81,6 @@ export class ApiLoginEffects {
       exhaustMap(() =>
         this.countDownService.timer$.pipe(
           map(value => mainActions.currentTimer({ time: value })),
-          takeWhile(val => val.time >= 0),
           endWith(mainActions.endTimer({ time: null })),
           catchError(() => EMPTY)
         )
