@@ -14,8 +14,10 @@ import {
   selectError,
   selectGroups,
   selectIsLoading,
+  selectIsTimerLoading,
   selectPeople,
   selectProfile,
+  selectTimer,
   selectToken,
 } from '../../store/selectors/profile.selector';
 
@@ -24,6 +26,8 @@ import {
 })
 export class ConnectionsStoreFacadeService {
   public isLoading$ = this.store.select(selectIsLoading);
+
+  public selectIsTimerLoading$ = this.store.select(selectIsTimerLoading);
 
   public selectError$ = this.store.select(selectError);
 
@@ -34,6 +38,8 @@ export class ConnectionsStoreFacadeService {
   public selectGroups$ = this.store.select(selectGroups);
 
   public selectPeople$ = this.store.select(selectPeople);
+
+  public timer$ = this.store.select(selectTimer);
 
   constructor(private store: Store) {}
 
