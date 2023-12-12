@@ -19,7 +19,9 @@ export const initialState: ConnectionStore = {
   groups: [],
   people: [],
   error: null,
+  timer: null,
   isLoading: false,
+  isTimerLoading: false,
 };
 
 export const connectionFeatureKey = 'connectionStore';
@@ -88,7 +90,6 @@ export const profileReducer = createReducer(
   ),
   on(
     mainActions.groupsGetSuccess,
-    mainActions.groupsUpdateSuccess,
     (state, { response }): ConnectionStore => ({
       ...state,
       isLoading: false,
@@ -138,6 +139,32 @@ export const profileReducer = createReducer(
       ...state,
       isLoading: false,
       error: err.error.message,
+    })
+  ),
+  on(
+    mainActions.groupsUpdateSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      timer: 60,
+      groups: response.Items,
+      error: null,
+      isTimerLoading: true,
+      isLoading: false,
+    })
+  ),
+  on(
+    mainActions.currentTimer,
+    (state, { time }): ConnectionStore => ({
+      ...state,
+      timer: time,
+    })
+  ),
+  on(
+    mainActions.endTimer,
+    (state): ConnectionStore => ({
+      ...state,
+      timer: null,
+      isTimerLoading: false,
     })
   )
 );

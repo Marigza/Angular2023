@@ -9,5 +9,7 @@ export interface ConnectionStore {
   groups: GroupParams[];
   people: PeopleParams[];
   error: string | null;
+  timer: number | null;
   isLoading: boolean;
+  isTimerLoading: boolean;
 }

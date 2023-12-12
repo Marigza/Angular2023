@@ -25,5 +25,7 @@ export const mainActions = createActionGroup({
     'Delete Group': props<{ token: TokenParams; group: string }>(),
     'Delete Group Success': props<{ response: HttpStatusCode; group: string }>(),
     'Delete Group Fail': props<{ error: HttpErrorResponse }>(),
+    'Current Timer': props<{ time: number }>(),
+    'End Timer': props<{ time: null }>(),
   },
 });

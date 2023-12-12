@@ -2,10 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { EMPTY, of } from 'rxjs';
+import { catchError, endWith, exhaustMap, map, takeWhile, tap } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
+import { CountDownService } from '../../core/services/count-down.service';
 import { loginActions } from '../actions/login-page.actions';
 import { mainActions } from '../actions/main-page.actions';
 import { profileActions } from '../actions/profile-page.actions';
@@ -69,6 +70,20 @@ export class ApiLoginEffects {
         this.connectionsHttpService.getGroups$(token).pipe(
           map(response => mainActions.groupsUpdateSuccess({ response })),
           catchError((error: HttpErrorResponse) => of(mainActions.groupsUpdateFail({ error })))
+        )
+      )
+    );
+  });
+
+  public startTimer$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.groupsUpdateSuccess),
+      exhaustMap(() =>
+        this.countDownService.timer$.pipe(
+          map(value => mainActions.currentTimer({ time: value })),
+          takeWhile(val => val.time >= 0),
+          endWith(mainActions.endTimer({ time: null })),
+          catchError(() => EMPTY)
         )
       )
     );
@@ -165,6 +180,7 @@ export class ApiLoginEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
-    private connectionsHttpService: ConnectionsHttpService
+    private connectionsHttpService: ConnectionsHttpService,
+    private countDownService: CountDownService
   ) {}
 }
