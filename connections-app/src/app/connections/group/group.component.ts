@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { exhaustMap, filter, map, Subscription } from 'rxjs';
 
 import { GroupParams } from '../../core/models/group-params.model';
+import { ModalWindowConfirmationComponent } from '../../shared/modal-window-confirmation/modal-window-confirmation.component';
 import { ModalWindowCreateComponent } from '../../shared/modal-window-create/modal-window-create.component';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
@@ -39,6 +40,13 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   public openModal(): void {
     this.dialog.open(ModalWindowCreateComponent);
+  }
+
+  public deleteGroup(group: string): void {
+    console.log(group);
+    this.dialog.open(ModalWindowConfirmationComponent, {
+      data: group,
+    });
   }
 
   /* eslint-disable class-methods-use-this */
