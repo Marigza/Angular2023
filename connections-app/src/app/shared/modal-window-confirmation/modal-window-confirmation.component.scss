@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  padding: 10px;
+  border: 1px solid #c2185b;
+  background-color: #db7ca2;
+  border-radius: 5px;
+  height: 100px;
+}
+
+.modal-header {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
