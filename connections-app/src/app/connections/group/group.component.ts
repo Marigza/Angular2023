@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { exhaustMap, filter, map, Subscription } from 'rxjs';
+import { exhaustMap, filter, map, merge, Subscription } from 'rxjs';
 
 import { GroupParams } from '../../core/models/group-params.model';
 import { ModalWindowConfirmationComponent } from '../../shared/modal-window-confirmation/modal-window-confirmation.component';
@@ -15,11 +15,14 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
 export class GroupComponent implements OnInit, OnDestroy {
   public groups$ = this.connectionsStoreFacadeService.selectGroups$;
 
-  public isLoad$ = this.connectionsStoreFacadeService.isLoading$;
+  public isLoad$ = merge(
+    this.connectionsStoreFacadeService.isLoading$,
+    this.connectionsStoreFacadeService.selectIsTimerLoading$
+  );
 
   public owner = localStorage.getItem('uid');
 
-  public timer = 60; // observable + timer
+  public timer$ = this.connectionsStoreFacadeService.timer$;
 
   public subs = new Subscription();
 

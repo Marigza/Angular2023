@@ -1,6 +1,6 @@
 <div class="buttons">
   <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
-    Update
+    Update {{ timer$ | async }}
   </button>
   <button mat-raised-button color="primary" type="button" (click)="openModal()">Create</button>
 </div>
