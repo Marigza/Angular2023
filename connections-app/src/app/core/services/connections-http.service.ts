@@ -106,7 +106,7 @@ export class ConnectionsHttpService {
 
   public deleteGroup$(tokenParams: TokenParams, groupId: string): Observable<HttpStatusCode> {
     return this.http
-      .delete<HttpStatusCode>(`groups/delete?groupID={:${groupId}}`, {
+      .delete<HttpStatusCode>(`groups/delete?groupID=${groupId}`, {
         headers: {
           'rs-uid': tokenParams.uid,
           'rs-email': tokenParams.email,
