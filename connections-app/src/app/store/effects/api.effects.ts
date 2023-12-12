@@ -83,6 +83,18 @@ export class ApiLoginEffects {
     );
   });
 
+  public deleteGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.deleteGroup),
+      exhaustMap(({ token, group }) =>
+        this.connectionsHttpService.deleteGroup$(token, group).pipe(
+          map(response => mainActions.deleteGroupSuccess({ response, group })),
+          catchError((error: HttpErrorResponse) => of(mainActions.deleteGroupFail({ error })))
+        )
+      )
+    );
+  });
+
   public getPeople$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(mainActions.peopleRequestSend),

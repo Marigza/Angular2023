@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { createActionGroup, props } from '@ngrx/store';
 
 import { GroupParams } from '../../core/models/group-params.model';
@@ -19,5 +19,8 @@ export const mainActions = createActionGroup({
     'Create Group': props<{ token: TokenParams; name: string }>(),
     'Create Group Success': props<{ response: GroupParams }>(),
     'Create Group Fail': props<{ error: HttpErrorResponse }>(),
+    'Delete Group': props<{ token: TokenParams; group: string }>(),
+    'Delete Group Success': props<{ response: HttpStatusCode; group: string }>(),
+    'Delete Group Fail': props<{ error: HttpErrorResponse }>(),
   },
 });

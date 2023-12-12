@@ -32,6 +32,7 @@ export const profileReducer = createReducer(
     mainActions.peopleRequestSend,
     mainActions.groupsRequestSend,
     mainActions.createGroup,
+    mainActions.deleteGroup,
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
     profileActions.profileLogoutSend,
@@ -103,6 +104,15 @@ export const profileReducer = createReducer(
     })
   ),
   on(
+    mainActions.deleteGroupSuccess,
+    (state, { group }): ConnectionStore => ({
+      ...state,
+      groups: state.groups.filter(({ id }) => id.S !== group),
+      isLoading: false,
+      error: null,
+    })
+  ),
+  on(
     mainActions.peopleGetSuccess,
     (state, { response }): ConnectionStore => ({
       ...state,
@@ -117,6 +127,7 @@ export const profileReducer = createReducer(
     mainActions.peopleGetFail,
     mainActions.groupsGetFail,
     mainActions.createGroupFail,
+    mainActions.deleteGroupFail,
     profileActions.profileInfoGetFail,
     profileActions.profileUpdateFail,
     profileActions.profileLogoutFail,
