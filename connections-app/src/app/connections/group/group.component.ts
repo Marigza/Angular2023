@@ -15,7 +15,11 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
 export class GroupComponent implements OnInit, OnDestroy {
   public groups$ = this.connectionsStoreFacadeService.selectGroups$;
 
+  public isLoad$ = this.connectionsStoreFacadeService.isLoading$;
+
   public owner = localStorage.getItem('uid');
+
+  public timer = 60; // observable + timer
 
   public subs = new Subscription();
 
@@ -38,12 +42,23 @@ export class GroupComponent implements OnInit, OnDestroy {
     );
   }
 
+  public update(): void {
+    this.subs.add(
+      this.connectionsStoreFacadeService.selectToken$
+        .pipe(
+          map(token => {
+            token && this.connectionsStoreFacadeService.groupsUpdate(token);
+          })
+        )
+        .subscribe(data => data)
+    );
+  }
+
   public openModal(): void {
     this.dialog.open(ModalWindowCreateComponent);
   }
 
   public deleteGroup(group: string): void {
-    console.log(group);
     this.dialog.open(ModalWindowConfirmationComponent, {
       data: group,
     });

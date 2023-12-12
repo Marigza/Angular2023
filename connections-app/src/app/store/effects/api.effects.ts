@@ -62,6 +62,18 @@ export class ApiLoginEffects {
     );
   });
 
+  public updateGroups$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.groupsUpdate),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.getGroups$(token).pipe(
+          map(response => mainActions.groupsUpdateSuccess({ response })),
+          catchError((error: HttpErrorResponse) => of(mainActions.groupsUpdateFail({ error })))
+        )
+      )
+    );
+  });
+
   public createGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(mainActions.createGroup),

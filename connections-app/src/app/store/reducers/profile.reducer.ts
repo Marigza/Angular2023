@@ -33,6 +33,7 @@ export const profileReducer = createReducer(
     mainActions.groupsRequestSend,
     mainActions.createGroup,
     mainActions.deleteGroup,
+    mainActions.groupsUpdate,
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
     profileActions.profileLogoutSend,
@@ -87,6 +88,7 @@ export const profileReducer = createReducer(
   ),
   on(
     mainActions.groupsGetSuccess,
+    mainActions.groupsUpdateSuccess,
     (state, { response }): ConnectionStore => ({
       ...state,
       isLoading: false,
@@ -126,6 +128,7 @@ export const profileReducer = createReducer(
     registrationActions.registrationFail,
     mainActions.peopleGetFail,
     mainActions.groupsGetFail,
+    mainActions.groupsUpdateFail,
     mainActions.createGroupFail,
     mainActions.deleteGroupFail,
     profileActions.profileInfoGetFail,

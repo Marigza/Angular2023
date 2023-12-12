@@ -1,5 +1,7 @@
 <div class="buttons">
-  <button mat-raised-button color="primary" type="submit">Update</button>
+  <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
+    Update
+  </button>
   <button mat-raised-button color="primary" type="button" (click)="openModal()">Create</button>
 </div>
 <div *ngIf="groups$ | async as groups">
