@@ -82,7 +82,10 @@ export class ConnectionsHttpService {
           Authorization: `Bearer ${tokenParams.token}`,
         },
       })
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+      .pipe(
+        tap(() => this.snackBar.open(`groups update successfully`, undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
   }
 
   public createGroup$(tokenParams: TokenParams, name: string): Observable<GroupCreate> {
