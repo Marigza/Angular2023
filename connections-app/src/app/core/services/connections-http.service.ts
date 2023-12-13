@@ -131,7 +131,10 @@ export class ConnectionsHttpService {
           Authorization: `Bearer ${tokenParams.token}`,
         },
       })
-      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+      .pipe(
+        tap(() => this.snackBar.open(`userlist update successfully`, undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
   }
 
   public logout$(tokenParams: TokenParams): Observable<HttpStatusCode> {
