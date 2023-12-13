@@ -10,7 +10,9 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
   styleUrls: ['./people.component.scss'],
 })
 export class PeopleComponent implements OnInit, OnDestroy {
-  public people$ = this.connectionsStoreFacadeService.selectPeople$;
+  public people$ = this.connectionsStoreFacadeService.selectPeople$.pipe(
+    map(people => people.filter(user => user.uid.S !== localStorage.getItem('uid')))
+  );
 
   public isLoad$ = this.connectionsStoreFacadeService.isLoading$.pipe(
     exhaustMap(() => this.connectionsStoreFacadeService.selectIsTimerPeopleLoading$)
