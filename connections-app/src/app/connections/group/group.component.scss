@@ -6,6 +6,10 @@
   border-radius: 10px;
 }
 
+.groups-list {
+  padding: 0;
+}
+
 .group-item {
   display: flex;
   justify-content: space-between;
@@ -19,6 +23,7 @@
 
 .group-link {
   display: block;
+  flex-grow: 1;
   text-decoration: none;
   color: white;
   padding: 3px 10px;

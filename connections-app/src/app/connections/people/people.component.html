@@ -1,10 +1,8 @@
 <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
   Update {{ timer$ | async }}
 </button>
-<div *ngIf="people$ | async as people">
-  <ul *ngFor="let person of people; trackBy: trackByIndex">
-    <li class="person-item">
-      <a>{{ person.name.S }}</a>
-    </li>
-  </ul>
-</div>
+<ul *ngIf="people$ | async as people" class="person-list">
+  <li class="person-item" *ngFor="let person of people; trackBy: trackByIndex">
+    <a class="people-link">{{ person.name.S }}</a>
+  </li>
+</ul>

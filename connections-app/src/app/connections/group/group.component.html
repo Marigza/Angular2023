@@ -4,11 +4,9 @@
   </button>
   <button mat-raised-button color="primary" type="button" (click)="openModal()">Create</button>
 </div>
-<div *ngIf="groups$ | async as groups">
-  <ul *ngFor="let group of groups; trackBy: trackByIndex">
-    <li class="group-item">
-      <a [routerLink]="['/group', group.id.S]" class="group-link">{{ group.name.S }}</a>
-      <button *ngIf="owner === group.createdBy.S" type="button" (click)="deleteGroup(group.id.S)">x</button>
-    </li>
-  </ul>
-</div>
+<ul *ngIf="groups$ | async as groups" class="groups-list">
+  <li *ngFor="let group of groups; trackBy: trackByIndex" class="group-item">
+    <a [routerLink]="['/group', group.id.S]" class="group-link">{{ group.name.S }}</a>
+    <button *ngIf="owner === group.createdBy.S" type="button" (click)="deleteGroup(group.id.S)">x</button>
+  </li>
+</ul>
