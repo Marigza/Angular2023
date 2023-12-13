@@ -12,6 +12,12 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
 export class PeopleComponent implements OnInit, OnDestroy {
   public people$ = this.connectionsStoreFacadeService.selectPeople$;
 
+  public isLoad$ = this.connectionsStoreFacadeService.isLoading$.pipe(
+    exhaustMap(() => this.connectionsStoreFacadeService.selectIsTimerPeopleLoading$)
+  );
+
+  public timer$ = this.connectionsStoreFacadeService.timerPeople$;
+
   public subs = new Subscription();
 
   constructor(private connectionsStoreFacadeService: ConnectionsStoreFacadeService) {}
@@ -24,6 +30,18 @@ export class PeopleComponent implements OnInit, OnDestroy {
           exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
           map(token => {
             token && this.connectionsStoreFacadeService.peopleRequestSend(token);
+          })
+        )
+        .subscribe(data => data)
+    );
+  }
+
+  public update(): void {
+    this.subs.add(
+      this.connectionsStoreFacadeService.selectToken$
+        .pipe(
+          map(token => {
+            token && this.connectionsStoreFacadeService.peopleUpdate(token);
           })
         )
         .subscribe(data => data)
