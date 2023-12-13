@@ -13,10 +13,20 @@ export const selectError = createSelector(selectFeature, ({ error }) => error);
 
 export const selectIsLoading = createSelector(selectFeature, ({ isLoading }) => isLoading);
 
-export const selectIsTimerLoading = createSelector(selectFeature, ({ isTimerLoading }) => isTimerLoading);
+export const selectIsTimerGroupsLoading = createSelector(
+  selectFeature,
+  ({ isTimerGroupsLoading }) => isTimerGroupsLoading
+);
+
+export const selectIsTimerPeopleLoading = createSelector(
+  selectFeature,
+  ({ isTimerPeopleLoading }) => isTimerPeopleLoading
+);
 
 export const selectGroups = createSelector(selectFeature, ({ groups }) => groups);
 
 export const selectPeople = createSelector(selectFeature, ({ people }) => people);
 
-export const selectTimer = createSelector(selectFeature, ({ timer }) => timer);
+export const selectTimerGroups = createSelector(selectFeature, ({ timerGroups }) => timerGroups);
+
+export const selectTimerPeople = createSelector(selectFeature, ({ timerPeople }) => timerPeople);

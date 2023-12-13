@@ -14,10 +14,12 @@ import {
   selectError,
   selectGroups,
   selectIsLoading,
-  selectIsTimerLoading,
+  selectIsTimerGroupsLoading,
+  selectIsTimerPeopleLoading,
   selectPeople,
   selectProfile,
-  selectTimer,
+  selectTimerGroups,
+  selectTimerPeople,
   selectToken,
 } from '../../store/selectors/profile.selector';
 
@@ -27,7 +29,9 @@ import {
 export class ConnectionsStoreFacadeService {
   public isLoading$ = this.store.select(selectIsLoading);
 
-  public selectIsTimerLoading$ = this.store.select(selectIsTimerLoading);
+  public selectIsTimerGroupsLoading$ = this.store.select(selectIsTimerGroupsLoading);
+
+  public selectIsTimerPeopleLoading$ = this.store.select(selectIsTimerPeopleLoading);
 
   public selectError$ = this.store.select(selectError);
 
@@ -39,7 +43,9 @@ export class ConnectionsStoreFacadeService {
 
   public selectPeople$ = this.store.select(selectPeople);
 
-  public timer$ = this.store.select(selectTimer);
+  public timerGroups$ = this.store.select(selectTimerGroups);
+
+  public timerPeople$ = this.store.select(selectTimerPeople);
 
   constructor(private store: Store) {}
 
@@ -85,6 +91,10 @@ export class ConnectionsStoreFacadeService {
 
   public peopleRequestSend(token: TokenParams): void {
     this.store.dispatch(mainActions.peopleRequestSend({ token }));
+  }
+
+  public peopleUpdate(token: TokenParams): void {
+    this.store.dispatch(mainActions.peopleUpdate({ token }));
   }
 
   public profileRequestSend(token: TokenParams): void {

@@ -19,9 +19,11 @@ export const initialState: ConnectionStore = {
   groups: [],
   people: [],
   error: null,
-  timer: null,
+  timerGroups: null,
+  timerPeople: null,
   isLoading: false,
-  isTimerLoading: false,
+  isTimerGroupsLoading: false,
+  isTimerPeopleLoading: false,
 };
 
 export const connectionFeatureKey = 'connectionStore';
@@ -36,6 +38,7 @@ export const profileReducer = createReducer(
     mainActions.createGroup,
     mainActions.deleteGroup,
     mainActions.groupsUpdate,
+    mainActions.peopleUpdate,
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
     profileActions.profileLogoutSend,
@@ -130,6 +133,7 @@ export const profileReducer = createReducer(
     mainActions.peopleGetFail,
     mainActions.groupsGetFail,
     mainActions.groupsUpdateFail,
+    mainActions.peopleUpdateFail,
     mainActions.createGroupFail,
     mainActions.deleteGroupFail,
     profileActions.profileInfoGetFail,
@@ -145,26 +149,52 @@ export const profileReducer = createReducer(
     mainActions.groupsUpdateSuccess,
     (state, { response }): ConnectionStore => ({
       ...state,
-      timer: 60,
+      timerGroups: 60,
       groups: response.Items,
       error: null,
-      isTimerLoading: true,
+      isTimerGroupsLoading: true,
       isLoading: false,
     })
   ),
   on(
-    mainActions.currentTimer,
-    (state, { time }): ConnectionStore => ({
+    mainActions.peopleUpdateSuccess,
+    (state, { response }): ConnectionStore => ({
       ...state,
-      timer: time,
+      timerPeople: 60,
+      people: response.Items,
+      error: null,
+      isTimerPeopleLoading: true,
+      isLoading: false,
     })
   ),
   on(
-    mainActions.endTimer,
+    mainActions.currentTimerGroups,
+    (state, { time }): ConnectionStore => ({
+      ...state,
+      timerGroups: time,
+    })
+  ),
+  on(
+    mainActions.currentTimerPeople,
+    (state, { time }): ConnectionStore => ({
+      ...state,
+      timerPeople: time,
+    })
+  ),
+  on(
+    mainActions.endTimerGroups,
     (state): ConnectionStore => ({
       ...state,
-      timer: null,
-      isTimerLoading: false,
+      timerGroups: null,
+      isTimerGroupsLoading: false,
+    })
+  ),
+  on(
+    mainActions.endTimerPeople,
+    (state): ConnectionStore => ({
+      ...state,
+      timerPeople: null,
+      isTimerPeopleLoading: false,
     })
   )
 );

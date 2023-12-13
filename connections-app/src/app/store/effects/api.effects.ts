@@ -75,13 +75,13 @@ export class ApiLoginEffects {
     );
   });
 
-  public startTimer$ = createEffect(() => {
+  public startTimerGroups$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(mainActions.groupsUpdateSuccess),
       exhaustMap(() =>
         this.countDownService.timer$.pipe(
-          map(value => mainActions.currentTimer({ time: value })),
-          endWith(mainActions.endTimer({ time: null })),
+          map(value => mainActions.currentTimerGroups({ time: value })),
+          endWith(mainActions.endTimerGroups({ time: null })),
           catchError(() => EMPTY)
         )
       )
@@ -128,6 +128,31 @@ export class ApiLoginEffects {
         this.connectionsHttpService.getPeople$(token).pipe(
           map(response => mainActions.peopleGetSuccess({ response })),
           catchError((error: HttpErrorResponse) => of(mainActions.peopleGetFail({ error })))
+        )
+      )
+    );
+  });
+
+  public updatePeople$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.peopleUpdate),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.getPeople$(token).pipe(
+          map(response => mainActions.peopleUpdateSuccess({ response })),
+          catchError((error: HttpErrorResponse) => of(mainActions.peopleUpdateFail({ error })))
+        )
+      )
+    );
+  });
+
+  public startTimerPeople$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.peopleUpdateSuccess),
+      exhaustMap(() =>
+        this.countDownService.timer$.pipe(
+          map(value => mainActions.currentTimerPeople({ time: value })),
+          endWith(mainActions.endTimerPeople({ time: null })),
+          catchError(() => EMPTY)
         )
       )
     );
