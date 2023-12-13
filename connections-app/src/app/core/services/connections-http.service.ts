@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 
+import { ConversationCreate } from '../models/conversation-create-response.model';
 import { ErrorResponseObject } from '../models/error-response-object.model';
 import { GroupCreate } from '../models/group-create-response.model';
 import { LoginParams } from '../models/login-params.model';
 import { ProfileParams } from '../models/profile-params.model';
 import { RegisterParams } from '../models/register-params.model';
+import { ResponseConversationsList } from '../models/response-conversations-list.model';
 import { ResponseGroups } from '../models/response-groups.model';
 import { ResponseLogin } from '../models/response-login.model';
 import { ResponsePeople } from '../models/response-people.model';
@@ -135,6 +137,37 @@ export class ConnectionsHttpService {
         tap(() => this.snackBar.open(`userlist update successfully`, undefined, { duration: 3000 })),
         catchError((err: HttpErrorResponse) => this.handleError$(err))
       );
+  }
+
+  public createConversation$(tokenParams: TokenParams, user: string): Observable<ConversationCreate> {
+    return this.http
+      .post<ConversationCreate>(
+        'conversations/create',
+        { companion: user },
+        {
+          headers: {
+            'rs-uid': tokenParams.uid,
+            'rs-email': tokenParams.email,
+            Authorization: `Bearer ${tokenParams.token}`,
+          },
+        }
+      )
+      .pipe(
+        tap(() => this.snackBar.open(`conversation create successfully`, undefined, { duration: 3000 })),
+        catchError((err: HttpErrorResponse) => this.handleError$(err))
+      );
+  }
+
+  public getConversatonsList$(tokenParams: TokenParams): Observable<ResponseConversationsList> {
+    return this.http
+      .get<ResponseConversationsList>('conversations/list', {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
   public logout$(tokenParams: TokenParams): Observable<HttpStatusCode> {
