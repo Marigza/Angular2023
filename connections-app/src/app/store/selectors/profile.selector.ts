@@ -27,6 +27,8 @@ export const selectGroups = createSelector(selectFeature, ({ groups }) => groups
 
 export const selectPeople = createSelector(selectFeature, ({ people }) => people);
 
+export const selectConversations = createSelector(selectFeature, ({ conversations }) => conversations);
+
 export const selectTimerGroups = createSelector(selectFeature, ({ timerGroups }) => timerGroups);
 
 export const selectTimerPeople = createSelector(selectFeature, ({ timerPeople }) => timerPeople);

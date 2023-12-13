@@ -11,6 +11,7 @@ import { mainActions } from '../../store/actions/main-page.actions';
 import { profileActions } from '../../store/actions/profile-page.actions';
 import { registrationActions } from '../../store/actions/registration-page.actions';
 import {
+  selectConversations,
   selectError,
   selectGroups,
   selectIsLoading,
@@ -42,6 +43,8 @@ export class ConnectionsStoreFacadeService {
   public selectGroups$ = this.store.select(selectGroups);
 
   public selectPeople$ = this.store.select(selectPeople);
+
+  public selectConversations$ = this.store.select(selectConversations);
 
   public timerGroups$ = this.store.select(selectTimerGroups);
 
@@ -95,6 +98,14 @@ export class ConnectionsStoreFacadeService {
 
   public peopleUpdate(token: TokenParams): void {
     this.store.dispatch(mainActions.peopleUpdate({ token }));
+  }
+
+  public conversationsRequestSend(token: TokenParams): void {
+    this.store.dispatch(mainActions.conversationsRequestSend({ token }));
+  }
+
+  public createConversation(token: TokenParams, user: string): void {
+    this.store.dispatch(mainActions.createConversation({ token, user }));
   }
 
   public profileRequestSend(token: TokenParams): void {

@@ -18,6 +18,7 @@ export const initialState: ConnectionStore = {
   profile: null,
   groups: [],
   people: [],
+  conversations: [],
   error: null,
   timerGroups: null,
   timerPeople: null,
@@ -39,6 +40,8 @@ export const profileReducer = createReducer(
     mainActions.deleteGroup,
     mainActions.groupsUpdate,
     mainActions.peopleUpdate,
+    mainActions.createConversation,
+    mainActions.conversationsRequestSend,
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
     profileActions.profileLogoutSend,
@@ -128,6 +131,24 @@ export const profileReducer = createReducer(
     })
   ),
   on(
+    mainActions.conversationsGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      conversations: response.Items,
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    mainActions.createConversationSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      conversations: state.conversations.concat(response),
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
     loginActions.loginFail,
     registrationActions.registrationFail,
     mainActions.peopleGetFail,
@@ -136,6 +157,8 @@ export const profileReducer = createReducer(
     mainActions.peopleUpdateFail,
     mainActions.createGroupFail,
     mainActions.deleteGroupFail,
+    mainActions.conversationsGetFail,
+    mainActions.createConversationFail,
     profileActions.profileInfoGetFail,
     profileActions.profileUpdateFail,
     profileActions.profileLogoutFail,

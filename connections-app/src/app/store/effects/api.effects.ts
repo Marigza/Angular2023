@@ -145,6 +145,41 @@ export class ApiLoginEffects {
     );
   });
 
+  public createConversation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.createConversation),
+      exhaustMap(({ token, user }) =>
+        this.connectionsHttpService.createConversation$(token, user).pipe(
+          map(response => {
+            this.router
+              .navigate([`/conversation/${response.conversationID}`])
+              .catch(({ message }: Error) => message || null);
+
+            return mainActions.createConversationSuccess({
+              response: {
+                id: { S: response.conversationID },
+                companionID: { S: user },
+              },
+            });
+          }),
+          catchError((error: HttpErrorResponse) => of(mainActions.createConversationFail({ error })))
+        )
+      )
+    );
+  });
+
+  public getConversationsList$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.conversationsRequestSend),
+      exhaustMap(({ token }) =>
+        this.connectionsHttpService.getConversatonsList$(token).pipe(
+          map(response => mainActions.conversationsGetSuccess({ response })),
+          catchError((error: HttpErrorResponse) => of(mainActions.conversationsGetFail({ error })))
+        )
+      )
+    );
+  });
+
   public startTimerPeople$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(mainActions.peopleUpdateSuccess),
