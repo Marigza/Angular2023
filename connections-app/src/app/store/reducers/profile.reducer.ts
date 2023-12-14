@@ -90,6 +90,7 @@ export const profileReducer = createReducer(
       profile: null,
       groups: [],
       people: [],
+      conversations: [],
       isLoading: false,
       error: null,
     })
