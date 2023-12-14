@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { filter, map, tap } from 'rxjs';
+import { filter, map, Subscription, tap } from 'rxjs';
 
 import { ConnectionsStoreFacadeService } from '../services/connections-store-facade.service';
 
@@ -35,6 +35,8 @@ export class ModalWindowCreateComponent {
 
   public regExpChar = '(?=.*[!@#$%()\'<>|"+=-_.,;:/^&*])'; // TODO неправильно отрабатывает валидатор
 
+  public subs = new Subscription();
+
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     private formBuilder: NonNullableFormBuilder,
@@ -50,17 +52,19 @@ export class ModalWindowCreateComponent {
     const name = this.createGroup.get('name')?.value;
 
     if (name) {
-      this.connectionsStoreFacadeService.selectToken$
-        .pipe(
-          filter(token => token !== null),
-          map(token => {
-            token && this.connectionsStoreFacadeService.createGroup(token, name);
-          }),
-          tap(() => {
-            this.dialogRef.close();
-          })
-        )
-        .subscribe(data => data); // TODO убрать подписку куда-нибудь... с глаз долой
+      this.subs.add(
+        this.connectionsStoreFacadeService.selectToken$
+          .pipe(
+            filter(token => token !== null),
+            map(token => {
+              token && this.connectionsStoreFacadeService.createGroup(token, name);
+            }),
+            tap(() => {
+              this.dialogRef.close();
+            })
+          )
+          .subscribe(data => data)
+      ); // TODO убрать подписку куда-нибудь... с глаз долой
     }
   }
 
@@ -70,5 +74,9 @@ export class ModalWindowCreateComponent {
 
       return inputName.match(this.regExpChar) ? { noChar: true } : null;
     };
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
