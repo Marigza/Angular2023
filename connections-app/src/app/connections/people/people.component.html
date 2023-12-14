@@ -3,6 +3,8 @@
 </button>
 <ul *ngIf="people$ | async as people" class="person-list">
   <li class="person-item" *ngFor="let person of people; trackBy: trackByIndex">
-    <a class="people-link">{{ person.name.S }}</a>
+    <button [conBackground]="person.uid.S" class="people-link" (click)="openDialog(person.uid.S)">
+      {{ person.name.S }}
+    </button>
   </li>
 </ul>

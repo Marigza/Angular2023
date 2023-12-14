@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { exhaustMap, filter, map, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { defer, exhaustMap, filter, map, mergeMap, Subscription } from 'rxjs';
 
 import { PeopleParams } from '../../core/models/people-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
@@ -14,6 +15,8 @@ export class PeopleComponent implements OnInit, OnDestroy {
     map(people => people.filter(user => user.uid.S !== localStorage.getItem('uid')))
   );
 
+  public conversations$ = this.connectionsStoreFacadeService.selectConversations$;
+
   public isLoad$ = this.connectionsStoreFacadeService.isLoading$.pipe(
     exhaustMap(() => this.connectionsStoreFacadeService.selectIsTimerPeopleLoading$)
   );
@@ -22,7 +25,10 @@ export class PeopleComponent implements OnInit, OnDestroy {
 
   public subs = new Subscription();
 
-  constructor(private connectionsStoreFacadeService: ConnectionsStoreFacadeService) {}
+  constructor(
+    private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.subs.add(
@@ -32,6 +38,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
           exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
           map(token => {
             token && this.connectionsStoreFacadeService.peopleRequestSend(token);
+            token && this.connectionsStoreFacadeService.conversationsRequestSend(token);
           })
         )
         .subscribe(data => data)
@@ -45,6 +52,29 @@ export class PeopleComponent implements OnInit, OnDestroy {
           map(token => {
             token && this.connectionsStoreFacadeService.peopleUpdate(token);
           })
+        )
+        .subscribe(data => data)
+    );
+  }
+
+  public openDialog(userId: string): void {
+    this.subs.add(
+      this.conversations$
+        .pipe(
+          map(conversations => {
+            return conversations.map(dialog => dialog).find(user => user.companionID.S === userId);
+          }),
+          mergeMap(dialog =>
+            defer(() =>
+              dialog === undefined
+                ? this.connectionsStoreFacadeService.selectToken$.pipe(
+                    map(token => {
+                      token && this.connectionsStoreFacadeService.createConversation(token, userId);
+                    })
+                  )
+                : this.router.navigate([`/conversation/${dialog.id.S}`]).catch(({ message }: Error) => message || null)
+            )
+          )
         )
         .subscribe(data => data)
     );
