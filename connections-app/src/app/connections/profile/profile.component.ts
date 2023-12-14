@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { exhaustMap, filter, map, Subscription } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
@@ -9,7 +10,7 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit, OnDestroy {
   public profileParam$ = this.connectionsStoreFacadeService.selectProfile$;
 
   public isDisabled$ = this.connectionsStoreFacadeService.isLoading$;
@@ -20,10 +21,26 @@ export class ProfileComponent {
     name: ['', [Validators.required]],
   });
 
+  public subs = new Subscription();
+
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService
   ) {}
+
+  public ngOnInit(): void {
+    this.subs.add(
+      this.connectionsStoreFacadeService.selectProfile$
+        .pipe(
+          filter(profileParams => profileParams === null),
+          exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
+          map(token => {
+            token && this.connectionsStoreFacadeService.profileRequestSend(token);
+          })
+        )
+        .subscribe(data => data)
+    );
+  }
 
   public updateProfile(): void {
     const name = this.profile.get('name')?.value ?? '';
@@ -37,6 +54,7 @@ export class ProfileComponent {
   }
 
   public logout(): void {
+    // TODO сделать нормальную подгрузку из стора
     // this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
     //   token && this.connectionsStoreFacadeService.profileLogoutSend(token);
     // })
@@ -46,5 +64,9 @@ export class ProfileComponent {
       token: localStorage.getItem('token') ?? '',
     };
     this.connectionsStoreFacadeService.profileLogoutSend(token);
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
