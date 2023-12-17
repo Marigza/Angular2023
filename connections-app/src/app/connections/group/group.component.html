@@ -1,12 +1,12 @@
 <div class="buttons">
-  <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
+  <button mat-raised-button color="primary" type="submit" (click)="onUpdateGroups()" [disabled]="isLoad$ | async">
     Update {{ timer$ | async }}
   </button>
-  <button mat-raised-button color="primary" type="button" (click)="openModal()">Create</button>
+  <button mat-raised-button color="primary" type="button" (click)="openCreateModal()">Create</button>
 </div>
 <ul *ngIf="groups$ | async as groups" class="groups-list">
   <li *ngFor="let group of groups; trackBy: trackByIndex" class="group-item">
     <a [routerLink]="['/group', group.id.S]" class="group-link">{{ group.name.S }}</a>
-    <button *ngIf="owner === group.createdBy.S" type="button" (click)="deleteGroup(group.id.S)">x</button>
+    <button *ngIf="owner === group.createdBy.S" type="button" (click)="openDeleteModal(group.id.S)">x</button>
   </li>
 </ul>

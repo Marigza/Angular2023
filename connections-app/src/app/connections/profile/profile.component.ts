@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { exhaustMap, filter, map, Subscription } from 'rxjs';
+import { map, Subscription, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
@@ -23,30 +23,34 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public subs = new Subscription();
 
+  private userToken: TokenParams | null = null;
+
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService
   ) {}
 
   public ngOnInit(): void {
+    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+      this.userToken = userToken;
+    });
+
     this.subs.add(
       this.connectionsStoreFacadeService.selectProfile$
         .pipe(
-          filter(profileParams => profileParams === null),
-          exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
-          map(token => {
-            token && this.connectionsStoreFacadeService.profileRequestSend(token);
+          map(profile => {
+            if (profile) return;
+            this.userToken && this.connectionsStoreFacadeService.profileRequestSend(this.userToken);
           })
         )
-        .subscribe(data => data)
+        .subscribe()
     );
   }
 
   public updateProfile(): void {
     const name = this.profile.get('name')?.value ?? '';
-    this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
-      token && this.connectionsStoreFacadeService.profileUpdateRequest(token, name);
-    });
+
+    this.userToken && this.connectionsStoreFacadeService.profileUpdateRequest(this.userToken, name);
   }
 
   public toggleRedact(): void {
@@ -54,16 +58,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public logout(): void {
-    // TODO сделать нормальную подгрузку из стора
-    // this.connectionsStoreFacadeService.selectToken$.subscribe(token => {
-    //   token && this.connectionsStoreFacadeService.profileLogoutSend(token);
-    // })
-    const token: TokenParams = {
-      uid: localStorage.getItem('uid') ?? '',
-      email: localStorage.getItem('email') ?? '',
-      token: localStorage.getItem('token') ?? '',
-    };
-    this.connectionsStoreFacadeService.profileLogoutSend(token);
+    this.userToken && this.connectionsStoreFacadeService.profileLogoutSend(this.userToken);
   }
 
   public ngOnDestroy(): void {

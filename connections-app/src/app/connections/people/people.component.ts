@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { defer, exhaustMap, filter, map, mergeMap, Subscription } from 'rxjs';
+import { defer, exhaustMap, map, mergeMap, Subscription, take } from 'rxjs';
 
 import { PeopleParams } from '../../core/models/people-params.model';
+import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
 @Component({
@@ -25,20 +26,27 @@ export class PeopleComponent implements OnInit, OnDestroy {
 
   public subs = new Subscription();
 
+  private userToken: TokenParams | null = null;
+
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     private router: Router
   ) {}
 
   public ngOnInit(): void {
+    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+      this.userToken = userToken;
+    });
+
+    if (!this.userToken) return;
+
     this.subs.add(
       this.connectionsStoreFacadeService.selectPeople$
         .pipe(
-          filter(peopleParams => peopleParams.length === 0),
-          exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
-          map(token => {
-            token && this.connectionsStoreFacadeService.peopleRequestSend(token);
-            token && this.connectionsStoreFacadeService.conversationsRequestSend(token);
+          map(people => {
+            if (people.length !== 0) return;
+            this.userToken && this.connectionsStoreFacadeService.peopleRequestSend(this.userToken);
+            this.userToken && this.connectionsStoreFacadeService.conversationsRequestSend(this.userToken);
           })
         )
         .subscribe(data => data)
@@ -46,15 +54,9 @@ export class PeopleComponent implements OnInit, OnDestroy {
   }
 
   public update(): void {
-    this.subs.add(
-      this.connectionsStoreFacadeService.selectToken$
-        .pipe(
-          map(token => {
-            token && this.connectionsStoreFacadeService.peopleUpdate(token);
-          })
-        )
-        .subscribe(data => data)
-    );
+    if (!this.userToken) return;
+
+    this.connectionsStoreFacadeService.peopleUpdate(this.userToken);
   }
 
   public openDialog(userId: string): void {
@@ -76,13 +78,13 @@ export class PeopleComponent implements OnInit, OnDestroy {
             )
           )
         )
-        .subscribe(data => data)
+        .subscribe()
     );
   }
 
   /* eslint-disable class-methods-use-this */
 
-  public trackByIndex(index: number, item: PeopleParams): string {
+  public trackByIndex(_: number, item: PeopleParams): string {
     return item.name.S;
   }
 

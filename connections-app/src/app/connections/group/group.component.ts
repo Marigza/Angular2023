@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { exhaustMap, filter, map, Subscription } from 'rxjs';
+import { exhaustMap, filter, map, Subscription, take } from 'rxjs';
 
 import { GroupParams } from '../../core/models/group-params.model';
+import { TokenParams } from '../../core/models/token-params.model';
 import { ModalWindowConfirmationComponent } from '../../shared/modal-window-confirmation/modal-window-confirmation.component';
 import { ModalWindowCreateComponent } from '../../shared/modal-window-create/modal-window-create.component';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
@@ -25,42 +26,41 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   public subs = new Subscription();
 
+  private userToken: TokenParams | null = null;
+
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     public dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
+    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+      this.userToken = userToken;
+    });
+
+    if (!this.userToken) return;
     this.subs.add(
-      this.connectionsStoreFacadeService.selectGroups$
+      this.groups$
         .pipe(
-          filter(groupsParams => groupsParams.length === 0),
-          exhaustMap(() => this.connectionsStoreFacadeService.selectToken$),
-          map(token => {
-            token && this.connectionsStoreFacadeService.groupsRequestSend(token);
+          filter(groups => groups.length === 0),
+          map(() => {
+            this.userToken && this.connectionsStoreFacadeService.groupsRequestSend(this.userToken);
           })
         )
-        .subscribe(data => data)
+        .subscribe()
     );
   }
 
-  public update(): void {
-    this.subs.add(
-      this.connectionsStoreFacadeService.selectToken$
-        .pipe(
-          map(token => {
-            token && this.connectionsStoreFacadeService.groupsUpdate(token);
-          })
-        )
-        .subscribe(data => data)
-    );
+  public onUpdateGroups(): void {
+    if (!this.userToken) return;
+    this.connectionsStoreFacadeService.groupsUpdate(this.userToken);
   }
 
-  public openModal(): void {
+  public openCreateModal(): void {
     this.dialog.open(ModalWindowCreateComponent);
   }
 
-  public deleteGroup(group: string): void {
+  public openDeleteModal(group: string): void {
     this.dialog.open(ModalWindowConfirmationComponent, {
       data: group,
     });
@@ -68,7 +68,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   /* eslint-disable class-methods-use-this */
 
-  public trackByIndex(index: number, item: GroupParams): string {
+  public trackByIndex(_: number, item: GroupParams): string {
     return item.id.S;
   }
 
