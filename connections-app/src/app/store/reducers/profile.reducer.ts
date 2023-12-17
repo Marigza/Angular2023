@@ -1,8 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { TokenParams } from '../../core/models/token-params.model';
+import { groupDialogActions } from '../actions/group-dialog-page.actions';
 import { loginActions } from '../actions/login-page.actions';
 import { mainActions } from '../actions/main-page.actions';
+import { privateDialogActions } from '../actions/private-dialog-page-actions';
 import { profileActions } from '../actions/profile-page.actions';
 import { registrationActions } from '../actions/registration-page.actions';
 import { ConnectionStore } from '../models/connection-store.model';
@@ -19,12 +21,18 @@ export const initialState: ConnectionStore = {
   groups: [],
   people: [],
   conversations: [],
+  groupDialog: [],
+  privateDialog: [],
   error: null,
   timerGroups: null,
   timerPeople: null,
+  timerGroupDialog: null,
+  timerPrivateDialog: null,
   isLoading: false,
   isTimerGroupsLoading: false,
   isTimerPeopleLoading: false,
+  isTimerGroupDialogLoading: false,
+  isTimerPrivateDialogLoading: false,
 };
 
 export const connectionFeatureKey = 'connectionStore';
@@ -45,6 +53,14 @@ export const profileReducer = createReducer(
     profileActions.profileRequestSend,
     profileActions.profileUpdateRequest,
     profileActions.profileLogoutSend,
+    groupDialogActions.groupDialogDataRequestSend,
+    groupDialogActions.groupDialogDataUpdateRequestSend,
+    groupDialogActions.deleteGroupDialogRequestSend,
+    groupDialogActions.groupDialogAddMessageRequestSend,
+    privateDialogActions.privateDialogDataRequestSend,
+    privateDialogActions.privateDialogDataUpdateRequestSend,
+    privateDialogActions.deletePrivateDialogRequestSend,
+    privateDialogActions.privateDialogAddMessageRequestSend,
     (state): ConnectionStore => ({
       ...state,
       isLoading: true,
@@ -150,6 +166,78 @@ export const profileReducer = createReducer(
     })
   ),
   on(
+    groupDialogActions.deleteGroupDialogSuccess,
+    (state, { groupId }): ConnectionStore => ({
+      ...state,
+      groups: state.groups.filter(({ id }) => id.S !== groupId),
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    groupDialogActions.groupDialogAddMessageSuccess,
+    (state, { message }): ConnectionStore => ({
+      ...state,
+      groupDialog: state.groupDialog.concat(message),
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    groupDialogActions.groupDialogDataGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      groupDialog: response.Items, // TODO как быть при открытии другой группы?
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    groupDialogActions.groupDialogDataUpdateGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      groupDialog: response.Items,
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    privateDialogActions.deletePrivateDialogSuccess,
+    (state, { conversationId }): ConnectionStore => ({
+      ...state,
+      conversations: state.conversations.filter(({ id }) => id.S !== conversationId),
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    privateDialogActions.privateDialogAddMessageSuccess,
+    (state, { message }): ConnectionStore => ({
+      ...state,
+      privateDialog: state.privateDialog.concat(message),
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    privateDialogActions.privateDialogDataGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      privateDialog: response.Items,
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
+    privateDialogActions.privateDialogDataUpdateGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      privateDialog: response.Items,
+      error: null,
+      isLoading: false,
+    })
+  ),
+  on(
     loginActions.loginFail,
     registrationActions.registrationFail,
     mainActions.peopleGetFail,
@@ -163,12 +251,36 @@ export const profileReducer = createReducer(
     profileActions.profileInfoGetFail,
     profileActions.profileUpdateFail,
     profileActions.profileLogoutFail,
+    groupDialogActions.groupDialogDataGetFail,
+    groupDialogActions.groupDialogDataUpdateGetFail,
+    groupDialogActions.groupDialogAddMessageFail,
+    groupDialogActions.deleteGroupDialogFail,
+    privateDialogActions.privateDialogDataGetFail,
+    privateDialogActions.privateDialogDataUpdateGetFail,
+    privateDialogActions.deletePrivateDialogFail,
+    privateDialogActions.privateDialogAddMessageFail,
     (state, err): ConnectionStore => ({
       ...state,
       isLoading: false,
       error: err.error.message,
     })
   ),
+  // TODO временное решение для сообщений в чатах. Пока не прописала логику с sinse параметром
+  on(
+    privateDialogActions.goAwayFromCurrentPage,
+    (state): ConnectionStore => ({
+      ...state,
+      privateDialog: [],
+    })
+  ),
+  on(
+    groupDialogActions.goAwayFromCurrentPage,
+    (state): ConnectionStore => ({
+      ...state,
+      groupDialog: [],
+    })
+  ),
+  // конец временное решение
   on(
     mainActions.groupsUpdateSuccess,
     (state, { response }): ConnectionStore => ({
@@ -192,6 +304,28 @@ export const profileReducer = createReducer(
     })
   ),
   on(
+    groupDialogActions.groupDialogDataUpdateGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      timerGroupDialog: 60,
+      groupDialog: response.Items,
+      error: null,
+      isTimerGroupDialogLoading: true,
+      isLoading: false,
+    })
+  ),
+  on(
+    privateDialogActions.privateDialogDataUpdateGetSuccess,
+    (state, { response }): ConnectionStore => ({
+      ...state,
+      timerPrivateDialog: 60,
+      privateDialog: response.Items,
+      error: null,
+      isTimerPrivateDialogLoading: true,
+      isLoading: false,
+    })
+  ),
+  on(
     mainActions.currentTimerGroups,
     (state, { time }): ConnectionStore => ({
       ...state,
@@ -203,6 +337,20 @@ export const profileReducer = createReducer(
     (state, { time }): ConnectionStore => ({
       ...state,
       timerPeople: time,
+    })
+  ),
+  on(
+    groupDialogActions.currentTimerGroupDialog,
+    (state, { time }): ConnectionStore => ({
+      ...state,
+      timerGroupDialog: time,
+    })
+  ),
+  on(
+    privateDialogActions.currentTimerPrivateDialog,
+    (state, { time }): ConnectionStore => ({
+      ...state,
+      timerPrivateDialog: time,
     })
   ),
   on(
@@ -219,6 +367,22 @@ export const profileReducer = createReducer(
       ...state,
       timerPeople: null,
       isTimerPeopleLoading: false,
+    })
+  ),
+  on(
+    groupDialogActions.endTimerGroupDialog,
+    (state): ConnectionStore => ({
+      ...state,
+      timerGroupDialog: null,
+      isTimerGroupDialogLoading: false,
+    })
+  ),
+  on(
+    privateDialogActions.endTimerPrivateDialog,
+    (state): ConnectionStore => ({
+      ...state,
+      timerPrivateDialog: null,
+      isTimerPrivateDialogLoading: false,
     })
   )
 );

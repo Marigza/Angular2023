@@ -32,3 +32,11 @@ export const selectConversations = createSelector(selectFeature, ({ conversation
 export const selectTimerGroups = createSelector(selectFeature, ({ timerGroups }) => timerGroups);
 
 export const selectTimerPeople = createSelector(selectFeature, ({ timerPeople }) => timerPeople);
+
+export const selectGroupDialog = createSelector(selectFeature, ({ groupDialog }) => groupDialog);
+
+export const selectPrivateDialog = createSelector(selectFeature, ({ privateDialog }) => privateDialog);
+
+export const selectTimerGroupDialog = createSelector(selectFeature, ({ timerGroupDialog }) => timerGroupDialog);
+
+export const selectTimerPrivateDialog = createSelector(selectFeature, ({ timerPrivateDialog }) => timerPrivateDialog);

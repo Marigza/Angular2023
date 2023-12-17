@@ -13,7 +13,9 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { HttpConnectionsInterceptor } from './core/interceptors/http-connections.interceptor';
 import { SharedModule } from './shared/shared.module';
-import { ApiLoginEffects } from './store/effects/api.effects';
+import { GroupsEffects } from './store/effects/groups.effects';
+import { PeopleEffects } from './store/effects/people.effects';
+import { ProfileEffects } from './store/effects/profile.effects';
 import { profileReducer } from './store/reducers/profile.reducer';
 
 @NgModule({
@@ -27,7 +29,7 @@ import { profileReducer } from './store/reducers/profile.reducer';
     AuthModule,
     StoreModule.forRoot({ connectionStore: profileReducer }, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([ApiLoginEffects]),
+    EffectsModule.forRoot([ProfileEffects, GroupsEffects, PeopleEffects]),
     BrowserAnimationsModule,
     MatSnackBarModule,
   ],

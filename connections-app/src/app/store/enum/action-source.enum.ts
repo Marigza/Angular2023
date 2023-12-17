@@ -3,4 +3,6 @@ export const enum ActionSource {
   Registration = 'Registration',
   Profile = 'Profile',
   Main = 'Main',
+  GroupDialog = 'GroupDialog',
+  PrivateDialog = 'PrivateDialog',
 }

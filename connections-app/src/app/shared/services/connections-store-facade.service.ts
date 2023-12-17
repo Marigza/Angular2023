@@ -6,21 +6,27 @@ import { LoginParams } from '../../core/models/login-params.model';
 import { RegisterParams } from '../../core/models/register-params.model';
 import { ResponseLogin } from '../../core/models/response-login.model';
 import { TokenParams } from '../../core/models/token-params.model';
+import { groupDialogActions } from '../../store/actions/group-dialog-page.actions';
 import { loginActions } from '../../store/actions/login-page.actions';
 import { mainActions } from '../../store/actions/main-page.actions';
+import { privateDialogActions } from '../../store/actions/private-dialog-page-actions';
 import { profileActions } from '../../store/actions/profile-page.actions';
 import { registrationActions } from '../../store/actions/registration-page.actions';
 import {
   selectConversations,
   selectError,
+  selectGroupDialog,
   selectGroups,
   selectIsLoading,
   selectIsTimerGroupsLoading,
   selectIsTimerPeopleLoading,
   selectPeople,
+  selectPrivateDialog,
   selectProfile,
+  selectTimerGroupDialog,
   selectTimerGroups,
   selectTimerPeople,
+  selectTimerPrivateDialog,
   selectToken,
 } from '../../store/selectors/profile.selector';
 
@@ -43,6 +49,14 @@ export class ConnectionsStoreFacadeService {
   public selectGroups$ = this.store.select(selectGroups);
 
   public selectPeople$ = this.store.select(selectPeople);
+
+  public selectGroupDialog$ = this.store.select(selectGroupDialog);
+
+  public selectPrivateDialog$ = this.store.select(selectPrivateDialog);
+
+  public selectTimerGroupDialog$ = this.store.select(selectTimerGroupDialog);
+
+  public selectTimerPrivateDialog$ = this.store.select(selectTimerPrivateDialog);
 
   public selectConversations$ = this.store.select(selectConversations);
 
@@ -118,5 +132,45 @@ export class ConnectionsStoreFacadeService {
 
   public profileLogoutSend(token: TokenParams): void {
     this.store.dispatch(profileActions.profileLogoutSend({ token }));
+  }
+
+  public groupDialogData(token: TokenParams, groupId: string, since = 0): void {
+    this.store.dispatch(groupDialogActions.groupDialogDataRequestSend({ token, groupId, since }));
+  }
+
+  public groupDialogDataUpdate(token: TokenParams, groupId: string, since: number): void {
+    this.store.dispatch(groupDialogActions.groupDialogDataUpdateRequestSend({ token, groupId, since }));
+  }
+
+  public groupDialogAddMessage(token: TokenParams, groupId: string, message: string): void {
+    this.store.dispatch(groupDialogActions.groupDialogAddMessageRequestSend({ token, groupId, message }));
+  }
+
+  public deleteGroupFromDialog(token: TokenParams, groupId: string): void {
+    this.store.dispatch(groupDialogActions.deleteGroupDialogRequestSend({ token, groupId }));
+  }
+
+  public goAwayFromGroup(): void {
+    this.store.dispatch(groupDialogActions.goAwayFromCurrentPage());
+  }
+
+  public privateDialogData(token: TokenParams, conversationId: string, since = 0): void {
+    this.store.dispatch(privateDialogActions.privateDialogDataRequestSend({ token, conversationId, since }));
+  }
+
+  public privateDialogDataUpdate(token: TokenParams, conversationId: string, since: number): void {
+    this.store.dispatch(privateDialogActions.privateDialogDataUpdateRequestSend({ token, conversationId, since }));
+  }
+
+  public privateDialogAddMessage(token: TokenParams, conversationId: string, message: string): void {
+    this.store.dispatch(privateDialogActions.privateDialogAddMessageRequestSend({ token, conversationId, message }));
+  }
+
+  public deletePrivateDialog(token: TokenParams, conversationId: string): void {
+    this.store.dispatch(privateDialogActions.deletePrivateDialogRequestSend({ token, conversationId }));
+  }
+
+  public goAwayFromPrivate(): void {
+    this.store.dispatch(privateDialogActions.goAwayFromCurrentPage());
   }
 }
