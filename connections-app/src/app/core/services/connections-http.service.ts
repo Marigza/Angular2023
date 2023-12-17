@@ -186,7 +186,7 @@ export class ConnectionsHttpService {
       );
   }
 
-  public getGroupDialog(tokenParams: TokenParams, groupId: string, since = 0): Observable<ResponseDialog> {
+  public getGroupDialog$(tokenParams: TokenParams, groupId: string, since = 0): Observable<ResponseDialog> {
     return this.http
       .get<ResponseDialog>(`groups/read?groupID=${groupId}&since=${since}`, {
         headers: {
@@ -198,7 +198,7 @@ export class ConnectionsHttpService {
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public addMessageToGroupDialog(
+  public addMessageToGroupDialog$(
     tokenParams: TokenParams,
     groupId: string,
     message: string
@@ -218,7 +218,7 @@ export class ConnectionsHttpService {
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public getPrivateDialog(tokenParams: TokenParams, conversationId: string, since = 0): Observable<ResponseDialog> {
+  public getPrivateDialog$(tokenParams: TokenParams, conversationId: string, since = 0): Observable<ResponseDialog> {
     return this.http
       .get<ResponseDialog>(`conversations/read?conversationID=${conversationId}&since=${since}`, {
         headers: {
@@ -230,7 +230,7 @@ export class ConnectionsHttpService {
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public addMessageToPrivateDialog(
+  public addMessageToPrivateDialog$(
     tokenParams: TokenParams,
     conversationId: string,
     message: string
@@ -250,7 +250,7 @@ export class ConnectionsHttpService {
       .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
-  public deletePrivateDialog(tokenParams: TokenParams, conversationId: string): Observable<HttpStatusCode> {
+  public deletePrivateDialog$(tokenParams: TokenParams, conversationId: string): Observable<HttpStatusCode> {
     return this.http
       .delete<HttpStatusCode>(`conversations/delete?conversationID=${conversationId}`, {
         headers: {
