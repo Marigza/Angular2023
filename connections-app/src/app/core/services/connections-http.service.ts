@@ -10,6 +10,7 @@ import { LoginParams } from '../models/login-params.model';
 import { ProfileParams } from '../models/profile-params.model';
 import { RegisterParams } from '../models/register-params.model';
 import { ResponseConversationsList } from '../models/response-conversations-list.model';
+import { ResponseDialog } from '../models/response-dialog.model';
 import { ResponseGroups } from '../models/response-groups.model';
 import { ResponseLogin } from '../models/response-login.model';
 import { ResponsePeople } from '../models/response-people.model';
@@ -183,6 +184,82 @@ export class ConnectionsHttpService {
         tap(() => this.snackBar.open('user is logged out', undefined, { duration: 3000 })),
         catchError((err: HttpErrorResponse) => this.handleError$(err))
       );
+  }
+
+  public getGroupDialog(tokenParams: TokenParams, groupId: string, since = 0): Observable<ResponseDialog> {
+    return this.http
+      .get<ResponseDialog>(`groups/read?groupID=${groupId}&since=${since}`, {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public addMessageToGroupDialog(
+    tokenParams: TokenParams,
+    groupId: string,
+    message: string
+  ): Observable<HttpStatusCode> {
+    return this.http
+      .post<HttpStatusCode>(
+        'groups/append',
+        { groupID: groupId, message },
+        {
+          headers: {
+            'rs-uid': tokenParams.uid,
+            'rs-email': tokenParams.email,
+            Authorization: `Bearer ${tokenParams.token}`,
+          },
+        }
+      )
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public getPrivateDialog(tokenParams: TokenParams, conversationId: string, since = 0): Observable<ResponseDialog> {
+    return this.http
+      .get<ResponseDialog>(`conversations/read?conversationID=${conversationId}&since=${since}`, {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public addMessageToPrivateDialog(
+    tokenParams: TokenParams,
+    conversationId: string,
+    message: string
+  ): Observable<HttpStatusCode> {
+    return this.http
+      .post<HttpStatusCode>(
+        'conversations/append',
+        { conversationID: conversationId, message },
+        {
+          headers: {
+            'rs-uid': tokenParams.uid,
+            'rs-email': tokenParams.email,
+            Authorization: `Bearer ${tokenParams.token}`,
+          },
+        }
+      )
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
+  }
+
+  public deletePrivateDialog(tokenParams: TokenParams, conversationId: string): Observable<HttpStatusCode> {
+    return this.http
+      .delete<HttpStatusCode>(`conversations/delete?conversationID=${conversationId}`, {
+        headers: {
+          'rs-uid': tokenParams.uid,
+          'rs-email': tokenParams.email,
+          Authorization: `Bearer ${tokenParams.token}`,
+        },
+      })
+      .pipe(catchError((err: HttpErrorResponse) => this.handleError$(err)));
   }
 
   /* eslint-disable class-methods-use-this */
