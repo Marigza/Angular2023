@@ -1,8 +1,78 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   margin: 20px;
   padding: 10px;
   border: 1px solid #c2185b;
   background-color: #db7ca2;
   border-radius: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.conversation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #c2185b;
+  background-color: white;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.message-field {
+  border: 1px solid #c2185b;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.form-text {
+  flex-grow: 1;
+}
+
+.header {
+  align-self: center;
+  color: #c2185b;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+.message {
+  border: 1px solid #c2185b;
+  background-color: #db7ca2;
+  width: 250px;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.message-left {
+  align-self: flex-start;
+}
+
+.message-right {
+  align-self: flex-end;
+}
+
+.message-time {
+  font-weight: 200;
+}
+
+.message-author {
+  font-weight: 600;
+}
+
+.message-text {
+  font-style: italic;
 }

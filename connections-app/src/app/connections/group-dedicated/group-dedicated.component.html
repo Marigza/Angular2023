@@ -1,1 +1,31 @@
-<p>group-dedicated works!</p>
+<div class="buttons">
+  <a mat-raised-button color="primary" type="button" routerLink="../../">Back</a>
+  <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
+    Update {{ timer$ | async }}
+  </button>
+  <button *ngIf="owner" mat-raised-button color="primary" type="button" (click)="delete()">Delete</button>
+</div>
+<div class="conversation-field">
+  <header class="header">Group Name. Here will be conversations</header>
+  <div class="message message-left">
+    <div class="message-time">time</div>
+    <div class="message-author">author</div>
+    <div class="message-text">message</div>
+  </div>
+  <div class="message message-right">
+    <div class="message-time">time</div>
+    <div class="message-author">author</div>
+    <div class="message-text">message</div>
+  </div>
+</div>
+<div class="message-field">
+  <form [formGroup]="message" class="form" novalidate (ngSubmit)="onSendMessage()">
+    <mat-form-field appearance="outline" class="form-text">
+      <input matInput formControlName="text" required />
+      <mat-error *ngIf="message.controls.text.touched && message.controls.text.hasError('required')"
+        >Please enter text</mat-error
+      >
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!message.valid">Send</button>
+  </form>
+</div>
