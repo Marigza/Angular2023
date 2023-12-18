@@ -18,8 +18,10 @@ import {
   selectGroupDialog,
   selectGroups,
   selectIsLoading,
+  selectIsTimerGroupDialogLoading,
   selectIsTimerGroupsLoading,
   selectIsTimerPeopleLoading,
+  selectIsTimerPrivateDialogLoading,
   selectPeople,
   selectPrivateDialog,
   selectProfile,
@@ -40,6 +42,10 @@ export class ConnectionsStoreFacadeService {
 
   public selectIsTimerPeopleLoading$ = this.store.select(selectIsTimerPeopleLoading);
 
+  public selectIsTimerGroupDialogLoading$ = this.store.select(selectIsTimerGroupDialogLoading);
+
+  public selectIsTimerPrivateDialogLoading$ = this.store.select(selectIsTimerPrivateDialogLoading);
+
   public selectError$ = this.store.select(selectError);
 
   public selectProfile$ = this.store.select(selectProfile);
@@ -54,9 +60,9 @@ export class ConnectionsStoreFacadeService {
 
   public selectPrivateDialog$ = this.store.select(selectPrivateDialog);
 
-  public selectTimerGroupDialog$ = this.store.select(selectTimerGroupDialog);
+  public timerGroupDialog$ = this.store.select(selectTimerGroupDialog);
 
-  public selectTimerPrivateDialog$ = this.store.select(selectTimerPrivateDialog);
+  public timerPrivateDialog$ = this.store.select(selectTimerPrivateDialog);
 
   public selectConversations$ = this.store.select(selectConversations);
 

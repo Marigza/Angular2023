@@ -40,3 +40,13 @@ export const selectPrivateDialog = createSelector(selectFeature, ({ privateDialo
 export const selectTimerGroupDialog = createSelector(selectFeature, ({ timerGroupDialog }) => timerGroupDialog);
 
 export const selectTimerPrivateDialog = createSelector(selectFeature, ({ timerPrivateDialog }) => timerPrivateDialog);
+
+export const selectIsTimerGroupDialogLoading = createSelector(
+  selectFeature,
+  ({ isTimerGroupDialogLoading }) => isTimerGroupDialogLoading
+);
+
+export const selectIsTimerPrivateDialogLoading = createSelector(
+  selectFeature,
+  ({ isTimerPrivateDialogLoading }) => isTimerPrivateDialogLoading
+);
