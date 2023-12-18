@@ -34,7 +34,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+    this.connectionsStoreFacadeService.selectToken$.pipe(filter(Boolean), take(1)).subscribe(userToken => {
       this.userToken = userToken;
     });
 
