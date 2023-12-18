@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { filter, map, Subscription, tap } from 'rxjs';
+import { filter, take } from 'rxjs';
 
+import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../services/connections-store-facade.service';
 
 @Component({
@@ -13,8 +14,8 @@ import { ConnectionsStoreFacadeService } from '../services/connections-store-fac
   standalone: true,
   imports: [CommonModule, MatButtonModule],
 })
-export class ModalWindowConfirmationComponent {
-  public subs = new Subscription();
+export class ModalWindowConfirmationComponent implements OnInit {
+  private userToken: TokenParams | null = null;
 
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
@@ -22,31 +23,24 @@ export class ModalWindowConfirmationComponent {
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {}
 
+  public ngOnInit(): void {
+    this.connectionsStoreFacadeService.selectToken$.pipe(filter(Boolean), take(1)).subscribe(userToken => {
+      this.userToken = userToken;
+    });
+  }
+
   public onNoClick(): void {
     this.dialogRef.close();
   }
 
   public delete(): void {
-    this.subs.add(
-      this.connectionsStoreFacadeService.selectToken$
-        .pipe(
-          filter(token => token !== null),
-          map(token => {
-            token && this.connectionsStoreFacadeService.deleteGroup(token, this.data);
-          }),
-          tap(() => {
-            this.dialogRef.close();
-          })
-        )
-        .subscribe(data => data)
-    ); // TODO убрать подписку куда-нибудь... с глаз долой
+    if (!this.userToken) return;
+
+    this.connectionsStoreFacadeService.deleteGroup(this.userToken, this.data);
+    this.dialogRef.close();
   }
 
   public cancel(): void {
     this.dialogRef.close();
-  }
-
-  public ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

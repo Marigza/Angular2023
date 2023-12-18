@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { map, Subscription, take } from 'rxjs';
+import { filter, map, Subscription, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+    this.connectionsStoreFacadeService.selectToken$.pipe(filter(Boolean), take(1)).subscribe(userToken => {
       this.userToken = userToken;
     });
 

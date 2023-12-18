@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { take } from 'rxjs';
+import { filter, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../services/connections-store-facade.service';
@@ -41,7 +41,7 @@ export class ModalWindowCreateComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+    this.connectionsStoreFacadeService.selectToken$.pipe(filter(Boolean), take(1)).subscribe(userToken => {
       this.userToken = userToken;
     });
   }

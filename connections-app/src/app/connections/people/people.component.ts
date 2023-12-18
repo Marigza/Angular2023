@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { defer, exhaustMap, map, mergeMap, Subscription, take } from 'rxjs';
+import { defer, exhaustMap, filter, map, mergeMap, Subscription, take } from 'rxjs';
 
 import { PeopleParams } from '../../core/models/people-params.model';
 import { TokenParams } from '../../core/models/token-params.model';
@@ -34,7 +34,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.connectionsStoreFacadeService.selectToken$.pipe(take(1)).subscribe(userToken => {
+    this.connectionsStoreFacadeService.selectToken$.pipe(filter(Boolean), take(1)).subscribe(userToken => {
       this.userToken = userToken;
     });
 
