@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { exhaustMap, filter, map, Subscription, take } from 'rxjs';
 
 import { MessageParams } from '../../core/models/message-params.model';
@@ -30,10 +30,6 @@ export class GroupDedicatedComponent implements OnInit, OnDestroy {
     })
   );
 
-  // public dialog$ = combineLatest([this.connectionsStoreFacadeService.selectPeople$, this.connectionsStoreFacadeService.selectGroupDialog$]).pipe(
-  //   map(([ people, messages])=>this.getUserName(messages, people))
-  // )
-
   public groups$ = this.connectionsStoreFacadeService.selectGroups$;
 
   public people$ = this.connectionsStoreFacadeService.selectPeople$;
@@ -56,8 +52,7 @@ export class GroupDedicatedComponent implements OnInit, OnDestroy {
     private formBuilder: NonNullableFormBuilder,
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     private route: ActivatedRoute,
-    public dialog: MatDialog,
-    private router: Router
+    public dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -104,14 +99,9 @@ export class GroupDedicatedComponent implements OnInit, OnDestroy {
   }
 
   public delete(): void {
-    const dialog = this.dialog.open(ModalWindowConfirmationComponent, {
+    this.dialog.open(ModalWindowConfirmationComponent, {
       data: this.currentDialogId,
     });
-    this.subs.add(
-      dialog.afterClosed().subscribe(() => {
-        this.router.navigate(['../../']).catch(({ message }: Error) => message || null);
-      })
-    );
   }
 
   public onSendMessage(): void {
@@ -139,22 +129,4 @@ export class GroupDedicatedComponent implements OnInit, OnDestroy {
 
     return dialogIdFromRoute ?? '';
   }
-
-  // private getUserName(messages: MessageParams[], people: PeopleParams[]) {
-
-  //   const mesagesSorted = messages.slice();
-
-  //   mesagesSorted.sort((a: MessageParams, b: MessageParams) => +a.createdAt.S - +b.createdAt.S);
-
-  //   mesagesSorted.forEach(message => {
-
-  //     const user = people.find(user => user.uid.S === message.authorID.S)
-  //     Object.defineProperty(message, 'author', {value: user?.name}, )
-  //             console.log(user)
-  //             //if (user) message.authorID.S = user.name.S;
-  //             //message.authorID.S
-  //           })
-  //   return mesagesSorted
-
-  // }
 }
