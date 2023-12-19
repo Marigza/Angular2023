@@ -11,7 +11,6 @@ export class HttpConnectionsInterceptor implements HttpInterceptor {
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const url = `${this.apiUrl}${request.url}`;
     const updateRequest = request.clone({
-      // setParams: { key: this.apiKey },
       url,
     });
 
