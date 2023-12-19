@@ -33,6 +33,7 @@ export const initialState: ConnectionStore = {
   isTimerPeopleLoading: false,
   isTimerGroupDialogLoading: false,
   isTimerPrivateDialogLoading: false,
+  responseStatus: null,
 };
 
 export const connectionFeatureKey = 'connectionStore';
@@ -65,6 +66,7 @@ export const profileReducer = createReducer(
       ...state,
       isLoading: true,
       error: null,
+      responseStatus: null,
     })
   ),
   on(
@@ -127,6 +129,7 @@ export const profileReducer = createReducer(
       groups: state.groups.concat(response),
       isLoading: false,
       error: null,
+      responseStatus: 200,
     })
   ),
   on(
@@ -136,6 +139,7 @@ export const profileReducer = createReducer(
       groups: state.groups.filter(({ id }) => id.S !== group),
       isLoading: false,
       error: null,
+      responseStatus: 200,
     })
   ),
   on(

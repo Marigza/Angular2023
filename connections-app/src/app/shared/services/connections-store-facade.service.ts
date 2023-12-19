@@ -25,6 +25,7 @@ import {
   selectPeople,
   selectPrivateDialog,
   selectProfile,
+  selectStatus,
   selectTimerGroupDialog,
   selectTimerGroups,
   selectTimerPeople,
@@ -69,6 +70,8 @@ export class ConnectionsStoreFacadeService {
   public timerGroups$ = this.store.select(selectTimerGroups);
 
   public timerPeople$ = this.store.select(selectTimerPeople);
+
+  public status$ = this.store.select(selectStatus);
 
   constructor(private store: Store) {}
 

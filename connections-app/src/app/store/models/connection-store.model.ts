@@ -26,4 +26,5 @@ export interface ConnectionStore {
   isTimerPeopleLoading: boolean;
   isTimerGroupDialogLoading: boolean;
   isTimerPrivateDialogLoading: boolean;
+  responseStatus: number | null;
 }

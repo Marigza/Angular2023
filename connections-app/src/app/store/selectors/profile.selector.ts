@@ -50,3 +50,5 @@ export const selectIsTimerPrivateDialogLoading = createSelector(
   selectFeature,
   ({ isTimerPrivateDialogLoading }) => isTimerPrivateDialogLoading
 );
+
+export const selectStatus = createSelector(selectFeature, ({ responseStatus }) => responseStatus);
