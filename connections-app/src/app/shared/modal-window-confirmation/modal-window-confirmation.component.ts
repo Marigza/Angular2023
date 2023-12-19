@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { ConnectionsStoreFacadeService } from '../services/connections-store-fac
   standalone: true,
   imports: [CommonModule, MatButtonModule],
 })
-export class ModalWindowConfirmationComponent implements OnInit {
+export class ModalWindowConfirmationComponent implements OnInit, OnDestroy {
   private userToken: TokenParams | null = null;
 
   public responseStatusCode$ = this.connectionsStoreFacadeService.responseStatusCode$;
