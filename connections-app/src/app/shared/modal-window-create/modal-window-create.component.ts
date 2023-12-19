@@ -27,7 +27,7 @@ import { ConnectionsStoreFacadeService } from '../services/connections-store-fac
 export class ModalWindowCreateComponent implements OnInit, OnDestroy {
   public isDisabled$ = this.connectionsStoreFacadeService.isLoading$;
 
-  public status$ = this.connectionsStoreFacadeService.status$;
+  public responseStatusCode$ = this.connectionsStoreFacadeService.responseStatusCode$;
 
   public createGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(30), this.characterValidator()]],
@@ -64,7 +64,7 @@ export class ModalWindowCreateComponent implements OnInit, OnDestroy {
     if (name) this.connectionsStoreFacadeService.createGroup(this.userToken, name);
 
     this.subs.add(
-      this.status$.pipe(distinctUntilChanged()).subscribe(status => {
+      this.responseStatusCode$.pipe(distinctUntilChanged()).subscribe(status => {
         if (status === 200) this.dialogRef.close();
       })
     );

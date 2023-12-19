@@ -71,7 +71,7 @@ export class ConnectionsStoreFacadeService {
 
   public timerPeople$ = this.store.select(selectTimerPeople);
 
-  public status$ = this.store.select(selectStatus);
+  public responseStatusCode$ = this.store.select(selectStatus);
 
   constructor(private store: Store) {}
 

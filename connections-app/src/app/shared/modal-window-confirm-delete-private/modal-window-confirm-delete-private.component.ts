@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { filter, take } from 'rxjs';
+import { Router } from '@angular/router';
+import { distinctUntilChanged, filter, Subscription, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../services/connections-store-facade.service';
@@ -17,8 +18,13 @@ import { ConnectionsStoreFacadeService } from '../services/connections-store-fac
 export class ModalWindowConfirmDeletePrivateComponent implements OnInit {
   private userToken: TokenParams | null = null;
 
+  public responseStatusCode$ = this.connectionsStoreFacadeService.responseStatusCode$;
+
+  public subs = new Subscription();
+
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
+    private router: Router,
     public dialogRef: MatDialogRef<ModalWindowConfirmDeletePrivateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {}
@@ -37,10 +43,19 @@ export class ModalWindowConfirmDeletePrivateComponent implements OnInit {
     if (!this.userToken) return;
 
     this.connectionsStoreFacadeService.deletePrivateDialog(this.userToken, this.data);
-    this.dialogRef.close(); // TODO закрывается сразу, а должен после ответа сервера!!!
+    this.responseStatusCode$.pipe(distinctUntilChanged()).subscribe(status => {
+      if (status === 200) {
+        this.dialogRef.close();
+        this.router.navigate(['../../']).catch(({ message }: Error) => message || null);
+      }
+    });
   }
 
   public cancel(): void {
     this.dialogRef.close();
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
