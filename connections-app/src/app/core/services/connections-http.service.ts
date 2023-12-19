@@ -266,7 +266,12 @@ export class ConnectionsHttpService {
 
   private handleError$(err: HttpErrorResponse): Observable<never> {
     const errorResponse = err.error as ErrorResponseObject;
-    this.snackBar.open(errorResponse.message, undefined, { duration: 3000 });
+
+    if (err.status === 500) {
+      this.snackBar.open('server error', undefined, { duration: 3000 });
+    } else {
+      this.snackBar.open(errorResponse.message, undefined, { duration: 3000 });
+    }
 
     return throwError(() => new Error(err.message));
   }
