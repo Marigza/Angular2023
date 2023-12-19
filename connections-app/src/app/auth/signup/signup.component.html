@@ -1,0 +1,77 @@
+<mat-card class="signup-block">
+  <mat-card-header>
+    <mat-card-title>Registration</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="registration" class="form" novalidate (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>name</mat-label>
+      <input matInput formControlName="name" required />
+      <mat-error *ngIf="registration.controls.name.touched && registration.controls.name.hasError('required')"
+        >Please enter your name</mat-error
+      >
+      <mat-error *ngIf="registration.controls.name.hasError('maxlength')"> Maximum - 40 chars</mat-error>
+      <mat-error *ngIf="registration.controls.name.value.length && registration.controls.name.hasError('name')">
+        Allows only letters or spaces</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>email</mat-label>
+      <input matInput placeholder="sample@email.ru" formControlName="email" required />
+      <mat-error *ngIf="registration.controls.email.touched && registration.controls.email.hasError('required')"
+        >Please enter a registration email</mat-error
+      >
+      <mat-error *ngIf="registration.controls.email.hasError('email')">The registration email is invalid</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="canVisiblePassword ? 'password' : 'text'"
+        placeholder="enter your password"
+        formControlName="password"
+      />
+      <button type="button" mat-icon-button matSuffix (click)="changePasswordVisibility()">
+        <mat-icon>{{ visibleIcon }}</mat-icon>
+      </button>
+      <mat-error *ngIf="registration.controls.password.touched && registration.controls.password.hasError('required')"
+        >Please enter a password</mat-error
+      >
+      <mat-error *ngIf="registration.controls.password.dirty && registration.controls.password.value.length"
+        >Your password is not strong enough:</mat-error
+      >
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('noUpperCase')"
+      >
+        <mat-icon>warning</mat-icon>
+        At least one uppercase letter.</mat-error
+      >
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('noDigit')"
+      >
+        <mat-icon>warning</mat-icon>
+        At least one digit.</mat-error
+      >
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('noChar')"
+      >
+        <mat-icon>warning</mat-icon>
+        At least one special character.</mat-error
+      >
+      <mat-error
+        *ngIf="registration.controls.password.value.length && registration.controls.password.hasError('minlength')"
+      >
+        <mat-icon>warning</mat-icon>
+        At least 8 characters.
+      </mat-error>
+    </mat-form-field>
+    <div class="registration-button">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!registration.valid || (isLoaded$ | async)">
+        register
+      </button>
+    </div>
+  </form>
+  <mat-card-footer>
+    <span>Already have account? Please </span>
+    <a mat-stroked-button routerLink="/signin">Sign-In</a>
+  </mat-card-footer>
+</mat-card>

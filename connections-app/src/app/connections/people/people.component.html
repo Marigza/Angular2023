@@ -1,0 +1,10 @@
+<button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
+  Update {{ timer$ | async }}
+</button>
+<ul *ngIf="people$ | async as people" class="person-list">
+  <li class="person-item" *ngFor="let person of people; trackBy: trackByIndex">
+    <button [conBackground]="person.uid.S" class="people-link" (click)="openDialog(person.uid.S)">
+      {{ person.name.S }}
+    </button>
+  </li>
+</ul>

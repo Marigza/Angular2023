@@ -1,0 +1,8 @@
+dist
+*.ts
+*.js
+*.md
+*.svg
+build
+node_modules
+documentation

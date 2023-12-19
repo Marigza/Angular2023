@@ -1,0 +1,32 @@
+:host {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #c2185b;
+  background-color: #db7ca2;
+  border-radius: 10px;
+}
+
+.person-list {
+  padding: 0;
+}
+
+.person-item {
+  list-style-type: none;
+}
+
+.people-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 5px;
+  transition: all 0.3s;
+  border: 0;
+  background-color: transparent;
+
+  &:hover {
+    background-color: #c2185b !important;
+  }
+}

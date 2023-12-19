@@ -1,0 +1,17 @@
+<header class="modal-header">Create new group</header>
+<form [formGroup]="createGroup" class="form" novalidate (ngSubmit)="create()">
+  <mat-form-field appearance="outline">
+    <mat-label>Group Name</mat-label>
+    <input matInput formControlName="name" required />
+    <mat-error *ngIf="createGroup.controls.name.touched && createGroup.controls.name.hasError('required')"
+      >Please enter name of group</mat-error
+    >
+    <mat-error *ngIf="createGroup.controls.name.hasError('noChar')">
+      * It could be only letters or numbers or spaces</mat-error
+    >
+    <mat-error *ngIf="createGroup.controls.name.hasError('maxlength')">* Max length is 30 symbols</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!createGroup.valid || (isDisabled$ | async)">
+    Create
+  </button>
+</form>
