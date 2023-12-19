@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   NonNullableFormBuilder,
@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { filter, take } from 'rxjs';
+import { distinctUntilChanged, filter, Subscription, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../services/connections-store-facade.service';
@@ -24,12 +24,18 @@ import { ConnectionsStoreFacadeService } from '../services/connections-store-fac
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
 })
-export class ModalWindowCreateComponent implements OnInit {
+export class ModalWindowCreateComponent implements OnInit, OnDestroy {
+  public isDisabled$ = this.connectionsStoreFacadeService.isLoading$;
+
+  public status$ = this.connectionsStoreFacadeService.status$;
+
   public createGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(30), this.characterValidator()]],
   });
 
   public regExpChar = '(^.*[^ A-zА-яЁё0-9].*$)';
+
+  public subs = new Subscription();
 
   private userToken: TokenParams | null = null;
 
@@ -56,23 +62,12 @@ export class ModalWindowCreateComponent implements OnInit {
     if (!this.userToken) return;
 
     if (name) this.connectionsStoreFacadeService.createGroup(this.userToken, name);
-    this.dialogRef.close(); // TODO закрывается сразу, а должен после ответа сервера!!!
 
-    // if (name) {
-    //   this.subs.add(
-    //     this.connectionsStoreFacadeService.selectToken$
-    //       .pipe(
-    //         filter(Boolean),
-    //         map(token => {
-    //           token &&
-    //         }),
-    //         tap(() => {
-    //           ;
-    //         })
-    //       )
-    //       .subscribe()
-    //   );
-    // }
+    this.subs.add(
+      this.status$.pipe(distinctUntilChanged()).subscribe(status => {
+        if (status === 200) this.dialogRef.close();
+      })
+    );
   }
 
   public characterValidator(): ValidatorFn {
@@ -81,5 +76,9 @@ export class ModalWindowCreateComponent implements OnInit {
 
       return inputName.match(this.regExpChar) ? { noChar: true } : null;
     };
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
