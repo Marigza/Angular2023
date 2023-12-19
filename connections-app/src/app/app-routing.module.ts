@@ -17,7 +17,6 @@ const routes: Routes = [
     component: SignupComponent,
     canActivate: [nonAuthGuard],
   },
-
   {
     path: '',
     loadChildren: () => import('./connections/connections.module').then(m => m.ConnectionsModule),

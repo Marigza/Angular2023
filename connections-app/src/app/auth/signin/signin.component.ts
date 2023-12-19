@@ -1,5 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { RouterModule } from '@angular/router';
 
 import { LoginParams } from '../../core/models/login-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
@@ -8,6 +15,17 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
   selector: 'con-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+  ],
 })
 export class SigninComponent {
   public canVisiblePassword = false;

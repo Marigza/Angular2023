@@ -9,7 +9,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { HttpConnectionsInterceptor } from './core/interceptors/http-connections.interceptor';
 import { SharedModule } from './shared/shared.module';
@@ -26,7 +25,6 @@ import { profileReducer } from './store/reducers/profile.reducer';
     HttpClientModule,
     CoreModule,
     SharedModule,
-    AuthModule,
     StoreModule.forRoot({ connectionStore: profileReducer }, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     EffectsModule.forRoot([ProfileEffects, GroupsEffects, PeopleEffects]),
