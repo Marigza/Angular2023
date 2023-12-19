@@ -212,6 +212,7 @@ export const profileReducer = createReducer(
       conversations: state.conversations.filter(({ id }) => id.S !== conversationId),
       error: null,
       isLoading: false,
+      responseStatus: 200,
     })
   ),
   on(
