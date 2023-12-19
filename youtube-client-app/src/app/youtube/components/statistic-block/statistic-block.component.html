@@ -1,0 +1,9 @@
+<div *ngFor="let element of arrayStatistic; trackBy: trackByIndex" class="statistic-element">
+  <mat-icon
+    aria-hidden="false"
+    aria-label="Example icon"
+    fontIcon="{{ element.icon }}"
+    color="{{ element.color }}"
+  ></mat-icon>
+  <span>{{ element.view }}</span>
+</div>

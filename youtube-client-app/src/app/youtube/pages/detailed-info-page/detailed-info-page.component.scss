@@ -1,0 +1,51 @@
+.card {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin: 20px;
+  border-radius: 20px;
+}
+
+.header_info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detailed-image {
+  display: block;
+  height: 480px;
+}
+
+.detailed-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.description-published-at {
+  font-style: italic;
+}
+
+.description-text {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.delete_button {
+  display: flex;
+  margin-top: 20px;
+
+  & > .button {
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 1000px) {
+  .card {
+    flex-direction: column;
+    align-items: center;
+  }
+}

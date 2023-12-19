@@ -1,0 +1,16 @@
+<div class="header">
+  <div class="logo"><a class="logo-link" routerLink="./"> </a></div>
+  <div>
+    <yta-button><a class="button-link" routerLink="./favorite">My Favorite</a></yta-button>
+  </div>
+  <form [formGroup]="searchForm">
+    <input type="text" id="searchText" placeholder="enter search query" required formControlName="searchControl" />
+  </form>
+  <yta-button (click)="toggleSettingsVisibility()">Settings</yta-button>
+  <yta-button *ngIf="isLogged" (click)="showCardCreation()">Create card</yta-button>
+  <yta-button *ngIf="!isLogged; else logout">LogIn</yta-button>
+  <ng-template #logout>
+    <yta-button (click)="logOut()">LogOut</yta-button>
+  </ng-template>
+</div>
+<yta-filter-block *ngIf="isShownSettings"></yta-filter-block>

@@ -1,0 +1,38 @@
+<div class="buttons">
+  <a mat-raised-button color="primary" type="button" routerLink="../../" (click)="cleanMessageInStore()">Back</a>
+  <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
+    Update {{ timer$ | async }}
+  </button>
+  <button *ngIf="isOwner" mat-raised-button color="primary" type="button" (click)="delete()">Delete</button>
+</div>
+
+<ng-container *ngIf="isExistDialog; else error">
+  <div *ngIf="dialog$ | async as dialog" class="conversation-field">
+    <header *ngIf="dialog.length === 0" class="header">
+      {{ currentDialogId }} is empty. You can start communication!
+    </header>
+    <ng-container class="message" *ngFor="let message of dialog">
+      <div [conAlignMessages]="message.authorID.S" class="message">
+        <div class="message-time">{{ message.createdAt.S | date: 'medium' }}</div>
+        <div class="message-author">{{ message.authorID.S | userName | async }}</div>
+        <div class="message-text">{{ message.message.S }}</div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="message-field">
+    <form [formGroup]="message" class="form" novalidate (ngSubmit)="onSendMessage()">
+      <mat-form-field appearance="outline" class="form-text">
+        <input matInput formControlName="text" required />
+        <mat-error *ngIf="message.controls.text.touched && message.controls.text.hasError('required')"
+          >Please enter text</mat-error
+        >
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!message.valid">Send</button>
+    </form>
+  </div>
+</ng-container>
+
+<ng-template #error>
+  <header class="header">{{ currentDialogId }} dialog in not exist or was deleted before.</header>
+</ng-template>

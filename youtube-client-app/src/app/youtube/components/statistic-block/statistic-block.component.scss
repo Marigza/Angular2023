@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-self: stretch;
+
+  & > .statistic-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
