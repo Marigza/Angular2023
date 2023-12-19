@@ -7,7 +7,7 @@
       >Please enter name of group</mat-error
     >
     <mat-error *ngIf="createGroup.controls.name.hasError('noChar')">
-      * It could be any of SMALL letters or numbers or spaces</mat-error
+      * It could be only letters or numbers or spaces</mat-error
     >
     <mat-error *ngIf="createGroup.controls.name.hasError('maxlength')">* Max length is 30 symbols</mat-error>
   </mat-form-field>

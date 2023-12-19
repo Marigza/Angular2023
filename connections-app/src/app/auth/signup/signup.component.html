@@ -9,7 +9,10 @@
       <mat-error *ngIf="registration.controls.name.touched && registration.controls.name.hasError('required')"
         >Please enter your name</mat-error
       >
-      <mat-error *ngIf="registration.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
+      <mat-error *ngIf="registration.controls.name.hasError('maxlength')"> Maximum - 40 chars</mat-error>
+      <mat-error *ngIf="registration.controls.name.value.length && registration.controls.name.hasError('name')">
+        Allows only letters or spaces</mat-error
+      >
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>email</mat-label>

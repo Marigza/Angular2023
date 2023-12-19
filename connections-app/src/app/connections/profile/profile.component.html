@@ -13,10 +13,16 @@
         <mat-error *ngIf="profile.controls.name.touched && profile.controls.name.hasError('required')"
           >Please enter your name</mat-error
         >
-        <mat-error *ngIf="profile.controls.name.hasError('name')"> It could be any of letters or spaces</mat-error>
+        <mat-error *ngIf="profile.controls.name.hasError('name')"> Allows only letters or spaces</mat-error>
       </mat-form-field>
       <div class="edit-buttons">
-        <button mat-raised-button color="primary" type="submit" class="button" [disabled]="isDisabled$ | async">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="button"
+          [disabled]="!profile.valid || (isDisabled$ | async)"
+        >
           Save
         </button>
         <button

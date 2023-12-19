@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { filter, map, Subscription, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
@@ -17,8 +17,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public canRedact = false;
 
+  public regExpAnyChar = '(^.*[^ A-zА-яЁё].*$)';
+
   public profile = this.formBuilder.group({
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, this.anyCharValidator()]],
   });
 
   public subs = new Subscription();
@@ -40,7 +42,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         .pipe(
           map(profile => {
             if (profile) return;
-            this.userToken && this.connectionsStoreFacadeService.profileRequestSend(this.userToken);
+
+            if (!this.userToken) return;
+
+            this.connectionsStoreFacadeService.profileRequestSend(this.userToken);
           })
         )
         .subscribe()
@@ -59,6 +64,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public logout(): void {
     this.userToken && this.connectionsStoreFacadeService.profileLogoutSend(this.userToken);
+  }
+
+  public anyCharValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const inputName = control.value;
+
+      return inputName.match(this.regExpAnyChar) ? { name: true } : null;
+    };
   }
 
   public ngOnDestroy(): void {

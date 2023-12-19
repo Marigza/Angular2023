@@ -46,8 +46,10 @@ export class SignupComponent {
 
   public regExpChar = '(?=.*[!@#$%^&*])';
 
+  public regExpAnyChar = '(^.*[^ A-zА-яЁё].*$)';
+
   public registration = this.formBuilder.group({
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.maxLength(40), this.anyCharValidator()]],
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',
@@ -98,6 +100,14 @@ export class SignupComponent {
       const inputPassword = control.value;
 
       return inputPassword.match(this.regExpChar) ? null : { noChar: true };
+    };
+  }
+
+  public anyCharValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const inputName = control.value;
+
+      return inputName.match(this.regExpAnyChar) ? { name: true } : null;
     };
   }
 

@@ -29,7 +29,7 @@ export class ModalWindowCreateComponent implements OnInit {
     name: ['', [Validators.required, Validators.maxLength(30), this.characterValidator()]],
   });
 
-  public regExpChar = '(?=.*[!@#$%()\'<>|"+=-_.,;:/^&*])'; // TODO неправильно отрабатывает валидатор
+  public regExpChar = '(^.*[^ A-zА-яЁё0-9].*$)';
 
   private userToken: TokenParams | null = null;
 
