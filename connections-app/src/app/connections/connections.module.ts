@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { UserNamePipe } from '../shared/pipes/user-name.pipe';
 import { ConnectionsBlockComponent } from './connections-block/connections-block.component';
 import { ConnectionsRoutingModule } from './connections-routing.module';
 import { ConversationComponent } from './conversation/conversation.component';
@@ -24,6 +25,6 @@ import { ProfileComponent } from './profile/profile.component';
     BackgroundDirective,
     AlignMessagesDirective,
   ],
-  imports: [CommonModule, ReactiveFormsModule, ConnectionsRoutingModule, MaterialModule],
+  imports: [CommonModule, ReactiveFormsModule, ConnectionsRoutingModule, MaterialModule, UserNamePipe],
 })
 export class ConnectionsModule {}

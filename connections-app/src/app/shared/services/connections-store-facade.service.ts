@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { map, Observable } from 'rxjs';
 
 import { LoginParams } from '../../core/models/login-params.model';
 import { RegisterParams } from '../../core/models/register-params.model';
@@ -181,5 +182,9 @@ export class ConnectionsStoreFacadeService {
 
   public goAwayFromPrivate(): void {
     this.store.dispatch(privateDialogActions.goAwayFromCurrentPage());
+  }
+
+  public getUserById(userId: string): Observable<string | undefined> {
+    return this.selectPeople$.pipe(map(people => people.find(({ uid }) => uid.S === userId)?.name.S));
   }
 }

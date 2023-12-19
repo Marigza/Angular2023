@@ -14,7 +14,7 @@
     <ng-container class="message" *ngFor="let message of dialog">
       <div [conAlignMessages]="message.authorID.S" class="message">
         <div class="message-time">{{ message.createdAt.S | date: 'medium' }}</div>
-        <div class="message-author">{{ message.authorID.S }}</div>
+        <div class="message-author">{{ message.authorID.S | userName | async }}</div>
         <div class="message-text">{{ message.message.S }}</div>
       </div>
     </ng-container>
