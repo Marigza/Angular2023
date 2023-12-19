@@ -2,6 +2,19 @@
 
 [connections-app](https://rolling-scopes-school.github.io/marigza-ANGULAR2023Q4/connections-app/)
 
+# Milestones
+
+- [x] Registration (40/60)
+- [x] Login (60/70)
+- [x] Profile (40/40)
+- [x] Update profile (55/55)
+- [x] Logout (40/40)
+- [x] People and group sections (175/175)
+- [x] Group dialog (95/140)
+- [x] People conversation (85/140)
+- [x] 404 page (30/30)
+- [ ] Bonus: Style theme (0/50)
+
 # ConnectionsApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
