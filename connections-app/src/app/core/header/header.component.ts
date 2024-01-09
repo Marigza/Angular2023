@@ -10,6 +10,6 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   public showProfile(): void {
-    this.router.navigate(['./profile']).catch(({ message }: Error) => message || null);
+    this.router.navigate(['./profile']).catch(console.error);
   }
 }

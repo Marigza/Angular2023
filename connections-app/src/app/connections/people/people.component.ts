@@ -74,7 +74,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
                       token && this.connectionsStoreFacadeService.createConversation(token, userId);
                     })
                   )
-                : this.router.navigate([`/conversation/${dialog.id.S}`]).catch(({ message }: Error) => message || null)
+                : this.router.navigate([`/conversation/${dialog.id.S}`]).catch(console.error)
             )
           )
         )
