@@ -65,7 +65,7 @@
       </mat-error>
     </mat-form-field>
     <div class="registration-button">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!registration.valid || (isLoaded$ | async)">
+      <button mat-raised-button color="primary" type="submit" [disabled]="registration.invalid || (isLoaded$ | async)">
         register
       </button>
     </div>

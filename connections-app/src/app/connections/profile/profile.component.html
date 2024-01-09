@@ -21,7 +21,7 @@
           color="primary"
           type="submit"
           class="button"
-          [disabled]="!profile.valid || (isDisabled$ | async)"
+          [disabled]="profile.invalid || (isDisabled$ | async)"
         >
           Save
         </button>
