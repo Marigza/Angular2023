@@ -64,6 +64,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public logout(): void {
     this.userToken && this.connectionsStoreFacadeService.profileLogoutSend(this.userToken);
+    this.userToken = null;
   }
 
   public anyCharValidator(): ValidatorFn {
