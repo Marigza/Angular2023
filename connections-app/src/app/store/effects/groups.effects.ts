@@ -6,7 +6,6 @@ import { catchError, endWith, exhaustMap, map } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 import { CountDownService } from '../../core/services/count-down.service';
-import { CustomSortService } from '../../core/services/custom-sort.service';
 import { groupDialogActions } from '../actions/group-dialog-page.actions';
 import { mainActions } from '../actions/main-page.actions';
 
@@ -17,11 +16,7 @@ export class GroupsEffects {
       ofType(mainActions.groupsRequestSend),
       exhaustMap(({ token }) =>
         this.connectionsHttpService.getGroups$(token).pipe(
-          map(response => {
-            response.Items.sort(this.customSortService.byField(true));
-
-            return mainActions.groupsGetSuccess({ response });
-          }),
+          map(response => mainActions.groupsGetSuccess({ response })),
           catchError((error: HttpErrorResponse) => of(mainActions.groupsGetFail({ error })))
         )
       )
@@ -33,11 +28,7 @@ export class GroupsEffects {
       ofType(mainActions.groupsUpdate),
       exhaustMap(({ token }) =>
         this.connectionsHttpService.getGroups$(token).pipe(
-          map(response => {
-            response.Items.sort(this.customSortService.byField(true));
-
-            return mainActions.groupsUpdateSuccess({ response });
-          }),
+          map(response => mainActions.groupsUpdateSuccess({ response })),
           catchError((error: HttpErrorResponse) => of(mainActions.groupsUpdateFail({ error })))
         )
       )
@@ -165,6 +156,5 @@ export class GroupsEffects {
     private actions$: Actions,
     private connectionsHttpService: ConnectionsHttpService,
     private countDownService: CountDownService,
-    private customSortService: CustomSortService
   ) {}
 }

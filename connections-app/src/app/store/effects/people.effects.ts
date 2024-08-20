@@ -7,7 +7,6 @@ import { catchError, endWith, exhaustMap, map } from 'rxjs/operators';
 
 import { ConnectionsHttpService } from '../../core/services/connections-http.service';
 import { CountDownService } from '../../core/services/count-down.service';
-import { CustomSortService } from '../../core/services/custom-sort.service';
 import { mainActions } from '../actions/main-page.actions';
 import { privateDialogActions } from '../actions/private-dialog-page-actions';
 
@@ -18,11 +17,7 @@ export class PeopleEffects {
       ofType(mainActions.peopleRequestSend),
       exhaustMap(({ token }) =>
         this.connectionsHttpService.getPeople$(token).pipe(
-          map(response => {
-            response.Items.sort(this.customSortService.byField(true));
-
-            return mainActions.peopleGetSuccess({ response });
-          }),
+          map(response => mainActions.peopleGetSuccess({ response })),
           catchError((error: HttpErrorResponse) => of(mainActions.peopleGetFail({ error })))
         )
       )
@@ -34,11 +29,7 @@ export class PeopleEffects {
       ofType(mainActions.peopleUpdate),
       exhaustMap(({ token }) =>
         this.connectionsHttpService.getPeople$(token).pipe(
-          map(response => {
-            response.Items.sort(this.customSortService.byField(true));
-
-            return mainActions.peopleUpdateSuccess({ response });
-          }),
+          map(response => mainActions.peopleUpdateSuccess({ response })),
           catchError((error: HttpErrorResponse) => of(mainActions.peopleUpdateFail({ error })))
         )
       )
@@ -169,6 +160,5 @@ export class PeopleEffects {
     private router: Router,
     private connectionsHttpService: ConnectionsHttpService,
     private countDownService: CountDownService,
-    private customSortService: CustomSortService
   ) {}
 }
