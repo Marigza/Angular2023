@@ -4,6 +4,13 @@
   </button>
   <button mat-raised-button color="primary" type="button" (click)="openCreateModal()">Create</button>
 </div>
+<div class="filter-sorter">
+  <button mat-raised-button color="primary" type="button" (click)="sortASC()">sort {{sortDirection ? '▲' : '▼'}}</button>
+  <div class="input-block">
+    <input type="text" placeholder="find group" class="input">
+    <button mat-raised-button color="primary" type="button" class="button-find">find</button>
+  </div>
+</div>
 <ul *ngIf="groups$ | async as groups" class="groups-list">
   <li *ngFor="let group of groups; trackBy: trackByIndex" class="group-item">
     <a [routerLink]="['/group', group.id.S]" class="group-link">{{ group.name.S }}</a>

@@ -8,7 +8,7 @@
 
 .groups-list {
   padding: 0;
-  height: 90%;
+  height: 80%;
   overflow-y: scroll;
 }
 
@@ -21,6 +21,28 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 1%;
+}
+
+.filter-sorter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-block{
+  box-sizing: border-box;
+  background-color: white;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+}
+
+.input {
+  border-color: transparent;
+}
+
+.button-find {
+  height: 28px;
 }
 
 .group-link {

@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { exhaustMap, filter, map, Subscription, take } from 'rxjs';
+import { exhaustMap, filter, map, Subscription, take, tap } from 'rxjs';
 
 import { GroupParams } from '../../core/models/group-params.model';
 import { TokenParams } from '../../core/models/token-params.model';
 import { ModalWindowConfirmationComponent } from '../../shared/modal-window-confirmation/modal-window-confirmation.component';
 import { ModalWindowCreateComponent } from '../../shared/modal-window-create/modal-window-create.component';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
+import { FilterSorterService } from '../../core/services/filter-sorter.service';
 
 @Component({
   selector: 'con-group',
@@ -14,7 +15,7 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
   styleUrls: ['./group.component.scss'],
 })
 export class GroupComponent implements OnInit, OnDestroy {
-  public groups$ = this.connectionsStoreFacadeService.selectGroups$;
+  public groups$ = this.filterSorterService.groups$;
 
   public isLoad$ = this.connectionsStoreFacadeService.isLoading$.pipe(
     exhaustMap(() => this.connectionsStoreFacadeService.selectIsTimerGroupsLoading$)
@@ -28,8 +29,11 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   private userToken: TokenParams | null = null;
 
+  public sortDirection: boolean = true;
+
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
+    private filterSorterService: FilterSorterService,
     public dialog: MatDialog
   ) {}
 
@@ -64,6 +68,11 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.dialog.open(ModalWindowConfirmationComponent, {
       data: group,
     });
+  }
+
+  public sortASC(): void {
+    this.filterSorterService.updateDataSort(this.sortDirection)
+    this.sortDirection = !this.sortDirection
   }
 
   /* eslint-disable class-methods-use-this */
