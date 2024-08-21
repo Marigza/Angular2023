@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export interface ProfileParams {
+import { BaseParams } from "./base-params.model";
+
+export interface ProfileParams extends BaseParams {
   email: {
-    S: 'string';
-  };
-  name: {
     S: 'string';
   };
   uid: {

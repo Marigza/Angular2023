@@ -5,6 +5,7 @@ import { defer, exhaustMap, filter, map, mergeMap, Subscription, take } from 'rx
 import { PeopleParams } from '../../core/models/people-params.model';
 import { TokenParams } from '../../core/models/token-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
+import { FilterSorterService } from '../../core/services/filter-sorter.service';
 
 @Component({
   selector: 'con-people',
@@ -12,9 +13,10 @@ import { ConnectionsStoreFacadeService } from '../../shared/services/connections
   styleUrls: ['./people.component.scss'],
 })
 export class PeopleComponent implements OnInit, OnDestroy {
-  public people$ = this.connectionsStoreFacadeService.selectPeople$.pipe(
+
+  public people$ = this.filterSorterService.people$.pipe(
     map(people => people.filter(user => user.uid.S !== localStorage.getItem('uid')))
-  );
+  );;
 
   public conversations$ = this.connectionsStoreFacadeService.selectConversations$;
 
@@ -30,7 +32,8 @@ export class PeopleComponent implements OnInit, OnDestroy {
 
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
-    private router: Router
+    private router: Router,
+    private filterSorterService: FilterSorterService
   ) {}
 
   public ngOnInit(): void {

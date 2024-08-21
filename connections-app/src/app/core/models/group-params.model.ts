@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export interface GroupParams {
+import { BaseParams } from "./base-params.model";
+
+export interface GroupParams extends BaseParams {
   id: {
-    S: string;
-  };
-  name: {
     S: string;
   };
   createdAt: {
