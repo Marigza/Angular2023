@@ -13,6 +13,7 @@ import { GroupComponent } from './group/group.component';
 import { MaterialModule } from './material.module';
 import { PeopleComponent } from './people/people.component';
 import { ProfileComponent } from './profile/profile.component';
+import { FilterSorterComponent } from './filter-sorter/filter-sorter.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ProfileComponent } from './profile/profile.component';
     ConversationComponent,
     BackgroundDirective,
     AlignMessagesDirective,
+    FilterSorterComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, ConnectionsRoutingModule, MaterialModule, UserNamePipe],
 })

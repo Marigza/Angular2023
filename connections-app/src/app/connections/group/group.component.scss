@@ -24,28 +24,6 @@
   margin-bottom: 1%;
 }
 
-.filter-sorter {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-.input-block{
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  background-color: white;
-  border-radius: 0.2rem;
-}
-
-.input {
-  border-color: transparent;
-  margin: 0;
-  padding: 0;
-  height: 80%;
-  border-radius: 0.2rem;
-}
-
 .group-link {
   display: block;
   flex-grow: 1;

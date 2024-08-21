@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { debounceTime, exhaustMap, filter, map, Subscription, take, tap } from 'rxjs';
+import { exhaustMap, filter, map, Subscription, take } from 'rxjs';
 
 import { GroupParams } from '../../core/models/group-params.model';
 import { TokenParams } from '../../core/models/token-params.model';
@@ -8,7 +8,6 @@ import { ModalWindowConfirmationComponent } from '../../shared/modal-window-conf
 import { ModalWindowCreateComponent } from '../../shared/modal-window-create/modal-window-create.component';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 import { FilterSorterService } from '../../core/services/filter-sorter.service';
-import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'con-group',
@@ -32,12 +31,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   public sortDirection: boolean = true;
 
-  public filter = this.formBuilder.group({
-    value: [''],
-  });
-
   constructor(
-    private formBuilder: NonNullableFormBuilder,
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     private filterSorterService: FilterSorterService,
     public dialog: MatDialog
@@ -59,17 +53,6 @@ export class GroupComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-
-    this.subs.add(
-      this.filter
-        .get('value')
-        ?.valueChanges.pipe(
-          debounceTime(500),
-        )
-        .subscribe(value => {
-          this.filterSorterService.updateDataFilter(value);
-        })
-    );
   }
 
   public onUpdateGroups(): void {
@@ -85,11 +68,6 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.dialog.open(ModalWindowConfirmationComponent, {
       data: group,
     });
-  }
-
-  public sortASC(): void {
-    this.filterSorterService.updateDataSort(this.sortDirection)
-    this.sortDirection = !this.sortDirection
   }
 
   /* eslint-disable class-methods-use-this */
