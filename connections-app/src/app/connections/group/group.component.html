@@ -4,7 +4,7 @@
   </button>
   <button mat-raised-button color="primary" type="button" (click)="openCreateModal()">Create</button>
 </div>
-<con-filter-sorter></con-filter-sorter>
+<con-filter-sorter (newValueEvent)="addFilterValue($event)" (newSortEvent)="addSortValue($event)"></con-filter-sorter>
 <ul *ngIf="groups$ | async as groups" class="groups-list">
   <li *ngFor="let group of groups; trackBy: trackByIndex" class="group-item">
     <a [routerLink]="['/group', group.id.S]" class="group-link">{{ group.name.S }}</a>

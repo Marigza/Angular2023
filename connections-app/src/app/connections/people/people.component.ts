@@ -11,12 +11,11 @@ import { FilterSorterService } from '../../core/services/filter-sorter.service';
   selector: 'con-people',
   templateUrl: './people.component.html',
   styleUrls: ['./people.component.scss'],
+  providers: [FilterSorterService]
 })
 export class PeopleComponent implements OnInit, OnDestroy {
 
-  public people$ = this.filterSorterService.people$.pipe(
-    map(people => people.filter(user => user.uid.S !== localStorage.getItem('uid')))
-  );;
+  public people$ = this.filterSorterService.people$
 
   public conversations$ = this.connectionsStoreFacadeService.selectConversations$;
 
@@ -33,7 +32,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
     private router: Router,
-    private filterSorterService: FilterSorterService
+    private filterSorterService: FilterSorterService,
   ) {}
 
   public ngOnInit(): void {
@@ -54,6 +53,14 @@ export class PeopleComponent implements OnInit, OnDestroy {
         )
         .subscribe(data => data)
     );
+  }
+
+  public addFilterValue(newValue: string) {
+     this.filterSorterService.updateDataFilter(newValue);
+  }
+
+  public addSortValue(newValue: boolean) {
+    this.filterSorterService.updateDataSort(newValue);
   }
 
   public update(): void {

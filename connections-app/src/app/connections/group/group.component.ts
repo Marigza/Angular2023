@@ -13,9 +13,11 @@ import { FilterSorterService } from '../../core/services/filter-sorter.service';
   selector: 'con-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.scss'],
+  providers: [FilterSorterService]
 })
 export class GroupComponent implements OnInit, OnDestroy {
-  public groups$ = this.filterSorterService.groups$;
+
+  public groups$ = this.filterSorterService.groups$
 
   public isLoad$ = this.connectionsStoreFacadeService.isLoading$.pipe(
     exhaustMap(() => this.connectionsStoreFacadeService.selectIsTimerGroupsLoading$)
@@ -53,6 +55,14 @@ export class GroupComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
+  }
+
+  addFilterValue(newValue: string) {
+    this.filterSorterService.updateDataFilter(newValue);
+  }
+
+  addSortValue(newValue: boolean) {
+    this.filterSorterService.updateDataSort(newValue);
   }
 
   public onUpdateGroups(): void {

@@ -1,14 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
-import { FilterSorterService } from '../../core/services/filter-sorter.service';
 
 @Component({
   selector: 'con-filter-sorter',
   templateUrl: './filter-sorter.component.html',
-  styleUrls: ['./filter-sorter.component.scss']
+  styleUrls: ['./filter-sorter.component.scss'],
 })
 export class FilterSorterComponent implements OnInit, OnDestroy{
+
+  @Output() newValueEvent = new EventEmitter<string>();
+  @Output() newSortEvent = new EventEmitter<boolean>();
 
   public subs = new Subscription();
 
@@ -20,7 +22,6 @@ export class FilterSorterComponent implements OnInit, OnDestroy{
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private filterSorterService: FilterSorterService,
   ) { }
 
   public ngOnInit(): void {
@@ -31,13 +32,13 @@ export class FilterSorterComponent implements OnInit, OnDestroy{
           debounceTime(500),
         )
         .subscribe(value => {
-          this.filterSorterService.updateDataFilter(value);
+          this.newValueEvent.emit(value);
         })
     );
   }
 
   public sortASC(): void {
-    this.filterSorterService.updateDataSort(this.sortDirection)
+    this.newSortEvent.emit(this.sortDirection)
     this.sortDirection = !this.sortDirection
   }
 
