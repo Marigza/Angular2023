@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { GroupParams } from '../models/group-params.model';
 import { PeopleParams } from '../models/people-params.model';
-import { CustomSortService } from './custom-sort.service';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
-import { BaseParams } from '../models/base-params.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { ModifyGroupsService } from './modify-groups.service';
+
+@Injectable()
 export class FilterSorterService {
 
   private sortParams$$ = new BehaviorSubject<boolean | null>(null);
@@ -25,44 +22,25 @@ export class FilterSorterService {
 
   private peopleFromServer$: Observable<PeopleParams[]> = this.connectionsStoreFacadeService.selectPeople$;
 
-  public groups$: Observable<GroupParams[]> = this.modifyDataFromServer(
+  public groups$: Observable<GroupParams[]> = this.modifyGroupsService.updateData(
     this.groupsFromServer$,
     this.sortParams$,
     this.filterParameter$
   )
 
-  public people$: Observable<PeopleParams[]> = this.modifyDataFromServer(
+  public people$: Observable<PeopleParams[]> = this.modifyGroupsService.updateData(
     this.peopleFromServer$,
     this.sortParams$,
     this.filterParameter$
   );
 
   constructor(
-    private customSortService: CustomSortService,
-    private connectionsStoreFacadeService: ConnectionsStoreFacadeService
+    private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
+    private modifyGroupsService: ModifyGroupsService,
   ) { }
 
-  private modifyDataFromServer<T extends BaseParams>(
-    array: Observable<T[]>,
-    sortParam: Observable<boolean | null>,
-    filterParam: Observable<string>
-  ): Observable<T[]> {
-      return combineLatest([
-        array,
-        sortParam,
-        filterParam
-      ]).pipe(
-        map(([array, sortParam, filterParam]) => {
-          if (sortParam === null) return [...array].filter(group => group.name.S.toLowerCase().startsWith(filterParam.toLowerCase()))
-          return [...array]
-            .sort(this.customSortService.byField(sortParam))
-            .filter(group => group.name.S.toLowerCase().startsWith(filterParam.toLowerCase()))
-        })
-      )
-  }
-
   public updateDataSort(asc: boolean) {
-    this.sortParams$$.next(asc)
+    this.sortParams$$.next(asc);
   }
 
   public updateDataFilter(data: string): void {
