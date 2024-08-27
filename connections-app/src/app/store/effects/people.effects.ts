@@ -159,6 +159,6 @@ export class PeopleEffects {
     private actions$: Actions,
     private router: Router,
     private connectionsHttpService: ConnectionsHttpService,
-    private countDownService: CountDownService
+    private countDownService: CountDownService,
   ) {}
 }

@@ -56,6 +56,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const name = this.profile.get('name')?.value ?? '';
 
     this.userToken && this.connectionsStoreFacadeService.profileUpdateRequest(this.userToken, name);
+    this.canRedact = !this.canRedact;
+    this.profile.reset;
   }
 
   public toggleRedact(): void {
@@ -64,6 +66,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public logout(): void {
     this.userToken && this.connectionsStoreFacadeService.profileLogoutSend(this.userToken);
+    this.userToken = null;
   }
 
   public anyCharValidator(): ValidatorFn {

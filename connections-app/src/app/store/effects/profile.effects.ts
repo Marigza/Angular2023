@@ -23,7 +23,7 @@ export class ProfileEffects {
             localStorage.setItem('email', login.email);
           }),
           map(response => {
-            this.router.navigate(['/']).catch(({ message }: Error) => message || null);
+            this.router.navigate(['/']).catch(console.error);
 
             return loginActions.loginSuccess({ response, email: login.email });
           }),
@@ -39,7 +39,7 @@ export class ProfileEffects {
       exhaustMap(({ registration }) =>
         this.connectionsHttpService.registerPost$(registration).pipe(
           map(response => {
-            this.router.navigate(['/signin']).catch(({ message }: Error) => message || null);
+            this.router.navigate(['/signin']).catch(console.error);
 
             return registrationActions.registrationSuccess({ response });
           }),
@@ -79,7 +79,7 @@ export class ProfileEffects {
       exhaustMap(({ token }) =>
         this.connectionsHttpService.logout$(token).pipe(
           map(response => {
-            this.router.navigate(['/signin']).catch(({ message }: Error) => message || null);
+            this.router.navigate(['/signin']).catch(console.error);
 
             return profileActions.profileLogoutSuccess({ response });
           }),

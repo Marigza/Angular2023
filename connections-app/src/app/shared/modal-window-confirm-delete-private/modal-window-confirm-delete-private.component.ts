@@ -46,7 +46,7 @@ export class ModalWindowConfirmDeletePrivateComponent implements OnInit, OnDestr
     this.responseStatusCode$.pipe(distinctUntilChanged()).subscribe(status => {
       if (status === 200) {
         this.dialogRef.close();
-        this.router.navigate(['../../']).catch(({ message }: Error) => message || null);
+        this.router.navigate(['../../']).catch(console.error);
       }
     });
   }

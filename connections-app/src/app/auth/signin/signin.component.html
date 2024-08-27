@@ -1,6 +1,7 @@
 <mat-card class="signin-block">
-  <mat-card-header>
-    <mat-card-title>LogIn</mat-card-title>
+  <mat-card-header class="card-header">
+    <h2 class="card-greeting">Welcome to Connections!</h2>
+    <p class="card-content">To start chatting and finding friends, log in</p>
   </mat-card-header>
   <form [formGroup]="login" class="form" novalidate (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
@@ -32,13 +33,13 @@
       </mat-error>
     </mat-form-field>
     <div class="login-button">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!login.valid || (isLoaded$ | async)">
+      <button mat-raised-button color="primary" type="submit" [disabled]="login.invalid || (isLoaded$ | async)">
         Login
       </button>
     </div>
   </form>
   <mat-card-footer>
-    <span>Does not have account yet? Please </span>
+    <span>Haven't account yet? Please </span>
     <a mat-stroked-button routerLink="/signup">Sign-Up</a>
   </mat-card-footer>
 </mat-card>

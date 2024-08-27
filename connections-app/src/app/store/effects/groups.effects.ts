@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { catchError, endWith, exhaustMap, map } from 'rxjs/operators';
@@ -155,8 +154,7 @@ export class GroupsEffects {
 
   constructor(
     private actions$: Actions,
-    private router: Router,
     private connectionsHttpService: ConnectionsHttpService,
-    private countDownService: CountDownService
+    private countDownService: CountDownService,
   ) {}
 }

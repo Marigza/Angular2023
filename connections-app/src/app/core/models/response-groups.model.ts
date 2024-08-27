@@ -2,7 +2,7 @@
 import { GroupParams } from './group-params.model';
 
 export interface ResponseGroups {
-  Count: 'number';
+  Count: number;
   Items: GroupParams[];
 }
 

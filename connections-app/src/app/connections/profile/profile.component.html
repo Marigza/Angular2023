@@ -6,7 +6,7 @@
     </button>
   </mat-card-header>
   <ng-template #nameBlock>
-    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact; else nameBlock" (ngSubmit)="updateProfile()">
+    <form [formGroup]="profile" class="form" novalidate *ngIf="canRedact" (ngSubmit)="updateProfile()">
       <mat-form-field appearance="outline">
         <mat-label>{{ profileParam.name.S }}</mat-label>
         <input matInput formControlName="name" required [placeholder]="profileParam.name.S" />
@@ -21,7 +21,7 @@
           color="primary"
           type="submit"
           class="button"
-          [disabled]="!profile.valid || (isDisabled$ | async)"
+          [disabled]="profile.invalid || (isDisabled$ | async)"
         >
           Save
         </button>
