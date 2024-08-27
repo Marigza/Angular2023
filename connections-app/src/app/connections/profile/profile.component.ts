@@ -56,6 +56,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const name = this.profile.get('name')?.value ?? '';
 
     this.userToken && this.connectionsStoreFacadeService.profileUpdateRequest(this.userToken, name);
+    this.canRedact = !this.canRedact;
+    this.profile.reset;
   }
 
   public toggleRedact(): void {
