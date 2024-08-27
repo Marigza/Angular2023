@@ -1,14 +1,22 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
   margin: 20px;
   padding: 10px;
   border: 1px solid #c2185b;
   background-color: #db7ca2;
   border-radius: 10px;
+  @media screen and (max-width: 680px) {
+      margin: 5px;
+      padding: 5px;
+    }
 }
 
 .groups-list {
+  margin: 0;
   padding: 0;
-  height: 80%;
+  flex-grow: 1;
   overflow-y: scroll;
 }
 
@@ -21,7 +29,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 1%;
 }
 
 .group-link {
