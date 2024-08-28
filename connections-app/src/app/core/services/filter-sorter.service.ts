@@ -5,7 +5,7 @@ import { GroupParams } from '../models/group-params.model';
 import { PeopleParams } from '../models/people-params.model';
 import { ConnectionsStoreFacadeService } from '../../shared/services/connections-store-facade.service';
 
-import { ModifyGroupsService } from './modify-groups.service';
+import { ModifyServerDataService } from './modify-groups.service';
 
 @Injectable()
 export class FilterSorterService {
@@ -22,13 +22,13 @@ export class FilterSorterService {
 
   private peopleFromServer$: Observable<PeopleParams[]> = this.connectionsStoreFacadeService.selectPeople$;
 
-  public groups$: Observable<GroupParams[]> = this.modifyGroupsService.updateData(
+  public groups$: Observable<GroupParams[]> = this.modifyServerDataService.update(
     this.groupsFromServer$,
     this.sortParams$,
     this.filterParameter$
   )
 
-  public people$: Observable<PeopleParams[]> = this.modifyGroupsService.updateData(
+  public people$: Observable<PeopleParams[]> = this.modifyServerDataService.update(
     this.peopleFromServer$,
     this.sortParams$,
     this.filterParameter$
@@ -36,7 +36,7 @@ export class FilterSorterService {
 
   constructor(
     private connectionsStoreFacadeService: ConnectionsStoreFacadeService,
-    private modifyGroupsService: ModifyGroupsService,
+    private modifyServerDataService: ModifyServerDataService,
   ) { }
 
   public updateDataSort(asc: boolean) {
