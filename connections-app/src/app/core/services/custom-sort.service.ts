@@ -8,7 +8,7 @@ import { BaseParams } from '../models/base-params.model';
 export class CustomSortService {
   /* eslint-disable class-methods-use-this */
 
-  public byField(asc: boolean): (a: BaseParams, b: BaseParams) => -1 | 1 {
+  public byName(asc: boolean): (a: BaseParams, b: BaseParams) => -1 | 1 {
     if (asc) {
       return (a: BaseParams, b: BaseParams) => (a.name.S > b.name.S ? 1 : -1);
     }

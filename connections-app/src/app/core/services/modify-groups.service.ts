@@ -8,11 +8,11 @@ import { CustomSortService } from './custom-sort.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ModifyGroupsService {
+export class ModifyServerDataService {
 
-  constructor(private customSortService: CustomSortService,) { }
+  constructor(private customSortService: CustomSortService) { }
 
-  public updateData<T extends BaseParams>(
+  public update<T extends BaseParams>(
     array: Observable<T[]>,
     sortParam: Observable<boolean | null>,
     filterParam: Observable<string>
@@ -25,7 +25,7 @@ export class ModifyGroupsService {
         map(([array, sortParam, filterParam]) => {
           if (sortParam === null) return [...array].filter(group => group.name.S.toLowerCase().startsWith(filterParam.toLowerCase()))
           return [...array]
-            .sort(this.customSortService.byField(sortParam))
+            .sort(this.customSortService.byName(sortParam))
             .filter(group => group.name.S.toLowerCase().startsWith(filterParam.toLowerCase()))
         })
       )

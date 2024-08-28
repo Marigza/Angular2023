@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ModifyGroupsService } from './modify-groups.service';
+import { ModifyServerDataService } from './modify-groups.service';
 
 describe('ModifyGroupsService', () => {
-  let service: ModifyGroupsService;
+  let service: ModifyServerDataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ModifyGroupsService);
+    service = TestBed.inject(ModifyServerDataService);
   });
 
   it('should be created', () => {
