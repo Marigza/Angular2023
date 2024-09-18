@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 import { distinctUntilChanged, filter, Subscription, take } from 'rxjs';
 
 import { TokenParams } from '../../core/models/token-params.model';
@@ -22,7 +23,7 @@ import { ConnectionsStoreFacadeService } from '../services/connections-store-fac
   templateUrl: './modal-window-create.component.html',
   styleUrls: ['./modal-window-create.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule],
 })
 export class ModalWindowCreateComponent implements OnInit, OnDestroy {
   public isDisabled$ = this.connectionsStoreFacadeService.isLoading$;

@@ -1,8 +1,9 @@
-<div class="buttons">
-  <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
-    Update {{ timer$ | async }}
-  </button>
-</div>
+<mat-card class="card-block">
+  <div class="buttons">
+    <button mat-raised-button color="primary" type="submit" (click)="update()" [disabled]="isLoad$ | async">
+      Update {{ timer$ | async }}
+    </button>
+  </div>
 <con-filter-sorter (newValueEvent)="addFilterValue($event)" (newSortEvent)="addSortValue($event)"></con-filter-sorter>
 <ul *ngIf="people$ | async as people" class="person-list">
   <li class="person-item" *ngFor="let person of people; trackBy: trackByIndex">
@@ -11,3 +12,5 @@
     </button>
   </li>
 </ul>
+</mat-card>
+

@@ -1,4 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$dark-theme: mat.define-dark-theme((color: (primary: mat.define-palette(mat.$pink-palette),
+        accent: mat.define-palette(mat.$blue-grey-palette),
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
+
+$light-theme: mat.define-light-theme((color: (primary: mat.define-palette(mat.$indigo-palette),
+        accent: mat.define-palette(mat.$pink-palette),
+      ),
+    ));
+
+// Apply the dark theme by default
+@include mat.all-component-themes($dark-theme);
+
+// Apply the light theme when the document element attribute is changed to 'light'
+:root[theme='light'] {
+  @include mat.all-component-themes($light-theme);
+}
+
 
 html,
 body {
@@ -8,4 +31,8 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   background: url('../src/assets/bg.jpg');
+}
+
+body.dark {
+  background: url('../src/assets/bg_negate.jpg');
 }

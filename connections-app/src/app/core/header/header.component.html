@@ -1,4 +1,16 @@
 <mat-toolbar color="primary" class="header">
   <a routerLink="./" class="header-link">My Connections</a>
-  <button mat-stroked-button (click)="showProfile()">Profile</button>
+  <div class="buttons">
+    <div>
+    <span class="theme-attr">{{theme === 'light' ? 'dark' : 'light'}}</span>
+    <mat-slide-toggle
+      color="primary"
+      [checked]="theme"
+      (change)="toggle()"
+    ></mat-slide-toggle>
+    <span class="theme-attr">{{theme}}</span>
+    </div>
+    <button mat-stroked-button (click)="showProfile()">Profile</button>
+  </div>
+
 </mat-toolbar>

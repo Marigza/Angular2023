@@ -1,7 +1,16 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: nowrap;
   height: 10%;
+  @media screen and (max-width: 400px) {
+      height: 15%;
+    }
+}
+
+.theme-attr {
+  display: inline-block;
+  font-size: 0.8em;
+  padding: 0 5px;
 }
 
 .header-link {
@@ -10,4 +19,12 @@
   &:hover {
     color: #db7ca2;
   }
+}
+
+.buttons {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 10px;
 }

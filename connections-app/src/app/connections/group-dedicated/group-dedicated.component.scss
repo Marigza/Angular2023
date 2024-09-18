@@ -3,8 +3,7 @@
   flex-direction: column;
   margin: 20px;
   padding: 10px;
-  border: 1px solid #c2185b;
-  background-color: #db7ca2;
+  background-color: transparent;
   border-radius: 10px;
   height: 80%;
   @media screen and (max-width: 680px) {
@@ -23,8 +22,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid #c2185b;
-  background-color: white;
   margin: 10px 0;
   padding: 10px;
   border-radius: 10px;
@@ -32,7 +29,6 @@
 }
 
 .message-field {
-  border: 1px solid #c2185b;
   margin: 10px 0;
   padding: 10px;
   border-radius: 10px;
@@ -41,7 +37,7 @@
 .form {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .form-text {
@@ -51,6 +47,8 @@
 .header {
   align-self: center;
   color: #c2185b;
+  padding: 30px;
+  width: 100%;
   font-size: 1.5em;
   font-weight: 500;
 }
@@ -59,7 +57,7 @@
   border: 1px solid #c2185b;
   background-color: #db7ca2;
   width: 250px;
-  color: white;
+  color: black;
   border-radius: 10px;
   padding: 10px;
   @media screen and (max-width: 390px) {
@@ -85,4 +83,5 @@
 
 .message-text {
   font-style: italic;
+  overflow: hidden;
 }

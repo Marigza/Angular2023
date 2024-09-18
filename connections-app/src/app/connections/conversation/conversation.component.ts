@@ -81,7 +81,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
         .subscribe()
     );
 
-    // TODO только для первого входа в группу!!!
     this.connectionsStoreFacadeService.privateDialogData(this.userToken, this.currentDialogId);
 
     this.subs.add(

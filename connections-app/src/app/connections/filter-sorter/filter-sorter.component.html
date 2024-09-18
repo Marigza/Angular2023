@@ -1,4 +1,4 @@
 <button mat-raised-button color="primary" type="button" (click)="sortASC()">sort {{sortDirection ? '▲' : '▼'}}</button>
 <form [formGroup]="filter" class="input-block" novalidate>
-  <input type="text" name="filter" placeholder="find..." class="input" formControlName="value">
+  <input matInput type="text" name="filter" placeholder="find..." class="input" formControlName="value">
 </form>

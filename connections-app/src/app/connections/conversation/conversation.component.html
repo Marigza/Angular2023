@@ -8,9 +8,9 @@
 
 <ng-container *ngIf="isExistDialog; else error">
   <div *ngIf="dialog$ | async as dialog" class="conversation-field">
-    <header *ngIf="dialog.length === 0" class="header">
+    <mat-card *ngIf="dialog.length === 0" class="header">
       {{ currentDialogId }} is empty. You can start communication!
-    </header>
+    </mat-card>
     <ng-container class="message" *ngFor="let message of dialog">
       <div [conAlignMessages]="message.authorID.S" class="message">
         <div class="message-time">{{ message.createdAt.S | date: 'medium' }}</div>
@@ -20,7 +20,7 @@
     </ng-container>
   </div>
 
-  <div class="message-field">
+  <mat-card class="message-field">
     <form [formGroup]="message" class="form" novalidate (ngSubmit)="onSendMessage()">
       <mat-form-field appearance="outline" class="form-text">
         <input matInput formControlName="text" required />
@@ -30,9 +30,9 @@
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit" class="button" [disabled]="message.invalid">Send</button>
     </form>
-  </div>
+  </mat-card>
 </ng-container>
 
 <ng-template #error>
-  <header class="header">{{ currentDialogId }} dialog in not exist or was deleted before.</header>
+  <mat-card class="header">{{ currentDialogId }} dialog in not exist or was deleted before.</mat-card>
 </ng-template>

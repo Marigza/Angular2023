@@ -1,16 +1,21 @@
 :host {
+  margin: 20px;
+  @media screen and (max-width: 680px) {
+    margin: 5px;
+  }
+}
+
+.card-block {
   display: flex;
   flex-direction: column;
-  gap: 2%;
-  margin: 20px;
+  gap: 10px;
   padding: 10px;
+  height: 100%;
   border: 1px solid #c2185b;
-  background-color: #db7ca2;
   border-radius: 10px;
   @media screen and (max-width: 680px) {
-      margin: 5px;
-      padding: 5px;
-    }
+    padding: 5px;
+  }
 }
 
 .person-list {
@@ -29,7 +34,7 @@
   width: 100%;
   text-align: left;
   text-decoration: none;
-  color: white;
+  color: black;
   padding: 3px 10px;
   border-radius: 5px;
   transition: all 0.3s;
