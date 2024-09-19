@@ -15,27 +15,15 @@
         >
         <mat-error *ngIf="profile.controls.name.hasError('name')"> Allows only letters or spaces</mat-error>
       </mat-form-field>
-      <div class="edit-buttons">
-        <button
+      <button
           mat-raised-button
           color="primary"
           type="submit"
           class="button"
           [disabled]="profile.invalid || (isDisabled$ | async)"
-        >
-          Save
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          type="button"
-          class="button"
-          (click)="toggleRedact()"
-          [disabled]="isDisabled$ | async"
-        >
-          Cancel
-        </button>
-      </div>
+      >
+        Save
+      </button>
     </form>
   </ng-template>
 
@@ -58,6 +46,14 @@
     </div>
   </div>
   <div class="edit-button">
-    <button mat-raised-button color="primary" type="button" *ngIf="!canRedact" (click)="toggleRedact()">Edit</button>
+    <button mat-raised-button color="primary" type="button" *ngIf="!canRedact; else cancelBtn" (click)="toggleRedact()">
+      Edit
+    </button>
+    <ng-template #cancelBtn>
+      <button mat-raised-button color="primary" type="button" (click)="toggleRedact()" [disabled]="isDisabled$ | async">
+        Cancel
+      </button>
+    </ng-template>
+
   </div>
 </mat-card>
